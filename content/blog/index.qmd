@@ -15,9 +15,4 @@ format:
   html:
     code-tools: false
     page-layout: article
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o1"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "Posts about interactive teaching with webR and Quarto, plus working notes on data visualization, tooling, and reproducible workflows. Older posts are kept under the site's Archive."
 ---

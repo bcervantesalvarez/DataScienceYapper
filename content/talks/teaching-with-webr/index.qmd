@@ -13,11 +13,6 @@ format:
 execute: 
   warning: false
   message: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I introduced Quarto, highlighting its capabilities for creating dynamic presentations, interactive Shiny applications, and professional portfolio websites using multiple languages like R, Python, Julia, and ObservableJS. I demonstrated practical uses, including generating simulated datasets, implementing cross-language coding examples with tabsets, and deploying interactive visualizations and Shiny apps directly within Quarto. Additionally, I emphasized mastering GitHub, RMarkdown, and Shiny as foundational skills before fully leveraging Quarto’s extensive features."
 ---
 
 

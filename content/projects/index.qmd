@@ -15,9 +15,4 @@ format:
   html:
     code-tools: false
     page-layout: article
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "A short, focused selection: a multivariate analysis of wine quality, a Shiny dashboard for UK traffic-accident data, and a Yelp business-review explorer. Older project work — predictive models, healthcare analyses, the Olympic dashboard — is preserved under the site's Archive."
 ---

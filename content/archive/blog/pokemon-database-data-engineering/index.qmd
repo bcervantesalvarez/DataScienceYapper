@@ -17,11 +17,6 @@ format:
 image: /images/pokemon.jpeg
 output: html_document
 categories: [R, PostgreSQL, Data Visualization, Data Engineering]
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I built a fully operational PostgreSQL database for a comprehensive Pokémon dataset in under two weeks using the ETL methodology, which involved extracting data from multiple sources, cleansing it to remove inconsistencies, and standardizing it before loading. I designed and implemented a robust schema with primary and foreign key constraints for tables such as Pokémon, types, abilities, generations, and moves, then transformed and exported the refined data into a CSV file for further analysis. This project demonstrates my proficiency in data engineering, SQL, and complex data integration, enabling efficient and accurate analysis of detailed Pokémon insights."
 ---
 
 ![](/images/pokemon.jpeg)

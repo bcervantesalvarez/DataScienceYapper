@@ -14,11 +14,6 @@ format:
 execute:
   message: false
   warning: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I developed an interactive Shiny dashboard to analyze time-series data on UK accidents, enabling users to visualize and explore trends, seasonality, and accident severity over custom date ranges. I included the ability to perform advanced statistical analyses including detrending, autocorrelation assessment, and day-of-week frequency evaluations in the shiny application; clearly demonstrating insights such as higher accident occurrences on weekends. Key visual metrics included daily fatality counts and detrended accident trends, enhancing data interpretability and enabling targeted decision-making."
 ---
 
 

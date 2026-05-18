@@ -17,7 +17,7 @@ website:
     type: overlay
   open-graph: true
   navbar:
-    logo: images/home/datascienceyapper-logo-v2.png
+    title: "Epsilon Labs"
     right:
       - text: "About"
         href: content/about/index.qmd
@@ -59,15 +59,13 @@ format:
     citations-hover: true
     footnotes-hover: true
     theme:
-      - styles/main.scss
-      - styles/editorial.scss
-    highlight-style: github-dark
+      - styles/epsilon-labs-theme.scss
+    highlight-style: github
     include-in-header:
             - text: |
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4365518179705452" crossorigin="anonymous"></script>
     include-after-body:
       - partials/cookie-consent.html
-    filters: [filters/ai-summary.lua]
 editor: source
 execute:
   freeze: auto

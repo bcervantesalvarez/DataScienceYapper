@@ -1,0 +1,1101 @@
+/*-- scss:defaults --*/
+
+// =============================================================
+// Epsilon Labs theme — institutional-modern statistical
+// consulting practice
+//
+// Palette: warm ivory + ink, restrained navy accent, no shadows
+// on cards, generous whitespace, serif headlines paired with a
+// disciplined sans body.
+// =============================================================
+
+// Color tokens (Bootstrap-compatible)
+$white:    #ffffff !default;
+$gray-100: #f8f7f3 !default;
+$gray-200: #f3f0ea !default;
+$gray-300: #e6e3dd !default;
+$gray-400: #c8c5be !default;
+$gray-500: #8c8a85 !default;
+$gray-600: #6b6c70 !default;
+$gray-700: #44464a !default;
+$gray-800: #25272c !default;
+$gray-900: #0f1115 !default;
+$black:    #000000 !default;
+
+$blue:    #1b3a6b !default;
+$navy:    #0c1e3a !default;
+$accent:  #1b3a6b !default;
+
+$primary:   $gray-900 !default;
+$secondary: $white !default;
+$success:   #0d6e44 !default;
+$danger:    #a23a2e !default;
+$light:     $gray-100 !default;
+$dark:      $gray-900 !default;
+
+$body-bg:           #fbfaf7 !default;
+$body-color:        $gray-700 !default;
+$headings-color:    $gray-900 !default;
+$headings-font-weight: 700 !default;
+
+$min-contrast-ratio: 4 !default;
+$enable-rounded: true !default;
+
+// Type
+$font-family-sans-serif:
+  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif:
+  "Newsreader", "Source Serif Pro", Georgia, "Times New Roman", serif !default;
+$font-family-monospace:
+  ui-monospace, "SF Mono", Menlo, Consolas, monospace !default;
+
+$body-font-size: 1rem !default;
+$h1-font-size: 2.25rem !default;
+$h2-font-size: 1.75rem !default;
+$h3-font-size: 1.25rem !default;
+$h4-font-size: 1.1rem !default;
+$h5-font-size: 1rem !default;
+$h6-font-size: 0.9rem !default;
+
+// Navbar tokens
+$navbar-padding-y: 1rem !default;
+
+// Buttons
+$btn-font-weight: 600 !default;
+$btn-border-radius: 999px !default;
+
+// Inputs
+$input-bg: $white !default;
+$input-border-color: $gray-300 !default;
+$input-focus-border-color: $gray-900 !default;
+
+
+/*-- scss:rules --*/
+
+// =============================================================
+// 0. Fonts
+// =============================================================
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500..800&display=swap");
+
+
+// =============================================================
+// 1. Design tokens (CSS custom properties)
+// =============================================================
+:root {
+  --el-bg:           #fbfaf7;
+  --el-surface:      #ffffff;
+  --el-surface-soft: #f3f0ea;
+  --el-ink:          #0f1115;
+  --el-body:         #3a3d44;
+  --el-muted:        #6b6c70;
+  --el-rule:         #e6e3dd;
+  --el-rule-strong:  #c8c5be;
+  --el-accent:       #1b3a6b;
+  --el-accent-ink:   #0c1e3a;
+  --el-status:       #0d6e44;
+  --el-danger:       #a23a2e;
+
+  --el-maxw:    1120px;
+  --el-narrow:  720px;
+  --el-radius:  10px;
+  --el-radius-pill: 999px;
+
+  --el-font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --el-font-serif:
+    "Newsreader", "Source Serif Pro", Georgia, "Times New Roman", serif;
+}
+
+
+// =============================================================
+// 2. Base / reset
+// =============================================================
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--el-bg);
+  color: var(--el-body);
+  font-family: var(--el-font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--el-font-sans);
+  font-weight: 700;
+  color: var(--el-ink);
+  letter-spacing: -0.011em;
+  line-height: 1.18;
+  margin: 0 0 0.75rem;
+}
+
+p {
+  margin: 0 0 1.1rem;
+  color: var(--el-body);
+}
+
+a {
+  color: var(--el-accent);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  &:hover { color: var(--el-ink); text-decoration: underline; }
+}
+
+strong, b { font-weight: 700; color: var(--el-ink); }
+
+code, pre, kbd, samp {
+  font-family: var(--el-font-monospace);
+}
+code {
+  background: var(--el-surface-soft);
+  color: var(--el-ink);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  border: 1px solid var(--el-rule);
+}
+pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+img { max-width: 100%; height: auto; }
+
+
+// =============================================================
+// 3. Navbar — quiet, ivory-on-ivory with one bottom rule
+// =============================================================
+.navbar {
+  background: rgba(251, 250, 247, 0.92) !important;
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--el-rule);
+  padding: 0.85rem 0;
+  min-height: auto;
+}
+
+#quarto-header > nav { box-shadow: none !important; }
+
+.navbar-container, #quarto-header .navbar-container {
+  max-width: var(--el-maxw);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-brand-container { margin: 0 !important; }
+.navbar-brand,
+.navbar-title {
+  font-family: var(--el-font-sans);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  color: var(--el-ink) !important;
+  text-decoration: none;
+}
+.navbar-logo {
+  max-height: 30px;
+  width: auto;
+  margin-right: 0.6rem;
+}
+
+#navbarCollapse .navbar-nav {
+  display: flex;
+  gap: 1.75rem;
+  margin: 0 auto !important;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--el-body) !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  padding: 0.25rem 0 !important;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+
+  &:hover,
+  &.active {
+    color: var(--el-ink) !important;
+    border-bottom-color: var(--el-ink);
+  }
+}
+
+.nav-link .menu-text {
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit !important;
+}
+
+.dropdown-menu {
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius);
+  background: var(--el-surface);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 8px 24px -16px rgba(15,17,21,0.18);
+}
+.dropdown-item {
+  padding: 0.45rem 0.75rem;
+  border-radius: calc(var(--el-radius) - 4px);
+  color: var(--el-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  &:hover { background: var(--el-surface-soft); color: var(--el-ink); }
+}
+
+#quarto-search { margin-right: 0; }
+.navbar #quarto-search.type-overlay .aa-Autocomplete svg.aa-SubmitIcon {
+  width: 18px; height: 18px;
+  color: var(--el-body) !important;
+  opacity: 1;
+}
+
+
+// =============================================================
+// 4. Footer
+// =============================================================
+.nav-footer {
+  background: var(--el-bg);
+  border-top: 1px solid var(--el-rule);
+  padding: 2rem 0;
+  margin-top: 4rem;
+  font-size: 0.88rem;
+  color: var(--el-muted);
+
+  display: flex;
+  justify-content: center;
+}
+
+.nav-footer > * {
+  max-width: var(--el-maxw);
+  padding: 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.nav-footer .nav-link,
+.nav-footer a,
+.nav-footer p,
+.nav-footer i {
+  font-size: 0.88rem;
+  color: var(--el-muted) !important;
+  text-decoration: none;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.nav-footer a:hover { color: var(--el-ink) !important; }
+.nav-footer-center { display: none; }
+
+
+// =============================================================
+// 5. Quarto title block — quiet typography for inner pages
+// =============================================================
+header#title-block-header {
+  max-width: var(--el-narrow);
+  margin: 4rem auto 2.5rem;
+  padding: 0 1.5rem;
+  border: 0;
+
+  .quarto-title h1.title {
+    font-family: var(--el-font-serif);
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--el-ink) !important;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    margin: 0 0 0.75rem;
+  }
+  .description {
+    color: var(--el-muted);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+  .quarto-categories { display: none; }
+
+  .quarto-title-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--el-muted);
+  }
+  .quarto-title-meta-heading {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--el-muted);
+    font-weight: 600;
+  }
+}
+
+// Sidebar TOC
+.sidebar nav[role="doc-toc"] {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  font-family: var(--el-font-sans);
+
+  h2, .h2 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--el-muted);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  ul li a {
+    color: var(--el-body);
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    line-height: 1.4;
+    border-left: 1px solid transparent;
+
+    &:hover,
+    &.active { color: var(--el-ink); border-left-color: var(--el-ink); }
+  }
+}
+
+
+// =============================================================
+// 6. Editorial layout — for landing, about, services, etc.
+// Mount with <main class="ed">
+// =============================================================
+.ed {
+  color: var(--el-body);
+}
+
+.ed .l-wrap {
+  max-width: var(--el-maxw);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.ed .l-section {
+  padding: 5.5rem 0;
+  border-top: 1px solid var(--el-rule);
+}
+.ed .l-section.first { border-top: 0; padding-top: 2rem; }
+
+.ed .l-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--el-muted);
+  margin: 0 0 1rem;
+}
+
+.ed h1 {
+  font-family: var(--el-font-serif);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.018em;
+  color: var(--el-ink);
+  margin: 0 0 1.25rem;
+}
+
+.ed h2 {
+  font-family: var(--el-font-serif);
+  font-weight: 600;
+  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--el-ink);
+  margin: 0 0 1rem;
+}
+
+.ed h3 {
+  font-family: var(--el-font-sans);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--el-ink);
+  margin: 0 0 0.5rem;
+}
+
+.ed p {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--el-body);
+  margin: 0 0 1rem;
+}
+
+.ed .l-lede {
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--el-body);
+  max-width: 60ch;
+  margin: 0 0 2rem;
+}
+
+
+// =============================================================
+// 7. Hero
+// =============================================================
+.ed .l-hero {
+  padding: 5rem 0 3rem;
+  border-top: 0;
+}
+
+.ed .l-hero-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 860px) {
+  .ed .l-hero-row { grid-template-columns: 1.4fr 1fr; gap: 4rem; }
+}
+
+.ed .l-portrait {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  object-fit: cover;
+  justify-self: center;
+  border: 1px solid var(--el-rule-strong);
+  box-shadow: 0 0 0 8px var(--el-bg), 0 0 0 9px var(--el-rule);
+}
+@media (min-width: 860px) {
+  .ed .l-portrait { width: 280px; height: 280px; justify-self: end; }
+}
+
+
+// =============================================================
+// 8. Status pill — keeps the "currently engaged" flag but quiet
+// =============================================================
+.ed .l-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem;
+  margin: 0 0 1.5rem;
+  background: var(--el-surface);
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--el-body);
+  max-width: 100%;
+}
+.ed .l-status strong { color: var(--el-ink); font-weight: 700; }
+.ed .l-status .l-status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--el-status);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.ed .l-status .l-status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--el-status);
+  opacity: 0.45;
+  animation: el-status-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.ed .l-status-sep { color: var(--el-muted); margin: 0 0.1rem; }
+@keyframes el-status-ping {
+  0%   { transform: scale(1);   opacity: 0.45; }
+  75%, 100% { transform: scale(2.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ed .l-status .l-status-dot::after { animation: none; }
+}
+
+
+// =============================================================
+// 9. Buttons
+// =============================================================
+.ed .l-cta-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.ed .l-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--el-radius-pill);
+  font-family: var(--el-font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  border: 1px solid var(--el-ink);
+  background: var(--el-ink);
+  color: #ffffff !important;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: var(--el-accent-ink);
+    border-color: var(--el-accent-ink);
+    color: #ffffff !important;
+    text-decoration: none;
+  }
+}
+
+.ed .l-btn--ghost {
+  background: transparent;
+  color: var(--el-ink) !important;
+  border-color: var(--el-rule-strong);
+
+  &:hover {
+    background: var(--el-surface);
+    border-color: var(--el-ink);
+    color: var(--el-ink) !important;
+  }
+}
+
+
+// =============================================================
+// 10. Section header with companion link
+// =============================================================
+.ed .l-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.ed .l-row h2 { margin: 0; }
+.ed .l-row a {
+  color: var(--el-muted);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+
+  &:hover { color: var(--el-ink); border-bottom-color: var(--el-ink); }
+}
+
+
+// =============================================================
+// 11. Card grid + card
+// =============================================================
+.ed .l-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 700px)  { .ed .l-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .ed .l-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.ed .l-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--el-surface);
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+
+  &:hover {
+    border-color: var(--el-ink);
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.ed .l-card-media {
+  aspect-ratio: 16 / 10;
+  background: var(--el-surface-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--el-rule);
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+}
+.ed .l-card:hover .l-card-media img { transform: scale(1.025); }
+
+.ed .l-card-body { padding: 1.25rem 1.35rem 1.5rem; }
+.ed .l-card-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--el-accent-ink);
+  margin: 0 0 0.5rem;
+}
+.ed .l-card-title {
+  font-family: var(--el-font-sans);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--el-ink);
+  margin: 0 0 0.4rem;
+  line-height: 1.3;
+}
+.ed .l-card-desc {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--el-muted);
+  margin: 0;
+}
+
+
+// =============================================================
+// 12. Multi-column prose blocks
+// =============================================================
+.ed .l-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem 3rem;
+  max-width: var(--el-maxw);
+}
+@media (min-width: 860px) { .ed .l-cols { grid-template-columns: repeat(2, 1fr); } }
+
+
+// =============================================================
+// 13. Chips
+// =============================================================
+.ed .l-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.ed .l-chip {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--el-body);
+  background: var(--el-surface);
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius-pill);
+  padding: 0.4rem 0.9rem;
+}
+
+
+// =============================================================
+// 14. Contact panel + resume row
+// =============================================================
+.ed .l-contact {
+  background: var(--el-surface-soft);
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius);
+  padding: 3rem 2.5rem;
+  text-align: center;
+}
+.ed .l-contact h2 { margin-bottom: 0.75rem; }
+.ed .l-contact p { max-width: 52ch; margin: 0 auto 1.75rem; }
+
+.ed .l-resume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius);
+  margin-top: 2rem;
+  background: var(--el-surface);
+}
+.ed .l-resume p { margin: 0; font-size: 0.92rem; color: var(--el-body); }
+
+
+// =============================================================
+// 15. Definition-style list (training, engagement model)
+// =============================================================
+.ed .l-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: var(--el-narrow);
+}
+.ed .l-list > li {
+  padding: 1.4rem 0;
+  border-top: 1px solid var(--el-rule);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
+.ed .l-list > li:first-child { border-top: 0; padding-top: 0; }
+@media (min-width: 720px) {
+  .ed .l-list > li { grid-template-columns: 220px 1fr; gap: 2rem; }
+}
+.ed .l-list .l-list-label {
+  font-family: var(--el-font-sans);
+  font-weight: 700;
+  color: var(--el-ink);
+  font-size: 0.95rem;
+}
+.ed .l-list .l-list-body {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--el-body);
+}
+
+
+// =============================================================
+// 16. Prose container (privacy/license/long-form copy)
+// =============================================================
+.ed .l-prose {
+  max-width: 68ch;
+}
+.ed .l-prose h2 {
+  margin-top: 2.75rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.4rem;
+  font-family: var(--el-font-sans);
+}
+.ed .l-prose h2:first-child { margin-top: 0; }
+.ed .l-prose p,
+.ed .l-prose li {
+  color: var(--el-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 0.9rem;
+}
+.ed .l-prose ul, .ed .l-prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.1rem;
+}
+.ed .l-prose a {
+  color: var(--el-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  &:hover { color: var(--el-ink); }
+}
+.ed .l-prose hr {
+  border: 0;
+  border-top: 1px solid var(--el-rule);
+  margin: 1.75rem 0;
+}
+
+
+// =============================================================
+// 17. Form
+// =============================================================
+.ed .l-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 540px;
+  margin-top: 1.5rem;
+}
+.ed .l-form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.ed .l-form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--el-ink);
+}
+.ed .l-form-input,
+.ed .l-form-select,
+.ed .l-form-textarea {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  background: var(--el-surface);
+  border: 1px solid var(--el-rule);
+  border-radius: var(--el-radius);
+  color: var(--el-ink);
+  font-size: 0.98rem;
+  font-family: inherit;
+  line-height: 1.4;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder { color: var(--el-muted); }
+
+  &:focus {
+    outline: none;
+    border-color: var(--el-ink);
+    box-shadow: 0 0 0 3px rgba(15, 17, 21, 0.08);
+  }
+}
+.ed .l-form-textarea { resize: vertical; min-height: 140px; }
+.ed .l-form-submit {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--el-ink);
+  color: #ffffff;
+  border: 1px solid var(--el-ink);
+  border-radius: var(--el-radius-pill);
+  font-family: var(--el-font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover { background: var(--el-accent-ink); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; background: var(--el-ink); }
+}
+.ed .l-form-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--el-muted);
+}
+.ed .l-form-status {
+  display: none;
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--el-radius);
+  border: 1px solid var(--el-rule);
+  font-size: 0.9rem;
+  background: var(--el-surface-soft);
+  color: var(--el-body);
+}
+.ed .l-form-status.is-visible { display: block; }
+.ed .l-form-status.is-error {
+  border-color: var(--el-danger);
+  background: #fbf2f1;
+  color: #5b1c14;
+}
+
+.hp-trap {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+
+// =============================================================
+// 18. Listing pages — bound by body.ed-page
+// =============================================================
+body.ed-page {
+  // Make Quarto's auto-listing match the .l-card aesthetic
+  .quarto-listing-default .list.grid,
+  .quarto-listing-default .list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    @media (min-width: 700px)  { grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+  }
+  .quarto-listing-default .quarto-grid-item {
+    background: var(--el-surface);
+    border: 1px solid var(--el-rule);
+    border-radius: var(--el-radius);
+    padding: 0;
+    overflow: hidden;
+    transition: border-color 0.18s ease;
+
+    &:hover { border-color: var(--el-ink); }
+
+    .thumbnail {
+      aspect-ratio: 16 / 10;
+      background: var(--el-surface-soft);
+      border-bottom: 1px solid var(--el-rule);
+      overflow: hidden;
+
+      img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        margin: 0; border: 0;
+        transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+    }
+    &:hover .thumbnail img { transform: scale(1.025); }
+
+    .listing-title,
+    h3.listing-title {
+      font-family: var(--el-font-sans);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--el-ink) !important;
+      margin: 1rem 1.35rem 0.4rem !important;
+      line-height: 1.3;
+    }
+    .listing-description {
+      font-size: 0.92rem;
+      color: var(--el-muted);
+      line-height: 1.55;
+      margin: 0 1.35rem 1rem;
+    }
+    .listing-date,
+    .listing-categories,
+    .listing-reading-time,
+    .listing-author {
+      font-size: 0.78rem;
+      color: var(--el-muted);
+      margin: 0 1.35rem;
+    }
+    .metadata { padding-bottom: 1.1rem; }
+  }
+
+  // Talks-style table listing
+  .quarto-listing-container-table {
+    max-width: var(--el-narrow);
+    margin: 0;
+    border-radius: var(--el-radius);
+    border: 1px solid var(--el-rule);
+    overflow: hidden;
+  }
+  .quarto-listing-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--el-surface);
+    margin: 0;
+
+    thead tr th {
+      background: var(--el-surface-soft);
+      color: var(--el-muted);
+      font-family: var(--el-font-sans);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--el-rule);
+    }
+    tbody tr {
+      background: var(--el-surface);
+      border-bottom: 1px solid var(--el-rule);
+      transition: background 0.15s ease;
+
+      &:last-child { border-bottom: 0; }
+      &:nth-of-type(odd),
+      &:nth-of-type(even) { background: var(--el-surface); }
+      &:hover { background: var(--el-surface-soft); transform: none; box-shadow: none; }
+
+      td {
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        color: var(--el-body);
+        font-size: 0.95rem;
+      }
+    }
+    a.title.listing-title {
+      color: var(--el-ink);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      &:hover { color: var(--el-accent); text-decoration: none; }
+    }
+  }
+
+  // Quieter title block on listings
+  header#title-block-header .quarto-title h1.title {
+    font-size: clamp(2.25rem, 4.5vw, 3rem);
+    margin-bottom: 1rem;
+  }
+}
+
+
+// =============================================================
+// 19. Quarto dashboard (used by archived olympic-dashboard)
+// =============================================================
+.quarto-dashboard {
+  .bslib-value-box .value-box-showcase .bi {
+    font-size: clamp(0.1em, max(18cqw, 5.2cqh), 5em);
+    text-align: center;
+    height: 0.5em;
+  }
+  #quarto-dashboard-header .navbar .navbar-logo {
+    max-height: 32px; min-height: 24px;
+    object-fit: cover;
+    margin: 0 0.5em;
+  }
+}
+
+
+// =============================================================
+// 20. Tables / Bootstrap shims
+// =============================================================
+.table {
+  th, td { padding: 0.85rem 1rem; }
+  th {
+    font-family: var(--el-font-sans);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--el-muted);
+  }
+}
+
+.badge {
+  padding: 0.3rem 0.6rem;
+  font-weight: 600;
+  &-pill { border-radius: var(--el-radius-pill); }
+}
+
+.btn {
+  font-family: var(--el-font-sans);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.dropdown-menu {
+  font-family: var(--el-font-sans);
+  font-size: 0.92rem;
+  text-transform: none;
+}
+
+
+// =============================================================
+// 21. Anchor links — hide auto anchors
+// =============================================================
+h1 .header-anchor,
+h2 .header-anchor,
+h3 .header-anchor,
+h4 .header-anchor,
+h5 .header-anchor,
+h6 .header-anchor,
+.anchorjs-link { display: none !important; }
+
+
+// =============================================================
+// 22. Print
+// =============================================================
+@media print {
+  .navbar, .nav-footer { display: none; }
+  body { background: #fff; color: #000; }
+}
+
+
+// =============================================================
+// 23. Responsive
+// =============================================================
+@media (max-width: 720px) {
+  .ed .l-hero { padding: 3rem 0 2rem; }
+  .ed .l-section { padding: 3.5rem 0; }
+  .ed .l-contact { padding: 2rem 1.5rem; }
+  .ed .l-portrait { width: 200px; height: 200px; }
+  #navbarCollapse .navbar-nav { gap: 0.5rem; }
+}

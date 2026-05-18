@@ -13,11 +13,6 @@ format:
 execute: 
   warning: false
   message: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o1"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I created a dynamic Quarto presentation integrating code examples in R, Python, Julia, and ObservableJS, as well as embedded Shiny applications. I showcased the generation of multiple simulated datasets, multi-language FizzBuzz tabsets, and a serverless Shiny approach. This methodology emphasizes cross-language interoperability, reproducible workflows, and streamlined deployment for advanced data visualization."
 ---
 
 :::{.column-page}

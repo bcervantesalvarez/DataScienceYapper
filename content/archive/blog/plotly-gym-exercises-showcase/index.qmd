@@ -21,11 +21,6 @@ execute:
   warning: false
   message: false
 categories: [R, Data Visualization, Plotly]
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I imported and cleaned a gym dataset using tidyverse to properly factorize variables, remove missing values, and prepare the data for analysis. I then computed mean workout ratings by exercise type and experience level and created interactive Plotly visualizations with a custom ggplot theme to rank these exercises. My analysis revealed that while stretching improves flexibility and reduces injury risk, it consistently ranks the lowest for muscle building compared to weight training, emphasizing its role as a supplementary activity."
 ---
 
 ![](/images/gymrat.jpeg)

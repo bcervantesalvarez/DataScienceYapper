@@ -19,11 +19,6 @@ format:
     html-math-method: katex
     page-layout: article
 categories: [R, Shiny, Data Visualization, Dashboard]
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I collaborated with Corey Cassell to build an interactive Shiny dashboard that empowers high school students to make informed decisions by estimating salaries, tuition costs, and student debt. I performed extensive data wrangling on multiple datasets, implemented responsive UI elements, and developed custom visualizations using ggplot2 and Plotly to dynamically showcase higher education financial metrics. This project demonstrates my proficiency in integrating complex data pipelines, crafting interactive interfaces, and delivering insightful, user-friendly visualizations that guide future college financial planning."
 ---
 
 ![](/images/uni.jpeg)

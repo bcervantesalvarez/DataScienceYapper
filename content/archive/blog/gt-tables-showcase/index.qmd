@@ -20,11 +20,6 @@ execute:
   warning: false
   message: false
 categories: [R, Data Tables]
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I transformed and aggregated data from a Pinot wines dataset to compute key metrics such as average and standard deviation of wine points and prices by province, and enhanced the presentation using advanced design principles. I developed interactive, aesthetically pleasing tables with DT and gt, incorporating sparklines and custom themes to clearly visualize trends and facilitate data comprehension. This project underscores my proficiency in data wrangling, innovative visualization, and the application of design techniques to improve the clarity and impact of data communication."
 ---
 
 ![](/images/wine.jpeg)

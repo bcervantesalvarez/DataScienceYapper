@@ -13,11 +13,6 @@ format:
 execute: 
   warning: false
   message: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I built a professional portfolio using Quarto and GitHub Pages to effectively showcase my data science and analytics projects, enhance professional branding, and increase visibility through interactive online presentations. I established a structured workflow, implemented best practices for version control using Git, and created an engaging, customizable website featuring clear sections for projects, blogs, and talks. This approach not only improved immediate visibility and recruiter engagement but also provided long-term career advantages through demonstrated expertise in HTML, CSS, JavaScript, and modern web development frameworks."
 ---
 
 

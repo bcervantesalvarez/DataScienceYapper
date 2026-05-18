@@ -14,11 +14,6 @@ format:
 execute:
   message: false
   warning: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I developed an interactive Shiny dashboard for spatial analysis and visualization of Yelp business reviews, enabling users to explore geographic patterns, star ratings, and business attributes through interactive mapping and dynamic plots. The dashboard incorporates advanced geostatistical analysis features, including variogram modeling, allowing users to assess spatial autocorrelation effects on Yelp star ratings through customizable parameters such as Partial Sill, Range, Nugget, and Kappa. This interactive tool leverages spatial analytics and visualization to reveal hidden patterns and provide insightful spatial interpretations of Yelp review data."
 ---
 
 

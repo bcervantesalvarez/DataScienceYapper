@@ -17,11 +17,6 @@ format:
 execute: 
   warning: false
   message: false
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I performed exploratory data analysis and applied multivariate statistical methods, including MANOVA and Principal Component Analysis (PCA), to distinguish red from white wines and identify key variables predicting wine quality. My Random Forest classification model achieved an excellent recall of approximately 98.96% in distinguishing wine types, and an accuracy of 69.2% in predicting wine quality categories. PCA identified influential components like 'Wine Body' and 'Fermentation Characteristics,' contributing significantly (68.13% accuracy with 11 principal components) to effective classification performance."
 ---
 
 

@@ -7,11 +7,6 @@ description: "Predict customer product returns, leveraging detailed product char
 teaser: "A swift 56% leap in performance in customer return forecasting!"
 categories: ["Machine Learning"]
 bibliography: "bibliography.bib"
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT 4.5"
-  model-img: "/images/openai-white-monoblossom.svg"
-  summary: "I developed a Random Forest model with repeated 5-fold cross-validation (3 repeats) to accurately predict customer product returns, achieving 97.8% accuracy, a Kappa of 0.95, and an AUC of 0.98—significantly outperforming the baseline (AUC=0.625). He executed comprehensive exploratory data analysis, engineered strategic features like customer demographics, product price sensitivity, and seasonal trends, and created an interactive dashboard for actionable decision-making. This model greatly enhances profitability and customer satisfaction by proactively identifying potential returns."
 image: /images/return.jpeg
 nocite: |
   @*
