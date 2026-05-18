@@ -60,7 +60,7 @@ library(randomForest)
 ### Load The Data
 
 ```{r}
-income = read_csv("../../../data/openml_1590.csv", na = c("?")) %>%
+income = read_csv("../../../../data/openml_1590.csv", na = c("?")) %>%
   drop_na() %>%
   mutate(income_above_50K = ifelse(class == ">50K",1,0)) %>%
   select(-class) %>%

@@ -54,7 +54,7 @@ library(downloadthis)
 library(svglite)
 
 
-ds <- read_rds("../../../data/pinot.rds")
+ds <- read_rds("../../../../data/pinot.rds")
 
 # head(ds)
 ```

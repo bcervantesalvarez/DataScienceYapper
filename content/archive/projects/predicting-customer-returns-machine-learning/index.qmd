@@ -171,8 +171,8 @@ library(pROC)
 
 ```{r}
 # A.2 -- Read CSVs, Merge Region & Population
-train <- read_csv("../../../data/customerreturntrain.csv") 
-test  <- read_csv("../../../data/customerreturntest.csv") 
+train <- read_csv("../../../../data/customerreturntrain.csv") 
+test  <- read_csv("../../../../data/customerreturntest.csv") 
 
 state_regions <- tibble::tribble(
   ~CustomerState,    ~Region,

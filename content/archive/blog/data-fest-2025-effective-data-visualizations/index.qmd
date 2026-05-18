@@ -125,7 +125,7 @@ p <- ggplot(df, aes(x = Quarter, y = Sales)) +
 
 p_with_logo <- ggdraw(p) +
   draw_image(
-    "../../../images/toyotalogo.png",
+    "../../../../images/toyotalogo.png",
     x = 1,        # X position near the right edge
     y = 1,        # Y position near the top edge
     hjust = 1,    # Right-align the image

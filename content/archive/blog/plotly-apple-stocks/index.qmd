@@ -50,7 +50,7 @@ library(scales)
 ```
 
 ```{r}
-ds <- read_csv("../../../data/appleinc_stocks.csv")
+ds <- read_csv("../../../../data/appleinc_stocks.csv")
 #head(ds)
 ```
 

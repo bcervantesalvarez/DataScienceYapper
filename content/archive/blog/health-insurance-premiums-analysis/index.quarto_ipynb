@@ -65,7 +65,7 @@
         "sns.set(font_scale=1.2)\n",
         "\n",
         "# Read the CSV file\n",
-        "df = pd.read_csv(\"../../../data/insurance.csv\")\n",
+        "df = pd.read_csv(\"../../../../data/insurance.csv\")\n",
         "\n",
         "df.head()"
       ],

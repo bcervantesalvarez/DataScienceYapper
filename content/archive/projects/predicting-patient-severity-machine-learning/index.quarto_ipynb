@@ -81,7 +81,7 @@
         ")\n",
         "\n",
         "# Load the dataset\n",
-        "ds = pd.read_csv(\"../../../data/severitylevels.csv\")  \n",
+        "ds = pd.read_csv(\"../../../../data/severitylevels.csv\")  \n",
         "ds.head(10)  # Display the first 10 rows of the dataset"
       ],
       "id": "f97e9f38",

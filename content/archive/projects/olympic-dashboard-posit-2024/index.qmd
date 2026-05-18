@@ -31,7 +31,7 @@ library(forcats)
 ```{r}
 #| label: load-data
 #| message: false
-olympics_full <- read_csv("../../../data/olympics.csv")
+olympics_full <- read_csv("../../../../data/olympics.csv")
 ```
 
 ```{r}

@@ -59,7 +59,7 @@ loadfonts()
 ## Data Wrangling
 
 ```{r}
-gymDs <- read_csv("../../../data/megagymdataset.csv")
+gymDs <- read_csv("../../../../data/megagymdataset.csv")
 
 # head(gymDs, 5)
 # names(gymDs)

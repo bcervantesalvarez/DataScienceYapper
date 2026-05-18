@@ -48,7 +48,7 @@ library(SnowballC)
 
 ```{r}
 
-wine = read_rds("../../../data/pinot.rds") 
+wine = read_rds("../../../../data/pinot.rds") 
 
 wine_words <- function(df, j, stem = T){ 
   data(stop_words)

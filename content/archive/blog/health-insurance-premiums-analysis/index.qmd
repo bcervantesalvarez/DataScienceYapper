@@ -54,7 +54,7 @@ sns.set_style('darkgrid')
 sns.set(font_scale=1.2)
 
 # Read the CSV file
-df = pd.read_csv("../../../data/insurance.csv")
+df = pd.read_csv("../../../../data/insurance.csv")
 
 df.head()
 ```

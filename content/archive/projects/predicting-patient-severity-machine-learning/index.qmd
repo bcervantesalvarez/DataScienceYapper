@@ -69,7 +69,7 @@ from sklearn.metrics import (                        # Library for model evaluat
 )
 
 # Load the dataset
-ds = pd.read_csv("../../../data/severitylevels.csv")  
+ds = pd.read_csv("../../../../data/severitylevels.csv")  
 ds.head(10)  # Display the first 10 rows of the dataset
 ```
 
