@@ -20,22 +20,22 @@ warning: false
         <div class="l-status" role="status" aria-live="polite">
           <span class="l-status-dot" aria-hidden="true"></span>
           <span>
-            <strong>Principal:</strong> Business Intelligence Analyst at Oregon Department of Education<span class="l-status-sep"> · </span>Since December 8, 2025
+            <strong>Currently:</strong> Business Intelligence Analyst, Oregon Department of Education<span class="l-status-sep"> · </span>Since Dec 8, 2025
           </span>
         </div>
         <p class="l-eyebrow">Epsilon Labs</p>
-        <h1>Statistical consulting for teams that need to act.</h1>
+        <h1>Decision-grade statistics, scoped to ship.</h1>
         <p class="l-lede">
-          We design experiments, build predictive models, and ship
-          decision-ready analytics. Every engagement is scoped, documented,
-          and built to be defended in front of the people who depend on it.
+          I help teams design experiments, build predictive models, and
+          stand up the analytics behind real decisions. Documentation
+          that survives an audit. Tooling your team can keep using.
         </p>
         <div class="l-cta-row">
-          <a href="/content/services/" class="l-btn">Services</a>
-          <a href="#contact" class="l-btn l-btn--ghost">Start a conversation</a>
+          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email me</a>
+          <a href="/content/services/" class="l-btn l-btn--ghost">Services</a>
         </div>
       </div>
-      <img src="/images/profile2.jpg" alt="Brian Cervantes Alvarez, Principal at Epsilon Labs"
+      <img src="/images/profile2.jpg" alt="Brian Cervantes Alvarez"
            class="l-portrait" loading="eager">
     </div>
   </div>
@@ -44,9 +44,9 @@ warning: false
 <!-- Services preview -->
 <section class="l-section first" id="services">
   <div class="l-wrap">
-    <p class="l-eyebrow">Practice areas</p>
+    <p class="l-eyebrow">What I do</p>
     <div class="l-row">
-      <h2>What we do</h2>
+      <h2>Four practice areas.</h2>
       <a href="/content/services/">All services →</a>
     </div>
     <div class="l-cols">
@@ -73,10 +73,10 @@ warning: false
 <!-- Selected work -->
 <section class="l-section" id="work">
   <div class="l-wrap">
-    <p class="l-eyebrow">Selected work</p>
+    <p class="l-eyebrow">Recent work</p>
     <div class="l-row">
-      <h2>Engagements worth a closer look</h2>
-      <a href="/content/projects/">All work →</a>
+      <h2>Selected projects.</h2>
+      <a href="/content/projects/">All projects →</a>
     </div>
 
     <div class="l-grid">
@@ -125,17 +125,17 @@ warning: false
   </div>
 </section>
 
-<!-- Insights -->
+<!-- Writing -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">Insights</p>
+    <p class="l-eyebrow">Writing</p>
     <div class="l-row">
-      <h2>From the blog</h2>
+      <h2>From the blog.</h2>
       <a href="/content/blog/">All posts →</a>
     </div>
 
     <div class="l-grid">
-      <a class="l-card" href="/content/blog/interactive-teaching-with-webr/" style="grid-column: span 1;">
+      <a class="l-card" href="/content/blog/interactive-teaching-with-webr/">
         <div class="l-card-media">
           <img src="/images/webr.png" alt="Interactive Teaching with webR">
         </div>
@@ -143,8 +143,8 @@ warning: false
           <p class="l-card-tag">Teaching · webR</p>
           <h3 class="l-card-title">Interactive Teaching with webR</h3>
           <p class="l-card-desc">
-            Browser-native, no-install R lessons built with Quarto and webR
-            so students can run code inline and learn by doing.
+            Browser-native, no-install R lessons built with Quarto and
+            webR so students run code inline and learn by doing.
           </p>
         </div>
       </a>
@@ -152,27 +152,27 @@ warning: false
   </div>
 </section>
 
-<!-- Principles -->
+<!-- How I work -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">How we engage</p>
-    <h2>Principles</h2>
+    <p class="l-eyebrow">How I work</p>
+    <h2>Four things you can expect.</h2>
     <div class="l-cols">
       <div>
         <h3>Decision-focused</h3>
-        <p>We translate goals into crisp KPIs and hypotheses. Every analysis answers "what should we do next?" — not just "what happened?"</p>
+        <p>Every analysis answers <em>what should we do next</em> — not just <em>what happened</em>.</p>
       </div>
       <div>
         <h3>Explainable</h3>
-        <p>Models trained and validated with proper holdout and cross-validation. We default to interpretable methods so stakeholders can trust the result.</p>
+        <p>Validated with proper holdout and cross-validation. I default to interpretable methods so stakeholders can trust the answer.</p>
       </div>
       <div>
-        <h3>Reliable pipelines</h3>
-        <p>Auditable R, Python, and SQL with documented assumptions, reproducible runs, and failure-aware checks.</p>
+        <h3>Reproducible</h3>
+        <p>Auditable R, Python, and SQL with documented assumptions and reruns that produce the same numbers next quarter.</p>
       </div>
       <div>
         <h3>Production-minded</h3>
-        <p>We ship lightweight tools, instrument usage, and iterate on real-world feedback so the work compounds.</p>
+        <p>I ship lightweight tools, instrument usage, and iterate so the work compounds instead of fading.</p>
       </div>
     </div>
   </div>
@@ -182,19 +182,19 @@ warning: false
 <section class="l-section">
   <div class="l-wrap">
     <div class="l-contact" id="contact">
-      <p class="l-eyebrow">Engagements</p>
+      <p class="l-eyebrow">Let's talk</p>
       <h2>Have a question worth answering carefully?</h2>
-      <p>Tell us the question, the data you have, and when you need the answer. We will reply within two business days with next steps or a referral.</p>
+      <p>Send the question, the data you have, and when you need the answer. I'll reply within two business days with next steps — or a referral if I'm not the right fit.</p>
       <div class="l-cta-row" style="justify-content:center;">
-        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com" aria-label="Email Epsilon Labs">Email Epsilon Labs</a>
-        <a class="l-btn l-btn--ghost" href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com">Email me</a>
+        <a class="l-btn l-btn--ghost" href="/content/services/">See services</a>
       </div>
     </div>
 
     <div class="l-resume">
-      <p><strong>Principal background:</strong> training, employment history, and full credentials.</p>
+      <p><strong>Want the full background?</strong> Read the about page or grab the CV.</p>
       <div class="l-cta-row" style="margin:0;">
-        <a class="l-btn l-btn--ghost" href="/content/about/">About the principal</a>
+        <a class="l-btn l-btn--ghost" href="/content/about/">About</a>
         <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
       </div>
     </div>

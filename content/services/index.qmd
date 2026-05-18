@@ -13,15 +13,15 @@ format:
 <section class="l-hero">
   <div class="l-wrap">
     <p class="l-eyebrow">Services</p>
-    <h1>Decision-grade statistics and analytics for teams that need to act.</h1>
+    <h1>What you can hire me for.</h1>
     <p class="l-lede">
-      Epsilon Labs delivers statistical consulting, predictive modeling, and
-      interactive analytics on a project or retained basis. Every engagement
-      is scoped, documented, and built to be defended in front of the people
-      who depend on it.
+      Statistical consulting, predictive modeling, and interactive
+      analytics — on a project or short-retainer basis. Every
+      engagement is scoped, documented, and built to be defended in
+      front of the people who depend on it.
     </p>
     <div class="l-cta-row">
-      <a href="#contact" class="l-btn">Start a conversation</a>
+      <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email me</a>
       <a href="#practice-areas" class="l-btn l-btn--ghost">See practice areas</a>
     </div>
   </div>
@@ -30,31 +30,31 @@ format:
 <section class="l-section first" id="practice-areas">
   <div class="l-wrap">
     <p class="l-eyebrow">Practice areas</p>
-    <h2>What we do</h2>
+    <h2>What I do.</h2>
     <div class="l-cols">
       <div>
         <h3>Statistical analysis &amp; modeling</h3>
-        <p>Experimental design, hypothesis testing, regression, Bayesian inference, survival analysis. We choose the right method for the question and communicate the answer in plain language.</p>
+        <p>Experimental design, hypothesis testing, regression, Bayesian inference, survival analysis. The right method for the question, communicated in plain language.</p>
       </div>
       <div>
         <h3>Predictive modeling &amp; ML</h3>
-        <p>Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit, not just on the holdout set.</p>
+        <p>Classification, forecasting, and risk scoring with proper validation. Models that hold up under audit — not just on the holdout set.</p>
       </div>
       <div>
         <h3>Interactive analytics &amp; dashboards</h3>
-        <p>R Shiny, Quarto, and lightweight web tools that turn an analysis into a self-service decision aid for stakeholders.</p>
+        <p>R Shiny, Quarto, and lightweight web tools that turn an analysis into a self-service decision aid.</p>
       </div>
       <div>
         <h3>Reproducible reporting</h3>
-        <p>R, Python, and SQL pipelines and Quarto-based reports that document assumptions, version cleanly, and rerun reliably from quarter to quarter.</p>
+        <p>R, Python, and SQL pipelines and Quarto reports that document assumptions, version cleanly, and rerun reliably quarter after quarter.</p>
       </div>
       <div>
         <h3>Statistical training &amp; curriculum</h3>
-        <p>Workshops and applied curricula for analytics teams, faculties, and students. We help people move from "I ran the test" to "I can defend the choice."</p>
+        <p>Workshops and applied curricula for analytics teams, faculties, and students. I help people move from "I ran the test" to "I can defend the choice."</p>
       </div>
       <div>
         <h3>Independent methodology review</h3>
-        <p>Outside review of in-house statistical work ahead of a leadership decision, audit, or external release. Tight feedback, written up, no hand-holding.</p>
+        <p>Outside review of in-house statistical work ahead of a leadership decision, audit, or external release. Tight written feedback, no hand-holding.</p>
       </div>
     </div>
   </div>
@@ -62,24 +62,24 @@ format:
 
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">Engagement model</p>
-    <h2>How we work together</h2>
+    <p class="l-eyebrow">Engagement</p>
+    <h2>How an engagement runs.</h2>
     <ul class="l-list">
       <li>
         <div class="l-list-label">1. Scoping call</div>
-        <div class="l-list-body">A 30-minute conversation to understand the question, the data, the timeline, and the decision the analysis needs to support. No charge, no obligation.</div>
+        <div class="l-list-body">A 30-minute conversation about the question, the data, the timeline, and the decision the analysis needs to support. No charge, no obligation.</div>
       </li>
       <li>
         <div class="l-list-label">2. Written proposal</div>
-        <div class="l-list-body">A short document covering the approach, deliverables, milestones, fee, and what is explicitly out of scope. You sign it or pass on it. No retainer required to receive one.</div>
+        <div class="l-list-body">A short document covering approach, deliverables, milestones, fee, and what's explicitly out of scope. You sign it or pass.</div>
       </li>
       <li>
         <div class="l-list-label">3. Project or retainer</div>
-        <div class="l-list-body">Fixed-fee projects for bounded analytical work. Monthly retainer for ongoing support across a quarter or year. Either way, every billable hour ties back to a deliverable.</div>
+        <div class="l-list-body">Fixed-fee for bounded work. Monthly retainer for ongoing support across a quarter or year. Every billable hour ties back to a deliverable.</div>
       </li>
       <li>
         <div class="l-list-label">4. Handoff</div>
-        <div class="l-list-body">Source code, documentation, and a written debrief. Your team owns the result and can re-run it without us.</div>
+        <div class="l-list-body">Source code, documentation, and a written debrief. Your team owns the result and can rerun it without me.</div>
       </li>
     </ul>
   </div>
@@ -88,23 +88,23 @@ format:
 <section class="l-section">
   <div class="l-wrap">
     <p class="l-eyebrow">Principles</p>
-    <h2>What you can expect</h2>
+    <h2>What you can expect.</h2>
     <div class="l-cols">
       <div>
         <h3>Honest scoping</h3>
-        <p>If a question can't be answered with the data you have, we say so before you sign. Referral if we are not the right fit.</p>
+        <p>If the data can't answer the question, I say so before you sign. Referral if I'm not the right fit.</p>
       </div>
       <div>
         <h3>Documented assumptions</h3>
-        <p>Every analysis ships with the assumptions written down — sample, exclusions, transformations, and the limits of the conclusion.</p>
+        <p>Every analysis ships with the assumptions written down — sample, exclusions, transformations, limits.</p>
       </div>
       <div>
         <h3>Reproducible by default</h3>
-        <p>Code and data pipelines are versioned. A rerun next quarter produces the same numbers, or tells you why it can't.</p>
+        <p>Code and pipelines are versioned. A rerun next quarter produces the same numbers — or tells you why it can't.</p>
       </div>
       <div>
         <h3>Readable for decision-makers</h3>
-        <p>Reports lead with the answer, not the method. Stakeholders can act on the first paragraph; the methodology defends it.</p>
+        <p>Reports lead with the answer, not the method. You can act on the first paragraph; the methodology defends it.</p>
       </div>
     </div>
   </div>
@@ -113,11 +113,11 @@ format:
 <section class="l-section">
   <div class="l-wrap">
     <div class="l-contact" id="contact">
-      <p class="l-eyebrow">Engagements</p>
+      <p class="l-eyebrow">Let's talk</p>
       <h2>Have a question worth answering carefully?</h2>
-      <p>Tell us the question, the data you have, and when you need the answer. We will reply within two business days with next steps or a referral.</p>
+      <p>Send the question, the data you have, and when you need the answer. I'll reply within two business days — or refer you to someone better suited.</p>
       <div class="l-cta-row" style="justify-content:center;">
-        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com">Email Epsilon Labs</a>
+        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com">Email me</a>
         <a class="l-btn l-btn--ghost" href="/content/privacy/#contact">Use the contact form</a>
       </div>
     </div>

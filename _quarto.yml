@@ -59,7 +59,10 @@ format:
     citations-hover: true
     footnotes-hover: true
     theme:
-      - styles/epsilon-labs-theme.scss
+      light:
+        - styles/epsilon-labs-theme.scss
+      dark:
+        - styles/epsilon-labs-theme.scss
     highlight-style: github
     include-in-header:
             - text: |

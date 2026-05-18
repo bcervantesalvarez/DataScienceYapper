@@ -13,13 +13,25 @@ format:
 <!-- Hero -->
 <section class="l-hero">
   <div class="l-wrap">
-    <p class="l-eyebrow">About</p>
-    <h1>Epsilon Labs is a statistical consulting practice focused on rigorous, decision-grade analytics.</h1>
-    <p class="l-lede">
-      The practice serves organizations that need careful statistical
-      work to answer questions, support decisions, or ship analytical
-      tools their teams can rely on.
-    </p>
+    <div class="l-hero-row">
+      <div>
+        <p class="l-eyebrow">About</p>
+        <h1>Brian Cervantes Alvarez.</h1>
+        <p class="l-lede">
+          Statistician and data scientist. I run Epsilon Labs as an
+          independent statistical-consulting practice serving teams
+          that need careful analysis, defensible models, and analytics
+          tools they can keep using.
+        </p>
+        <div class="l-cta-row">
+          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email me</a>
+          <a href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">LinkedIn</a>
+          <a href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">CV (PDF)</a>
+        </div>
+      </div>
+      <img src="/images/profile.jpg" alt="Brian Cervantes Alvarez"
+           class="l-portrait" loading="eager">
+    </div>
   </div>
 </section>
 
@@ -27,49 +39,20 @@ format:
 <section class="l-section first">
   <div class="l-wrap">
     <p class="l-eyebrow">Practice</p>
-    <h2>What we believe</h2>
-    <p>
-      Most analytics work is judged by how it reads. Epsilon Labs is
-      built around the opposite premise: an analysis should be judged
-      by how well it holds up under audit, replication, and a critical
-      reader. We document assumptions, validate models the right way,
-      and hand off code that your team can actually rerun.
-    </p>
-    <p>
-      We work on bounded projects and short retainers. Every engagement
-      starts with a scoping conversation and a written proposal. Nothing
-      gets billed without a deliverable behind it.
-    </p>
-  </div>
-</section>
-
-<!-- Principal -->
-<section class="l-section">
-  <div class="l-wrap">
-    <p class="l-eyebrow">Principal</p>
-    <div class="l-hero-row">
-      <div>
-        <h2 style="margin-bottom:0.5rem;">Brian Cervantes Alvarez</h2>
-        <p>
-          Brian is a statistician and data scientist with formal training
-          across mathematics, applied data science, and statistics, and
-          working experience that spans interactive analytics, predictive
-          modeling, and statistical education.
-        </p>
-        <p>
-          He currently serves as a Business Intelligence Analyst at the
-          Oregon Department of Education, where he works on educational
-          data systems and reporting. Epsilon Labs is operated
-          independently of that role.
-        </p>
-        <div class="l-cta-row">
-          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email</a>
-          <a href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">LinkedIn</a>
-          <a href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">CV (PDF)</a>
-        </div>
-      </div>
-      <img src="/images/profile.jpg" alt="Brian Cervantes Alvarez, Principal at Epsilon Labs"
-           class="l-portrait" loading="eager">
+    <h2>How I work.</h2>
+    <div class="l-prose">
+      <p>
+        Most analytics work is judged by how it reads. I build mine to
+        be judged by how well it holds up under audit, replication, and
+        a critical reader. Assumptions are documented. Models are
+        validated the right way. Code is handed off in a form your team
+        can actually rerun.
+      </p>
+      <p>
+        Engagements are bounded — project-based or short retainer — and
+        every one starts with a scoping conversation and a written
+        proposal. Nothing gets billed without a deliverable behind it.
+      </p>
     </div>
   </div>
 </section>
@@ -78,7 +61,7 @@ format:
 <section class="l-section">
   <div class="l-wrap">
     <p class="l-eyebrow">Training</p>
-    <h2>Where the practice trained</h2>
+    <h2>Where I trained.</h2>
     <ul class="l-list">
       <li>
         <div class="l-list-label">M.S. Statistics</div>
@@ -90,7 +73,7 @@ format:
       </li>
       <li>
         <div class="l-list-label">B.S. Mathematics</div>
-        <div class="l-list-body">Linfield University — Calculus, linear algebra, statistics, and the analytical foundations everything sits on.</div>
+        <div class="l-list-body">Linfield University — Calculus, linear algebra, statistics, and the analytical foundations everything else sits on.</div>
       </li>
     </ul>
   </div>
@@ -100,7 +83,7 @@ format:
 <section class="l-section">
   <div class="l-wrap">
     <p class="l-eyebrow">Capabilities</p>
-    <h2>What we bring to an engagement</h2>
+    <h2>What I bring.</h2>
     <div class="l-cols">
       <div>
         <h3>Statistical analysis</h3>
@@ -116,7 +99,7 @@ format:
       </div>
       <div>
         <h3>Experiment design</h3>
-        <p>Power calculations, randomization, factor design, and the discipline to leave variables you can't control alone.</p>
+        <p>Power calculations, randomization, factor design, and the discipline to leave variables alone when you can't control them.</p>
       </div>
       <div>
         <h3>Data storytelling</h3>
@@ -124,7 +107,7 @@ format:
       </div>
       <div>
         <h3>Teaching &amp; curriculum</h3>
-        <p>Shiny, webR, and Quarto-based labs and lessons that move students from "I ran the test" to "I can defend the choice."</p>
+        <p>Shiny, webR, and Quarto-based labs that move learners from "I ran the test" to "I can defend the choice."</p>
       </div>
     </div>
   </div>
@@ -134,13 +117,31 @@ format:
 <section class="l-section">
   <div class="l-wrap">
     <p class="l-eyebrow">Independence</p>
-    <h2>A note on conflicts</h2>
-    <p>
-      Epsilon Labs is operated entirely outside the principal's primary
-      employer. We do not accept engagements that conflict with the
-      principal's day-job responsibilities, and we decline work that
-      touches the same data systems or stakeholder relationships.
-    </p>
+    <h2>A note on conflicts.</h2>
+    <div class="l-prose">
+      <p>
+        I'm currently employed as a Business Intelligence Analyst at the
+        Oregon Department of Education. Epsilon Labs is operated
+        independently of that role. I do not accept engagements that
+        conflict with my day-job responsibilities, and I decline work
+        that touches the same data systems or stakeholders.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="l-section">
+  <div class="l-wrap">
+    <div class="l-contact" id="contact">
+      <p class="l-eyebrow">Let's talk</p>
+      <h2>Have a question worth answering carefully?</h2>
+      <p>Send the question, the data you have, and when you need it answered. I'll reply within two business days.</p>
+      <div class="l-cta-row" style="justify-content:center;">
+        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com">Email me</a>
+        <a class="l-btn l-btn--ghost" href="/content/services/">See services</a>
+      </div>
+    </div>
   </div>
 </section>
 

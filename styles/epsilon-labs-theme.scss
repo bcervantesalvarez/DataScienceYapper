@@ -83,6 +83,7 @@ $input-focus-border-color: $gray-900 !default;
 // 1. Design tokens (CSS custom properties)
 // =============================================================
 :root {
+  // Light palette (default)
   --el-bg:           #fbfaf7;
   --el-surface:      #ffffff;
   --el-surface-soft: #f3f0ea;
@@ -96,7 +97,12 @@ $input-focus-border-color: $gray-900 !default;
   --el-status:       #0d6e44;
   --el-danger:       #a23a2e;
 
-  --el-maxw:    1120px;
+  // Subtle dot-grid texture for alt sections
+  --el-texture:
+    radial-gradient(circle at 1px 1px, rgba(15,17,21,0.045) 1px, transparent 0);
+  --el-texture-size: 28px 28px;
+
+  --el-maxw:    1180px;
   --el-narrow:  720px;
   --el-radius:  10px;
   --el-radius-pill: 999px;
@@ -106,6 +112,27 @@ $input-focus-border-color: $gray-900 !default;
     "Helvetica Neue", Arial, sans-serif;
   --el-font-serif:
     "Newsreader", "Source Serif Pro", Georgia, "Times New Roman", serif;
+}
+
+// Dark palette — activated by Quarto's theme toggle (sets data-bs-theme)
+// or by the user's OS-level preference.
+[data-bs-theme="dark"],
+.quarto-dark {
+  --el-bg:           #0e1014;
+  --el-surface:      #161a20;
+  --el-surface-soft: #1b1f26;
+  --el-ink:          #f5f2eb;
+  --el-body:         #c8cad0;
+  --el-muted:        #8c8e95;
+  --el-rule:         #2a2e36;
+  --el-rule-strong:  #3a3f48;
+  --el-accent:       #7aa5d6;
+  --el-accent-ink:   #b9d1eb;
+  --el-status:       #3fb87a;
+  --el-danger:       #d97a6f;
+
+  --el-texture:
+    radial-gradient(circle at 1px 1px, rgba(245,242,235,0.055) 1px, transparent 0);
 }
 
 
@@ -122,7 +149,7 @@ body {
   background: var(--el-bg);
   color: var(--el-body);
   font-family: var(--el-font-sans);
-  font-size: 1rem;
+  font-size: 1.0625rem;     // 17px base for comfortable reading
   line-height: 1.65;
   font-feature-settings: "ss01", "cv11";
   text-rendering: optimizeLegibility;
@@ -393,63 +420,72 @@ header#title-block-header {
 }
 
 .ed .l-section {
-  padding: 5.5rem 0;
-  border-top: 1px solid var(--el-rule);
+  padding: 6.5rem 0;
+  position: relative;
 }
-.ed .l-section.first { border-top: 0; padding-top: 2rem; }
+.ed .l-section.first { padding-top: 3rem; }
+
+// Alternating textured backgrounds via the dot-grid pattern on every
+// other section. The hero is :nth-of-type(1) and stays clean.
+.ed > section:nth-of-type(even) {
+  background-color: var(--el-surface-soft);
+  background-image: var(--el-texture);
+  background-size: var(--el-texture-size);
+  background-position: 0 0;
+}
 
 .ed .l-eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--el-muted);
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
 .ed h1 {
   font-family: var(--el-font-serif);
   font-weight: 600;
-  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
-  line-height: 1.06;
-  letter-spacing: -0.018em;
+  font-size: clamp(2.75rem, 6.5vw, 4.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
   color: var(--el-ink);
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
 }
 
 .ed h2 {
   font-family: var(--el-font-serif);
   font-weight: 600;
-  font-size: clamp(1.65rem, 3vw, 2.1rem);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   color: var(--el-ink);
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
 .ed h3 {
   font-family: var(--el-font-sans);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.35;
   letter-spacing: -0.005em;
   color: var(--el-ink);
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.6rem;
 }
 
 .ed p {
-  font-size: 1.02rem;
+  font-size: 1.0625rem;
   line-height: 1.7;
   color: var(--el-body);
   margin: 0 0 1rem;
 }
 
 .ed .l-lede {
-  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.15rem, 1.7vw, 1.35rem);
   line-height: 1.55;
   color: var(--el-body);
-  max-width: 60ch;
-  margin: 0 0 2rem;
+  max-width: 62ch;
+  margin: 0 0 2.25rem;
 }
 
 
@@ -457,9 +493,11 @@ header#title-block-header {
 // 7. Hero
 // =============================================================
 .ed .l-hero {
-  padding: 5rem 0 3rem;
-  border-top: 0;
+  padding: 6rem 0 4rem;
+  background: transparent;
 }
+// Hero never participates in the alternating-bg pattern
+.ed > section.l-hero { background: transparent; background-image: none; }
 
 .ed .l-hero-row {
   display: grid;
