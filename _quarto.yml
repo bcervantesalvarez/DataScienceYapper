@@ -9,7 +9,7 @@ project:
 website:
   favicon: images/preview.png
   twitter-card: true
-  site-url: https://datascienceyapper.com
+  site-url: https://epsilon.studio
   search:
     location: navbar
     type: overlay

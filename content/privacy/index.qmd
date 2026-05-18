@@ -83,7 +83,7 @@ format:
           autocomplete="on"
           novalidate>
 
-      <input type="hidden" name="_next" value="https://www.datascienceyapper.com/content/forms/thank-you/">
+      <input type="hidden" name="_next" value="https://epsilon.studio/content/forms/thank-you/">
       <input type="hidden" name="referrer" value="">
       <input type="hidden" name="userAgent" value="">
       <input type="hidden" name="formLoadedAt" value="">
