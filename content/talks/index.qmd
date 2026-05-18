@@ -1,18 +1,23 @@
 ---
 title: "Talks"
+subtitle: "Workshops, lectures, and applied analyses presented to live audiences."
+body-classes: "ed-page"
 listing:
+  contents: "**/*.qmd"
   sort: "date desc"
   type: table
   categories: false
   sort-ui: false
   filter-ui: false
-format: 
+  date-format: long
+  fields: [date, title, description]
+format:
   html:
-    code-tools: true
+    code-tools: false
     page-layout: article
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
   model-img: "/assets/images/OpenAI-white-monoblossom.svg"
-  summary: "I’ve presented a series of talks that span a wide range of data science applications and methodologies. My recent discussions include practical strategies for building professional portfolios with Quarto and GitHub Pages, and in-depth analyses such as logistic regression for loan approval and survival analysis to assess pesticide toxicity under varying temperatures. Other sessions have focused on implementing MICE for handling missing data, leveraging interactive teaching tools like webR, and exploring the fundamentals of reproducible reporting with Quarto 101."
+  summary: "Talks across applied data science and statistics — practical Quarto + GitHub Pages workflows, interactive teaching with webR, logistic regression for loan approval, survival analysis of pesticide toxicity, and handling missing data with MICE."
 ---

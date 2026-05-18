@@ -1,5 +1,107 @@
 ---
-format: 
+title: "Resources"
+body-classes: "ed-page"
+format:
   html:
-    include-before-body: ../../assets/html/resources/resourcesCustom.html
+    page-layout: full
+    code-tools: false
 ---
+
+```{=html}
+<main class="ed">
+
+<section class="l-section first">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Curated</p>
+    <h1>Learning resources</h1>
+    <p class="l-lede">
+      A short list of platforms, packages, and communities I keep coming
+      back to. Useful starting points for anyone improving their data
+      science craft.
+    </p>
+
+    <div class="l-grid">
+
+      <a class="l-card" href="https://quarto.org" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/quartoLogo.jpeg" alt="Quarto Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Publishing</p>
+          <h3 class="l-card-title">Quarto</h3>
+          <p class="l-card-desc">Open-source scientific publishing for R, Python, Julia, and Observable. Reproducible reports, books, websites, and slides from one source.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://posit.co" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/positLogo.jpeg" alt="Posit Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Tools</p>
+          <h3 class="l-card-title">Posit</h3>
+          <p class="l-card-desc">The team behind RStudio and Quarto. Their tools cover the full analysis-to-deployment loop for data work.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://shiny.posit.co/" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/shinyLogo.png" alt="Shiny Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Apps</p>
+          <h3 class="l-card-title">Shiny</h3>
+          <p class="l-card-desc">Build interactive web applications in R (and now Python). Great for turning analyses into self-service tools.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://pages.github.com/" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/githubPagesLogo.png" alt="GitHub Pages Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Hosting</p>
+          <h3 class="l-card-title">GitHub Pages</h3>
+          <p class="l-card-desc">Free static hosting straight from a repository. Pairs well with Quarto for a portfolio or blog.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://www.rfordatasci.com/" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/r4dsLogo.png" alt="R for Data Science Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Community</p>
+          <h3 class="l-card-title">R4DS Online Learning Community</h3>
+          <p class="l-card-desc">An active Slack-based community working through R for Data Science together. A friendly place to ask questions.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://www.r-bloggers.com/" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/rbloggersLogo.png" alt="R-bloggers Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Reading</p>
+          <h3 class="l-card-title">R-bloggers</h3>
+          <p class="l-card-desc">An aggregator pulling in posts from hundreds of R bloggers. A good way to keep current on the ecosystem.</p>
+        </div>
+      </a>
+
+      <a class="l-card" href="https://rweekly.org/" target="_blank" rel="noreferrer">
+        <div class="l-card-media">
+          <img src="/assets/images/rweeklyLogo.jpeg" alt="R Weekly Logo">
+        </div>
+        <div class="l-card-body">
+          <p class="l-card-tag">Newsletter</p>
+          <h3 class="l-card-title">R Weekly</h3>
+          <p class="l-card-desc">Community-curated highlights from the R world every week. New packages, blog posts, tutorials, and jobs.</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+</main>
+```

@@ -1,26 +1,23 @@
 ---
 title: "Blog"
-subtitle: "A curation of R, Python, data science, visualisations & statistics projects"
+subtitle: "Notes on R, Python, statistics, and interactive teaching."
+body-classes: "ed-page"
 listing:
-  page-size: 5
-  max-description-length: 150
-  sort: "date desc"
+  contents: "**/*.qmd"
   type: default
+  sort: "date desc"
   date-format: long
-  fields: [image, date, title, author, description, categories, reading-time]
+  fields: [image, date, title, description, categories, reading-time]
   sort-ui: false
   filter-ui: false
-format: 
+  page-size: 30
+format:
   html:
-    code-tools: true
+    code-tools: false
     page-layout: article
-    include-in-header: 
-      - text: |
-          <script type="text/javascript" src="/assets/scripts/blog/new-banner.js"></script>   
-          <script type="text/javascript" src="/assets/scripts/blog/page-up.js"></script>
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o1"
   model-img: "/assets/images/OpenAI-white-monoblossom.svg"
-  summary: "My blog curates R, Python, and data science projects, highlighting advanced visualizations, real-world analyses, and innovative solutions. From ASA DataFest experiences to interactive dashboards and time series explorations, you’ll find actionable insights at every turn. Each post aims to demonstrate clear, impactful methods for tackling modern data challenges."
+  summary: "Posts about interactive teaching with webR and Quarto, plus working notes on data visualization, tooling, and reproducible workflows. Older posts are kept under the site's Archive."
 ---

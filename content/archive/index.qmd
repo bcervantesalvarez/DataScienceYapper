@@ -1,6 +1,7 @@
 ---
 title: "Archive"
 subtitle: "Past projects, blog posts, and talks kept for reference."
+body-classes: "ed-page"
 listing:
   - id: archive-projects
     contents: projects/*/index.qmd

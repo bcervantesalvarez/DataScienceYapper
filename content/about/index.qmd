@@ -1,170 +1,204 @@
 ---
-title: "Brian Cervantes Alvarez"
-subtitle: "Data Scientist | Educator | Statistician"
-about:
-  template: broadside
-  image: ../../assets/images/profile.JPG
+title: "About"
+body-classes: "ed-page"
 format:
   html:
-    code-tools: true
-    include-in-header: 
-      - text: |
-          <script type="text/javascript" src="/assets/scripts/about/profileImg.js"></script>
-          <script type="text/javascript" src="/assets/scripts/about/alternatingText.js"></script>
-          
+    page-layout: full
+    code-tools: false
 ---
 
-### About Me
-
-
-
-I turn data into stories and solutions that people can actually use. My journey started with a love for math, grew into a passion for data science, and led to completing a master’s degree in Statistics at Oregon State University. My time at OSU shaped me into a statistician who not only understands complex methods, but also values the ethical responsibility that comes with working in data.
-
-While at Oregon State, I worked to bring a modern data science approach to the Department of Statistics—helping faculty upgrade their tools while continuing to learn from their deep expertise. Whether I’m teaching statistical methods, building simulations to tackle real-world problems, or developing research that bridges theory with practice, I’m guided by a core belief: data work should be impactful, responsible, and rooted in integrity.
-
-
-
-### Educational Background
-
--   **B.S. in Mathematics** – Linfield University
--   **M.S. in Data Science** – Willamette University
--   **M.S. in Statistics** – Oregon State University
--   **Current Goal**: Job Hunting!
--   **Future Aspiration**: Work in Industry for 6-7 years before returning for a Ph.D in Data Science.
-
-
-
-### Expertise and What I Offer
-
-Here’s what I’m good at and what I’m always striving to get better at:
-
--   **Predictive Modeling & Statistical Methods**: I love digging into advanced techniques like time-to-event analysis, spatial stats, and simulations—especially when they’re solving real-world problems.\
--   **Machine Learning**: I’ve trained and interpreted models like Random Forests, SVMs, and Gradient Boosting Machines, figuring out how they can work best for different challenges.\
--   **Data Science Tools**: I know my way around R, Python, and a ton of tools for time series analysis, visualization, and reproducible research.\
--   **Experimentation & Consultation**: I’ve designed experiments and worked directly with clients, making sure they get honest, useful advice (no fluff).\
--   **Data Storytelling**: Breaking down complicated numbers into visuals and stories people actually care about is one of my favorite parts of the process.
-
-I’m constantly learning new techniques, refining what I already know, and working on projects that combine interactive visualization, classification research, and meaningful insights.
-
-
-
-### Professional Aspirations
-
-
-
--   Continue establishing a data science approach within the Department of Statistics, helping current and future faculty enhance their toolkits.\
--   Collaborate with faculty to exchange knowledge, learning from their expertise while contributing my skills.\
--   Advance my work on detailed, meticulously crafted statistical projects, focusing on simulations to address complex real-world challenges.
-
-
-
-### Personal Interests
-
-
-
-When I’m not knee-deep in data or teaching, I’m usually diving into hobbies that keep me curious and entertained:
-
--   **Travel**: I recently had the chance to roam around Europe—Madrid, Barcelona, Venice, Rome, and Paris were all on the itinerary. Every city had its own vibe, and I came back with more than just souvenirs (mostly ideas and a lot of photos).\
--   **Audio Enthusiast**: I’m a bit obsessed with good sound. Whether it’s tweaking my car audio setup or finding the perfect pair of headphones, I’m always chasing that crisp, balanced sound.\
--   **Gaming & Tech**: Gaming is more of a side quest these days, but I still love building PCs and geeking out over new gadgets. If there’s a shiny, overengineered device out there, it’s probably on my wishlist.\
--   **Learning & AI**: Lately, I’ve been nerding out on artificial intelligence—seeing how it works and imagining all the cool (and maybe slightly terrifying) ways it could evolve.
-
-And yeah, sometimes you’ll catch me scrolling TikTok or YouTube Shorts a little too long—it’s my go-to for random but oddly inspiring rabbit holes.
-
-
-
-### Travels
-
 ```{=html}
-<!-- Travel Carousel -->
-<div id="travelCarousel" class="carousel slide" data-bs-ride="carousel" style="margin: 2rem 0;">
-  
-  <!-- Optional Indicators (dots) -->
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#travelCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#travelCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#travelCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#travelCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-    <button type="button" data-bs-target="#travelCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+<main class="ed">
+
+<!-- Hero -->
+<section class="l-hero">
+  <div class="l-wrap">
+    <div class="l-hero-row">
+      <div>
+        <p class="l-eyebrow">About</p>
+        <h1>Brian Cervantes Alvarez</h1>
+        <p class="l-lede">
+          Statistician, data scientist, and educator. I turn data into stories
+          and solutions people can actually use — built on a foundation of
+          mathematics, statistics, and applied data science.
+        </p>
+        <div class="l-cta-row">
+          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email me</a>
+          <a href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">LinkedIn</a>
+        </div>
+      </div>
+      <img src="/assets/images/profile.JPG" alt="Portrait of Brian Cervantes Alvarez"
+           class="l-portrait" loading="eager">
+    </div>
   </div>
+</section>
 
-  <div class="carousel-inner">
-
-    <!-- Slide 1: Spain, Madrid -->
-    <div class="carousel-item active">
-      <div class="travel-card">
-        <img src="../../assets/images/about/Madrid.jpeg" alt="Spain, Madrid" />
-        <div class="travel-details">
-          <div class="travel-location">Spain, Madrid</div>
-          <div class="travel-date">Dec 12th - Dec 13th, 2024</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 2: Spain, Barcelona -->
-    <div class="carousel-item">
-      <div class="travel-card">
-        <img src="../../assets/images/about/Barcelona.JPG" alt="Spain, Barcelona" />
-        <div class="travel-details">
-          <div class="travel-location">Spain, Barcelona</div>
-          <div class="travel-date">Dec 14th, 2024</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 3: Italy, Venice -->
-    <div class="carousel-item">
-      <div class="travel-card">
-        <img src="../../assets/images/about/Venice.JPG" alt="Italy, Venice" />
-        <div class="travel-details">
-          <div class="travel-location">Italy, Venice</div>
-          <div class="travel-date">Dec 15th - Dec 17th, 2024</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 4: Italy, Rome -->
-    <div class="carousel-item">
-      <div class="travel-card">
-        <img src="../../assets/images/about/Rome.JPG" alt="Italy, Rome" />
-        <div class="travel-details">
-          <div class="travel-location">Italy, Rome</div>
-          <div class="travel-date">Dec 18th - Dec 20th, 2024</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 5: France, Paris -->
-    <div class="carousel-item">
-      <div class="travel-card">
-        <img src="../../assets/images/about/France.jpg" alt="France, Paris" />
-        <div class="travel-details">
-          <div class="travel-location">France, Paris</div>
-          <div class="travel-date">Dec 21st - Dec 22nd, 2024</div>
-        </div>
-      </div>
-    </div>
-
+<!-- Background -->
+<section class="l-section first">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Background</p>
+    <h2>The short version</h2>
+    <p>
+      My journey started with a love for math, grew into a passion for data
+      science, and led to a master's degree in Statistics at Oregon State
+      University. OSU shaped me into a statistician who understands complex
+      methods and values the ethical responsibility that comes with working
+      in data.
+    </p>
+    <p>
+      While at Oregon State I helped bring a modern data-science approach to
+      the Department of Statistics, working alongside faculty to upgrade
+      tools while learning from their deep expertise. Whether teaching
+      statistical methods, building simulations, or running applied research,
+      I aim for work that is impactful, responsible, and rooted in integrity.
+    </p>
   </div>
+</section>
 
-  <!-- Carousel Navigation (arrows) -->
-  <button 
-    class="carousel-control-prev" 
-    type="button" 
-    data-bs-target="#travelCarousel" 
-    data-bs-slide="prev"
-  >
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button 
-    class="carousel-control-next" 
-    type="button" 
-    data-bs-target="#travelCarousel" 
-    data-bs-slide="next"
-  >
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<!-- Education -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Education</p>
+    <h2>Where I trained</h2>
+    <ul class="l-list">
+      <li>
+        <div class="l-list-label">M.S. Statistics</div>
+        <div class="l-list-body">Oregon State University — Bayesian methods, experimental design, and applied modeling. Taught undergraduate sections and developed data-visualization curriculum.</div>
+      </li>
+      <li>
+        <div class="l-list-label">M.S. Data Science</div>
+        <div class="l-list-body">Willamette University — Machine learning, predictive modeling, and reproducible analytics workflows.</div>
+      </li>
+      <li>
+        <div class="l-list-label">B.S. Mathematics</div>
+        <div class="l-list-body">Linfield University — Calculus, linear algebra, statistics, and the analytical foundations everything sits on.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Expertise -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Expertise</p>
+    <h2>What I bring</h2>
+    <div class="l-cols">
+      <div>
+        <h3>Predictive modeling &amp; statistical methods</h3>
+        <p>Time-to-event analysis, spatial statistics, simulations — applied to real, often messy, real-world problems.</p>
+      </div>
+      <div>
+        <h3>Machine learning</h3>
+        <p>Trained and interpreted models from random forests and SVMs to gradient boosting and neural networks, with an emphasis on explainability.</p>
+      </div>
+      <div>
+        <h3>Reproducible analytics</h3>
+        <p>R, Python, SQL, and a stack of tools for time-series, visualization, and reproducible reporting that holds up under review.</p>
+      </div>
+      <div>
+        <h3>Experimentation &amp; consulting</h3>
+        <p>Designed experiments and worked with clients directly. Honest, useful advice — no fluff and no overselling.</p>
+      </div>
+      <div>
+        <h3>Data storytelling</h3>
+        <p>Breaking down complicated analyses into visuals and stories people actually care about. It is one of my favorite parts of the process.</p>
+      </div>
+      <div>
+        <h3>Teaching</h3>
+        <p>Curriculum design, interactive labs (Shiny, webR, Quarto), and the kind of materials students actually want to revisit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Aspirations -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">What's next</p>
+    <h2>Where I'm headed</h2>
+    <p>
+      I'm currently looking for industry roles where statistical rigor meets
+      pragmatic shipping. The long-term goal: six or seven years in industry
+      before returning to academia for a Ph.D. in data science. In the
+      meantime I keep contributing to reproducible workflows, statistical
+      consulting practice, and teaching materials that travel beyond a
+      single classroom.
+    </p>
+  </div>
+</section>
+
+<!-- Outside work -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Outside work</p>
+    <h2>Things I'm into</h2>
+    <div class="l-cols">
+      <div>
+        <h3>Travel</h3>
+        <p>Recent loop through Madrid, Barcelona, Venice, Rome, and Paris. Every city had its own rhythm and I came back with more ideas than souvenirs.</p>
+      </div>
+      <div>
+        <h3>Audio</h3>
+        <p>A bit obsessed with good sound — tuning the car system, comparing headphones, and chasing balanced reproduction.</p>
+      </div>
+      <div>
+        <h3>Gaming &amp; tech</h3>
+        <p>Gaming is a side quest these days, but I still build PCs and follow new hardware closely.</p>
+      </div>
+      <div>
+        <h3>AI &amp; learning</h3>
+        <p>Exploring how modern AI tooling actually works in practice — and where it does not yet pull its weight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Travels grid -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Recent travels</p>
+    <h2>Europe, December 2024</h2>
+    <p class="l-lede">A two-week loop across Spain, Italy, and France.</p>
+
+    <div class="l-travel-grid">
+      <figure class="l-travel-item">
+        <img src="/assets/images/about/Madrid.jpeg" alt="Madrid, Spain" loading="lazy">
+        <figcaption class="l-travel-cap">
+          <strong>Madrid</strong>
+          <span>Dec 12–13, 2024</span>
+        </figcaption>
+      </figure>
+      <figure class="l-travel-item">
+        <img src="/assets/images/about/Barcelona.JPG" alt="Barcelona, Spain" loading="lazy">
+        <figcaption class="l-travel-cap">
+          <strong>Barcelona</strong>
+          <span>Dec 14, 2024</span>
+        </figcaption>
+      </figure>
+      <figure class="l-travel-item">
+        <img src="/assets/images/about/Venice.JPG" alt="Venice, Italy" loading="lazy">
+        <figcaption class="l-travel-cap">
+          <strong>Venice</strong>
+          <span>Dec 15–17, 2024</span>
+        </figcaption>
+      </figure>
+      <figure class="l-travel-item">
+        <img src="/assets/images/about/Rome.JPG" alt="Rome, Italy" loading="lazy">
+        <figcaption class="l-travel-cap">
+          <strong>Rome</strong>
+          <span>Dec 18–20, 2024</span>
+        </figcaption>
+      </figure>
+      <figure class="l-travel-item">
+        <img src="/assets/images/about/France.jpg" alt="Paris, France" loading="lazy">
+        <figcaption class="l-travel-cap">
+          <strong>Paris</strong>
+          <span>Dec 21–22, 2024</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+</main>
 ```
