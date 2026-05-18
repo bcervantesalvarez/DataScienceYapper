@@ -1,261 +1,158 @@
 ---
 title: "Privacy Policy"
-format: 
+body-classes: "ed-page"
+format:
   html:
-    code-tools: true
+    page-layout: full
+    code-tools: false
     include-in-header:
       - text: |
-          <script type="text/javascript" src="/assets/scripts/privacy/privacyForm.js"></script>
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o1"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
-  summary: "This policy details how personal and non-personal data is gathered, stored, and utilized on this site under a transparent, user-focused approach. Anonymous usage data helps improve navigation and content, while ensuring minimal disruption to your browsing. AI-assisted elements reflect thoughtful final edits, so if you're curious about the process or have concerns, you're encouraged to reach out."
+          <script type="text/javascript" src="/assets/scripts/privacy/privacyForm.js" defer></script>
 ---
 
 ```{=html}
-<!-- Policy Container #1: Intro & Purpose -->
-<section class="policy-block policy-section">
-  <h2>My Website Policy</h2>
-  <p>
-    Thank you for visiting my portfolio. I want to be fully transparent about 
-    how I collect, store, and use information to keep improving the site.
-  </p>
-  <p>
-    The goal of this policy is to inform you about the nature of the data gathered, 
-    whether you choose to provide it directly (e.g., via contact forms) or it’s 
-    collected automatically (e.g., analytics). By clarifying these points, I 
-    hope you can navigate and enjoy the site with peace of mind.
-  </p>
+<main class="ed">
+
+<section class="l-hero">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Privacy</p>
+    <h1>Privacy policy</h1>
+    <p class="l-lede">
+      How this site handles the small amount of data it collects, and how
+      to reach me with questions.
+    </p>
+  </div>
 </section>
 
-<!-- Policy Container #2: Transparency -->
-<section class="policy-block policy-section">
-  <h2>Transparency</h2>
-  <p>
-    Your privacy matters to me. This policy outlines how my portfolio gathers data—both
-    automatically (e.g., usage metrics) and voluntarily (e.g., you submitting a form).
-    It also covers how that information is used to enhance your experience.
-  </p>
-  <hr />
-  <p>
-    <strong>Scope:</strong> This policy applies solely to this website and doesn’t extend 
-    to external platforms or services you might access through hyperlinks. Once you leave 
-    this site, any interaction is bound by that external platform’s privacy rules.
-  </p>
-</section>
+<section class="l-section first">
+  <div class="l-wrap">
+    <div class="l-prose">
 
-<!-- Policy Container #3: What Data is Collected? -->
-<section class="policy-block policy-section">
-  <h2>What Data Is Collected?</h2>
-  <p>
-    My data collection can be categorized into two types: anonymous usage data and optional 
-    personal data you choose to provide.
-  </p>
-  <ul>
-    <li>
-      <strong>Pages Visited:</strong> The specific pages you explore, helping me see 
-      which sections are popular or may need improvement.
-    </li>
-    <li>
-      <strong>Time Spent:</strong> Average duration on each page to gauge how engaging 
-      or valuable the content is.
-    </li>
-    <li>
-      <strong>Browser &amp; Device Info:</strong> Basic data about your device type, 
-      operating system, and browser—this helps me optimize layout and performance.
-    </li>
-    <li>
-      <strong>Voluntary Information:</strong> Anything you might type into forms, such as 
-      your name, email, or message content, if you contact me directly.
-    </li>
-  </ul>
-  <p>
-    Google Analytics is used to collect anonymous metrics. No personally identifiable 
-    information (PII) is automatically gathered by my analytics unless you voluntarily 
-    provide it (e.g., via contact forms).
-  </p>
-</section>
+      <h2>What is collected</h2>
+      <p>Two categories of data:</p>
+      <ul>
+        <li><strong>Anonymous usage data.</strong> Pages visited, time on page,
+            and basic device or browser info, gathered through Google
+            Analytics. No personally identifying information is captured
+            here.</li>
+        <li><strong>Voluntary information.</strong> Anything you choose to
+            send me via the contact form on this page — your name, email,
+            and message.</li>
+      </ul>
 
-<!-- Policy Container #4: How Is This Data Used? -->
-<section class="policy-block policy-section">
-  <h2>How Is This Data Used?</h2>
-  <p>
-    I use anonymous usage data to understand which areas of the site resonate with
-    visitors. For example:
-  </p>
-  <ul>
-    <li>
-      Enhancing navigation so frequently visited sections are easier to access 
-      and explore
-    </li>
-    <li>
-      Creating or refining content in areas where users show high engagement 
-      or interest
-    </li>
-    <li>
-      Diagnosing performance bottlenecks or design issues on specific pages
-    </li>
-  </ul>
-  <p>
-    Your data is never sold or passed to third parties beyond the analytics 
-    processors that supply aggregated metrics. Where personal data is shared 
-    voluntarily, such as in a contact form, it’s strictly used to respond 
-    to your inquiries or feedback.
-  </p>
-</section>
+      <h2>How it is used</h2>
+      <p>Anonymous metrics inform navigation, content, and performance
+        improvements. Voluntary information is used only to reply to you.
+        Data is never sold or shared with third parties beyond the analytics
+        processors that produce aggregate counts.</p>
 
-<!-- Policy Container #5: Cookie Usage -->
-<section class="policy-block policy-section">
-  <h2>Cookie Usage</h2>
-  <p>
-    Cookies are small data files stored on your device that enable better 
-    functionality and anonymous statistical analysis. By default, this site 
-    primarily employs cookies for analytics. If you choose to block cookies 
-    within your browser, the core features of the site will remain accessible, 
-    but certain analytics or performance enhancements may not function as intended.
-  </p>
-  <p>
-    Any cookies used here do not collect PII but rather facilitate session 
-    continuity and usage metrics. You remain in control: you can delete 
-    existing cookies or prevent new ones from being set at any time.
-  </p>
-</section>
+      <h2>Cookies</h2>
+      <p>Cookies on this site support analytics and session continuity.
+        They do not collect personal data. You can opt out with the cookie
+        banner on first visit, browser settings, or the
+        <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics opt-out extension</a>.</p>
 
-<!-- Policy Container #6: Your Choices -->
-<section class="policy-block policy-section">
-  <h2>Your Choices</h2>
-  <p>
-    You have several ways to manage your data and privacy preferences:
-  </p>
-  <ul>
-    <li>
-      <strong>Cookie Consent Banner:</strong> If provided, allows you to opt in 
-      or out of certain tracking.
-    </li>
-    <li>
-      <strong>Browser Extensions:</strong> 
-      <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">
-        Google Analytics Opt-out
-      </a> 
-      or similar tools can block analytics tracking.
-    </li>
-    <li>
-      <strong>Browser Settings:</strong> Adjust your settings to disable cookies 
-      altogether.
-    </li>
-    <li>
-      <strong>Personal Data Requests:</strong> If you submit personal info (like 
-      through a contact form), you can request its deletion or modification at 
-      any time by contacting me directly.
-    </li>
-  </ul>
-  <p>
-    I encourage you to choose whichever methods align best with your comfort 
-    level regarding data collection and personalization.
-  </p>
-</section>
+      <h2>Your choices</h2>
+      <p>You can request deletion or modification of anything you have
+        submitted by contacting me. You can also disable analytics at any
+        time via the cookie banner or browser settings.</p>
 
-<!-- Contact Form Section -->
-<section class="policy-block policy-section policy-form-section">
-  <h2 class="policy-form-heading">Contact Me</h2>
-  <p class="policy-form-lead">
-    Got questions, concerns, or suggestions related to how data is managed 
-    on this site? Fill out the form below, and I’ll do my best to respond.
-  </p>
-  <p class="policy-form-lead">
-    Constructive feedback about improving this policy is always welcome!
-  </p>
+      <h2>Scope</h2>
+      <p>This policy covers this site only. Linked third-party sites are
+        governed by their own policies.</p>
 
-  <!-- Form with submission handled by external JavaScript -->
-  <iframe id="policyFormTarget" name="policyFormTarget" style="display:none;"></iframe>
-
-  <form id="policyForm" target="policyFormTarget"
-      action="https://script.google.com/macros/s/AKfycbwgvahSl92clLNtOoVs2yGhfninvTex3DbRFvOTDy9TSWVFuIgJ1L3BduhLu4EemVQ/exec"
-      method="POST">
-    <input type="hidden" name="_next" value="https://www.datascienceyapper.com/content/forms/thank-you/">
-    <input type="hidden" name="referrer" value="">
-    <input type="hidden" name="userAgent" value="">
-    <!-- Honeypot (keep hidden with CSS) -->
-    <input type="text" name="hp_field" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;">
-
-
-    <!-- First Name Field -->
-    <div class="policy-form-group">
-      <label for="firstName" class="policy-form-label">First Name</label>
-      <input 
-        type="text" 
-        name="firstName" 
-        id="firstName" 
-        required 
-        placeholder="Your First Name"
-        class="policy-form-input"
-      />
     </div>
-
-    <!-- Last Name Field -->
-    <div class="policy-form-group">
-      <label for="lastName" class="policy-form-label">Last Name</label>
-      <input 
-        type="text" 
-        name="lastName" 
-        id="lastName" 
-        required 
-        placeholder="Your Last Name"
-        class="policy-form-input"
-      />
-    </div>
-
-    <!-- Profession Field -->
-    <div class="policy-form-group">
-      <label for="profession" class="policy-form-label">Profession</label>
-      <select 
-        name="profession" 
-        id="profession" 
-        required
-        class="policy-form-input"
-      >
-        <option value="">-- Select Your Profession --</option>
-        <option value="Student">Student</option>
-        <option value="Instructor/Professor">Instructor/Professor</option>
-        <option value="Recruiter">Recruiter</option>
-        <option value="Professional">Professional</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-
-    <!-- Email Field -->
-    <div class="policy-form-group">
-      <label for="email" class="policy-form-label">Email</label>
-      <input
-        type="email"
-        name="_replyto"
-        id="email"
-        required
-        placeholder="your@email.com"
-        class="policy-form-input"
-      />
-    </div>
-
-    <!-- Message Field -->
-    <div class="policy-form-group">
-      <label for="message" class="policy-form-label">Message</label>
-      <textarea
-        name="message"
-        id="message"
-        rows="5"
-        required
-        placeholder="What's on your mind?"
-        class="policy-form-input"
-      ></textarea>
-    </div>
-
-    <!-- Submit Button -->
-    <button type="submit" class="policy-form-submit">
-      Send Message
-    </button>
-    <!-- Loading message, initially hidden -->
-    <div id="loadingMessage" style="display:none; margin-top:10px;">Please wait...</div>
-  </form>
+  </div>
 </section>
+
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Contact</p>
+    <h2>Questions about this policy?</h2>
+    <p class="l-lede">
+      Use the form below for privacy questions, suggestions on the policy,
+      or anything else worth a longer message.
+    </p>
+
+    <iframe id="policyFormTarget" name="policyFormTarget" title="Form submission target" style="display:none;border:0;"></iframe>
+
+    <form id="policyForm" class="l-form"
+          target="policyFormTarget"
+          action="https://script.google.com/macros/s/AKfycbwgvahSl92clLNtOoVs2yGhfninvTex3DbRFvOTDy9TSWVFuIgJ1L3BduhLu4EemVQ/exec"
+          method="POST"
+          autocomplete="on"
+          novalidate>
+
+      <input type="hidden" name="_next" value="https://www.datascienceyapper.com/content/forms/thank-you/">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="userAgent" value="">
+      <input type="hidden" name="formLoadedAt" value="">
+
+      <!-- Honeypot fields: invisible to humans, frequently filled by bots -->
+      <div class="hp-trap" aria-hidden="true">
+        <label for="hp_website">Website</label>
+        <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off">
+        <label for="hp_phone">Phone</label>
+        <input type="text" id="hp_phone" name="phone" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="l-form-group">
+        <label class="l-form-label" for="firstName">First name</label>
+        <input class="l-form-input" type="text" id="firstName" name="firstName"
+               required maxlength="60" autocomplete="given-name" placeholder="First name">
+      </div>
+
+      <div class="l-form-group">
+        <label class="l-form-label" for="lastName">Last name</label>
+        <input class="l-form-input" type="text" id="lastName" name="lastName"
+               required maxlength="60" autocomplete="family-name" placeholder="Last name">
+      </div>
+
+      <div class="l-form-group">
+        <label class="l-form-label" for="profession">Profession</label>
+        <select class="l-form-select" id="profession" name="profession" required>
+          <option value="">Select…</option>
+          <option value="Student">Student</option>
+          <option value="Instructor or Professor">Instructor / Professor</option>
+          <option value="Recruiter">Recruiter</option>
+          <option value="Professional">Professional</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="l-form-group">
+        <label class="l-form-label" for="email">Email</label>
+        <input class="l-form-input" type="email" id="email" name="_replyto"
+               required maxlength="120" inputmode="email" autocomplete="email"
+               placeholder="you@example.com">
+      </div>
+
+      <div class="l-form-group">
+        <label class="l-form-label" for="message">Message</label>
+        <textarea class="l-form-textarea" id="message" name="message"
+                  required maxlength="3000" rows="6"
+                  placeholder="What's on your mind?"></textarea>
+      </div>
+
+      <!--
+        Cloudflare Turnstile (optional but recommended).
+        To enable: get a site key at https://dash.cloudflare.com/?to=/:account/turnstile
+        and replace REPLACE_WITH_TURNSTILE_SITEKEY below. The Turnstile script
+        is loaded by privacyForm.js when a site key is present.
+      -->
+      <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITEKEY" data-theme="light"></div>
+
+      <p id="policyFormStatus" class="l-form-status" role="status" aria-live="polite"></p>
+
+      <button id="policyFormSubmit" class="l-form-submit" type="submit">Send message</button>
+
+      <p class="l-form-note">
+        I'll reply directly to the email you provide. Your data is used only
+        to respond — see above for details.
+      </p>
+    </form>
+  </div>
+</section>
+
+</main>
 ```

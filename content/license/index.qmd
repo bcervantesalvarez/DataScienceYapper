@@ -1,94 +1,66 @@
 ---
 title: "License"
-format: 
+body-classes: "ed-page"
+format:
   html:
-    page-layout: article
-    code-tools: true
-ai-summary:
-  banner-title: "Yapper Labs | AI Summary"
-  model-title: "Model: ChatGPT o1"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
-  summary: "This license outlines that all site content is under the CC-BY 4.0 license for free adaptation and sharing, as long as you credit me. The source code is MIT-licensed, meaning you can use or modify it without major restrictions. Additionally, while some elements were initially generated with AI, every final decision and revision is mine alone, so if you’re curious about the process, feel free to reach out."
+    page-layout: full
+    code-tools: false
 ---
 
-
-
 ```{=html}
-<!-- License Container #1: License & Disclaimers -->
-<section class="license-block license-section">
-  <h2>License &amp; Disclaimers</h2>
-  <p>
-    &copy; 2024-2025 Brian Adolfo Cervantes Alvarez. This website reflects my
-    personal perspectives, insights, and research, and does not represent
-    the views, opinions, or endorsements of my employer or affiliated
-    organizations.
-  </p>
-  <p>
-    All textual content, graphics, and other materials on this site are
-    licensed under the <a href="https://creativecommons.org/licenses/by/4.0/"
-    target="_blank" rel="noopener">Creative Commons Attribution 4.0
-    International (CC BY 4.0)</a> license. You are free to share, adapt, and
-    build upon the material provided you credit me appropriately and link back
-    to the original source.
-  </p>
-  <p>
-    While I strive to ensure accuracy in all posted content, I cannot guarantee
-    completeness or timeliness of information. Any reliance on the data,
-    analyses, or opinions provided here is done at your own risk, and I assume
-    no liability for any actions taken based on the information presented.
-  </p>
+<main class="ed">
+
+<section class="l-hero">
+  <div class="l-wrap">
+    <p class="l-eyebrow">License</p>
+    <h1>License &amp; disclaimers</h1>
+    <p class="l-lede">
+      How the content on this site is licensed and what you can do with it.
+    </p>
+  </div>
 </section>
 
-<!-- License Container #2: Source Code -->
-<section class="license-block license-section">
-  <h2>Source Code</h2>
-  <p>
-    The source code referenced or shared on this site is released under the
-    <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.
-    This permissive license allows you to use, modify, merge, publish, and
-    distribute the code with minimal restrictions. If you incorporate any of my
-    code into your own projects, credit is greatly appreciated (though not
-    legally required).
-  </p>
-  <p>
-    I may occasionally showcase code snippets as examples, tutorials, or
-    demonstrations. In such cases, the onus is on you to validate the suitability
-    and security of the code in your specific environment. When in doubt, I
-    recommend thorough testing and compliance with best practices.
-  </p>
+<section class="l-section first">
+  <div class="l-wrap">
+    <div class="l-prose">
+
+      <h2>Content</h2>
+      <p>© 2024–2025 Brian Adolfo Cervantes Alvarez. The views expressed
+        here are personal and do not represent any employer or affiliated
+        organization.</p>
+      <p>All text, graphics, and other written material on this site are
+        licensed under
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a>.
+        Share, adapt, and build upon it with appropriate credit and a link
+        back to the source.</p>
+
+      <h2>Source code</h2>
+      <p>Code snippets and example projects shared on this site are
+        released under the
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.
+        Use, modify, and redistribute freely with minimal restrictions.
+        Credit is appreciated but not required.</p>
+
+      <h2>Disclaimers</h2>
+      <p>I aim for accuracy but cannot guarantee completeness or
+        timeliness. Any decisions based on the content here are made at
+        your own risk. Validate code in your own environment before
+        production use.</p>
+
+      <h2>Use of AI</h2>
+      <p>Some content on this site benefited from AI-assisted drafting or
+        ideation. Every final edit, conceptual choice, and validation step
+        is mine. If something looks off, please let me know.</p>
+
+      <h2>Ethics</h2>
+      <p>I credit sources, respect privacy, and disclose AI usage.
+        Confidential or personally identifying information is kept out of
+        public posts. If anything inadvertently crosses that line, contact
+        me and I'll address it promptly.</p>
+
+    </div>
+  </div>
 </section>
 
-<!-- License Container #3: Use of Artificial Intelligence -->
-<section class="license-block license-section">
-  <h2>Use of Artificial Intelligence</h2>
-  <p>
-    Some content on this site—including text, illustrative examples, or
-    ideation—benefited from AI-based assistance (most notably OpenAI’s
-    language models). This AI support helped accelerate brainstorming,
-    generation of first drafts, and code scaffolding.
-  </p>
-  <p>
-    However, every final edit, conceptual choice, and validation step is
-    exclusively my responsibility. If you notice any inaccuracies or suspect AI
-    artifacts, please let me know. I am committed to refining and correcting
-    content whenever issues arise.
-  </p>
-</section>
-
-<!-- License Container #4: Ethics -->
-<section class="license-block license-section">
-  <h2>Ethics</h2>
-  <p>
-    I actively strive to ensure that my work aligns with ethical and
-    transparent standards. This includes crediting sources for data,
-    respecting user privacy where applicable, and disclosing AI usage to
-    maintain clarity around how digital tools shape my work.
-  </p>
-  <p>
-    In the spirit of responsible AI, I aim to avoid sharing harmful,
-    confidential, or personally identifiable information. Should any
-    content inadvertently breach ethical or privacy guidelines, I will
-    address it promptly upon being made aware.
-  </p>
-</section>
+</main>
 ```
