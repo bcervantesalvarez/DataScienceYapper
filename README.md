@@ -4,17 +4,17 @@
 
 Building tools that simplify complex data and empower learners through interactive education.
 
-[Visit My Website](https://epsilon.studio/)
+[Visit My Website](https://epsilon-labs.org/)
 
 ## Featured Projects
 
-### [Interactive Teaching with webR](https://epsilon.studio/content/blog/interactive-teaching-with-webr/)
+### [Interactive Teaching with webR](https://epsilon-labs.org/content/blog/interactive-teaching-with-webr/)
 An interactive project designed to enhance learning and engagement using webR for dynamic teaching experiences.
 
-### [Shiny Application for UK Accident Data](https://epsilon.studio/content/projects/united-kingdom-car-accident-shiny-app/)
+### [Shiny Application for UK Accident Data](https://epsilon-labs.org/content/projects/united-kingdom-car-accident-shiny-app/)
 A Shiny app that explores UK accident data, featuring dynamic dashboards and insightful visualizations.
 
-### [Applied Multivariate Analysis on Wine Data](https://epsilon.studio/content/projects/wine-multivariate-statistical-analysis/)
+### [Applied Multivariate Analysis on Wine Data](https://epsilon-labs.org/content/projects/wine-multivariate-statistical-analysis/)
 A comprehensive multivariate analysis project on wine data, revealing key factors and relationships through statistical techniques.
 
 ## Data Science Toolkit
@@ -31,5 +31,5 @@ A comprehensive multivariate analysis project on wine data, revealing key factor
 
 - [Email](mailto:briancervantesalvarez@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/bcervantesalvarez)
-- [Download Full Resume](https://epsilon.studio/documents/resume/bca-resume.pdf)
+- [Download Full Resume](https://epsilon-labs.org/documents/resume/bca-resume.pdf)
 
