@@ -1,0 +1,47 @@
+---
+title: "Archive"
+subtitle: "Past projects, blog posts, and talks kept for reference."
+listing:
+  - id: archive-projects
+    contents: projects/*/index.qmd
+    type: default
+    sort: "date desc"
+    fields: [image, date, title, description, categories]
+    sort-ui: false
+    filter-ui: false
+    page-size: 30
+  - id: archive-blog
+    contents: blog/*/index.qmd
+    type: default
+    sort: "date desc"
+    fields: [image, date, title, description, categories, reading-time]
+    sort-ui: false
+    filter-ui: false
+    page-size: 30
+  - id: archive-talks
+    contents: talks/*/index.qmd
+    type: default
+    sort: "date desc"
+    fields: [image, date, title, description, categories]
+    sort-ui: false
+    filter-ui: false
+    page-size: 30
+format:
+  html:
+    page-layout: article
+---
+
+## Projects
+
+::: {#archive-projects}
+:::
+
+## Blog
+
+::: {#archive-blog}
+:::
+
+## Talks
+
+::: {#archive-talks}
+:::

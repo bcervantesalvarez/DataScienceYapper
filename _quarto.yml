@@ -34,7 +34,9 @@ website:
         text: Built with ChatGPT®
       - href: https://www.cloudflare.com/
         text: Hosted with Cloudflare®
-    right: 
+    right:
+      - href: content/archive/index.qmd
+        text: Archive
       - href: content/privacy/index.qmd
         text: Privacy Policy
       - href: content/license/index.qmd
