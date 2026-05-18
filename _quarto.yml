@@ -7,6 +7,8 @@ project:
     - .nojekyll
     - ads.txt
 website:
+  title: "Epsilon Labs"
+  description: "Statistical consulting, predictive modeling, and decision-grade analytics."
   favicon: images/preview.png
   twitter-card: true
   site-url: https://epsilon-labs.org
@@ -19,6 +21,8 @@ website:
     right:
       - text: "About"
         href: content/about/index.qmd
+      - text: "Services"
+        href: content/services/index.qmd
       - text: "Works"
         menu:
           - text: "Projects"

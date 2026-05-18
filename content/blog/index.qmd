@@ -1,6 +1,6 @@
 ---
-title: "Blog"
-subtitle: "Notes on R, Python, statistics, and interactive teaching."
+title: "Insights"
+subtitle: "Practical notes on statistical practice, modeling, and analytical tooling."
 body-classes: "ed-page"
 listing:
   contents: "**/*.qmd"

@@ -1,6 +1,6 @@
 ---
 title: "Projects"
-subtitle: "Statistical analyses, machine learning, and interactive applications."
+subtitle: "Selected engagements: statistical analyses, predictive modeling, and interactive applications."
 body-classes: "ed-page"
 listing:
   contents: "**/*.qmd"

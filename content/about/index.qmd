@@ -13,53 +13,72 @@ format:
 <!-- Hero -->
 <section class="l-hero">
   <div class="l-wrap">
+    <p class="l-eyebrow">About</p>
+    <h1>Epsilon Labs is a statistical consulting practice focused on rigorous, decision-grade analytics.</h1>
+    <p class="l-lede">
+      The practice serves organizations that need careful statistical
+      work to answer questions, support decisions, or ship analytical
+      tools their teams can rely on.
+    </p>
+  </div>
+</section>
+
+<!-- Practice -->
+<section class="l-section first">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Practice</p>
+    <h2>What we believe</h2>
+    <p>
+      Most analytics work is judged by how it reads. Epsilon Labs is
+      built around the opposite premise: an analysis should be judged
+      by how well it holds up under audit, replication, and a critical
+      reader. We document assumptions, validate models the right way,
+      and hand off code that your team can actually rerun.
+    </p>
+    <p>
+      We work on bounded projects and short retainers. Every engagement
+      starts with a scoping conversation and a written proposal. Nothing
+      gets billed without a deliverable behind it.
+    </p>
+  </div>
+</section>
+
+<!-- Principal -->
+<section class="l-section">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Principal</p>
     <div class="l-hero-row">
       <div>
-        <p class="l-eyebrow">About</p>
-        <h1>Brian Cervantes Alvarez</h1>
-        <p class="l-lede">
-          Statistician, data scientist, and educator. I turn data into stories
-          and solutions people can actually use — built on a foundation of
-          mathematics, statistics, and applied data science.
+        <h2 style="margin-bottom:0.5rem;">Brian Cervantes Alvarez</h2>
+        <p>
+          Brian is a statistician and data scientist with formal training
+          across mathematics, applied data science, and statistics, and
+          working experience that spans interactive analytics, predictive
+          modeling, and statistical education.
+        </p>
+        <p>
+          He currently serves as a Business Intelligence Analyst at the
+          Oregon Department of Education, where he works on educational
+          data systems and reporting. Epsilon Labs is operated
+          independently of that role.
         </p>
         <div class="l-cta-row">
-          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email me</a>
+          <a href="mailto:briancervantesalvarez@gmail.com" class="l-btn">Email</a>
           <a href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">LinkedIn</a>
+          <a href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">CV (PDF)</a>
         </div>
       </div>
-      <img src="/images/profile.jpg" alt="Portrait of Brian Cervantes Alvarez"
+      <img src="/images/profile.jpg" alt="Brian Cervantes Alvarez, Principal at Epsilon Labs"
            class="l-portrait" loading="eager">
     </div>
   </div>
 </section>
 
-<!-- Background -->
-<section class="l-section first">
-  <div class="l-wrap">
-    <p class="l-eyebrow">Background</p>
-    <h2>The short version</h2>
-    <p>
-      My journey started with a love for math, grew into a passion for data
-      science, and led to a master's degree in Statistics at Oregon State
-      University. OSU shaped me into a statistician who understands complex
-      methods and values the ethical responsibility that comes with working
-      in data.
-    </p>
-    <p>
-      While at Oregon State I helped bring a modern data-science approach to
-      the Department of Statistics, working alongside faculty to upgrade
-      tools while learning from their deep expertise. Whether teaching
-      statistical methods, building simulations, or running applied research,
-      I aim for work that is impactful, responsible, and rooted in integrity.
-    </p>
-  </div>
-</section>
-
-<!-- Education -->
+<!-- Training -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">Education</p>
-    <h2>Where I trained</h2>
+    <p class="l-eyebrow">Training</p>
+    <h2>Where the practice trained</h2>
     <ul class="l-list">
       <li>
         <div class="l-list-label">M.S. Statistics</div>
@@ -77,126 +96,51 @@ format:
   </div>
 </section>
 
-<!-- Expertise -->
+<!-- Capabilities -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">Expertise</p>
-    <h2>What I bring</h2>
+    <p class="l-eyebrow">Capabilities</p>
+    <h2>What we bring to an engagement</h2>
     <div class="l-cols">
       <div>
-        <h3>Predictive modeling &amp; statistical methods</h3>
-        <p>Time-to-event analysis, spatial statistics, simulations — applied to real, often messy, real-world problems.</p>
+        <h3>Statistical analysis</h3>
+        <p>Time-to-event analysis, spatial statistics, simulations, and rigorous hypothesis testing.</p>
       </div>
       <div>
-        <h3>Machine learning</h3>
-        <p>Trained and interpreted models from random forests and SVMs to gradient boosting and neural networks, with an emphasis on explainability.</p>
+        <h3>Predictive modeling</h3>
+        <p>Random forests, SVMs, gradient boosting, and neural networks — with an emphasis on validation and explainability.</p>
       </div>
       <div>
         <h3>Reproducible analytics</h3>
-        <p>R, Python, SQL, and a stack of tools for time-series, visualization, and reproducible reporting that holds up under review.</p>
+        <p>R, Python, and SQL pipelines built for time-series, visualization, and reporting that holds up under review.</p>
       </div>
       <div>
-        <h3>Experimentation &amp; consulting</h3>
-        <p>Designed experiments and worked with clients directly. Honest, useful advice — no fluff and no overselling.</p>
+        <h3>Experiment design</h3>
+        <p>Power calculations, randomization, factor design, and the discipline to leave variables you can't control alone.</p>
       </div>
       <div>
         <h3>Data storytelling</h3>
-        <p>Breaking down complicated analyses into visuals and stories people actually care about. It is one of my favorite parts of the process.</p>
+        <p>Translating complicated analyses into visuals and prose people actually retain.</p>
       </div>
       <div>
-        <h3>Teaching</h3>
-        <p>Curriculum design, interactive labs (Shiny, webR, Quarto), and the kind of materials students actually want to revisit.</p>
+        <h3>Teaching &amp; curriculum</h3>
+        <p>Shiny, webR, and Quarto-based labs and lessons that move students from "I ran the test" to "I can defend the choice."</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Aspirations -->
+<!-- Independence -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">What's next</p>
-    <h2>Where I'm headed</h2>
+    <p class="l-eyebrow">Independence</p>
+    <h2>A note on conflicts</h2>
     <p>
-      I'm currently looking for industry roles where statistical rigor meets
-      pragmatic shipping. The long-term goal: six or seven years in industry
-      before returning to academia for a Ph.D. in data science. In the
-      meantime I keep contributing to reproducible workflows, statistical
-      consulting practice, and teaching materials that travel beyond a
-      single classroom.
+      Epsilon Labs is operated entirely outside the principal's primary
+      employer. We do not accept engagements that conflict with the
+      principal's day-job responsibilities, and we decline work that
+      touches the same data systems or stakeholder relationships.
     </p>
-  </div>
-</section>
-
-<!-- Outside work -->
-<section class="l-section">
-  <div class="l-wrap">
-    <p class="l-eyebrow">Outside work</p>
-    <h2>Things I'm into</h2>
-    <div class="l-cols">
-      <div>
-        <h3>Travel</h3>
-        <p>Recent loop through Madrid, Barcelona, Venice, Rome, and Paris. Every city had its own rhythm and I came back with more ideas than souvenirs.</p>
-      </div>
-      <div>
-        <h3>Audio</h3>
-        <p>A bit obsessed with good sound — tuning the car system, comparing headphones, and chasing balanced reproduction.</p>
-      </div>
-      <div>
-        <h3>Gaming &amp; tech</h3>
-        <p>Gaming is a side quest these days, but I still build PCs and follow new hardware closely.</p>
-      </div>
-      <div>
-        <h3>AI &amp; learning</h3>
-        <p>Exploring how modern AI tooling actually works in practice — and where it does not yet pull its weight.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Travels grid -->
-<section class="l-section">
-  <div class="l-wrap">
-    <p class="l-eyebrow">Recent travels</p>
-    <h2>Europe, December 2024</h2>
-    <p class="l-lede">A two-week loop across Spain, Italy, and France.</p>
-
-    <div class="l-travel-grid">
-      <figure class="l-travel-item">
-        <img src="/images/about/madrid.jpeg" alt="Madrid, Spain" loading="lazy">
-        <figcaption class="l-travel-cap">
-          <strong>Madrid</strong>
-          <span>Dec 12–13, 2024</span>
-        </figcaption>
-      </figure>
-      <figure class="l-travel-item">
-        <img src="/images/about/barcelona.jpg" alt="Barcelona, Spain" loading="lazy">
-        <figcaption class="l-travel-cap">
-          <strong>Barcelona</strong>
-          <span>Dec 14, 2024</span>
-        </figcaption>
-      </figure>
-      <figure class="l-travel-item">
-        <img src="/images/about/venice.jpg" alt="Venice, Italy" loading="lazy">
-        <figcaption class="l-travel-cap">
-          <strong>Venice</strong>
-          <span>Dec 15–17, 2024</span>
-        </figcaption>
-      </figure>
-      <figure class="l-travel-item">
-        <img src="/images/about/rome.jpg" alt="Rome, Italy" loading="lazy">
-        <figcaption class="l-travel-cap">
-          <strong>Rome</strong>
-          <span>Dec 18–20, 2024</span>
-        </figcaption>
-      </figure>
-      <figure class="l-travel-item">
-        <img src="/images/about/france.jpg" alt="Paris, France" loading="lazy">
-        <figcaption class="l-travel-cap">
-          <strong>Paris</strong>
-          <span>Dec 21–22, 2024</span>
-        </figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 

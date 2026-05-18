@@ -20,34 +20,63 @@ warning: false
         <div class="l-status" role="status" aria-live="polite">
           <span class="l-status-dot" aria-hidden="true"></span>
           <span>
-            <strong>Employed at Oregon Department of Education</strong><span class="l-status-sep"> · </span>Business Intelligence Analyst<span class="l-status-sep"> · </span>Since December 8, 2025
+            <strong>Principal:</strong> Business Intelligence Analyst at Oregon Department of Education<span class="l-status-sep"> · </span>Since December 8, 2025
           </span>
         </div>
-        <p class="l-eyebrow">Brian Cervantes Alvarez</p>
-        <h1>Statistician and data scientist building tools people actually use.</h1>
+        <p class="l-eyebrow">Epsilon Labs</p>
+        <h1>Statistical consulting for teams that need to act.</h1>
         <p class="l-lede">
-          I design explainable models, ship interactive analytics, and teach the
-          ideas behind them so adoption sticks. R, Python, SQL, Shiny — and a bias
-          toward clear answers over clever methods.
+          We design experiments, build predictive models, and ship
+          decision-ready analytics. Every engagement is scoped, documented,
+          and built to be defended in front of the people who depend on it.
         </p>
         <div class="l-cta-row">
-          <a href="#contact" class="l-btn" aria-label="Contact Brian">Get in touch</a>
-          <a href="#work" class="l-btn l-btn--ghost">See selected work</a>
+          <a href="/content/services/" class="l-btn">Services</a>
+          <a href="#contact" class="l-btn l-btn--ghost">Start a conversation</a>
         </div>
       </div>
-      <img src="/images/profile2.jpg" alt="Portrait of Brian Cervantes Alvarez"
+      <img src="/images/profile2.jpg" alt="Brian Cervantes Alvarez, Principal at Epsilon Labs"
            class="l-portrait" loading="eager">
     </div>
   </div>
 </section>
 
-<!-- Selected Work -->
-<section class="l-section first" id="work">
+<!-- Services preview -->
+<section class="l-section first" id="services">
+  <div class="l-wrap">
+    <p class="l-eyebrow">Practice areas</p>
+    <div class="l-row">
+      <h2>What we do</h2>
+      <a href="/content/services/">All services →</a>
+    </div>
+    <div class="l-cols">
+      <div>
+        <h3>Statistical analysis &amp; modeling</h3>
+        <p>Experimental design, hypothesis testing, regression, and Bayesian inference for questions that deserve careful answers.</p>
+      </div>
+      <div>
+        <h3>Predictive modeling &amp; ML</h3>
+        <p>Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit.</p>
+      </div>
+      <div>
+        <h3>Interactive analytics</h3>
+        <p>R Shiny, Quarto, and lightweight web tools that turn an analysis into a self-service decision aid.</p>
+      </div>
+      <div>
+        <h3>Reproducible reporting</h3>
+        <p>R, Python, and SQL pipelines that document assumptions, version cleanly, and rerun reliably.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Selected work -->
+<section class="l-section" id="work">
   <div class="l-wrap">
     <p class="l-eyebrow">Selected work</p>
     <div class="l-row">
-      <h2>Projects worth a closer look</h2>
-      <a href="/content/projects/">All projects →</a>
+      <h2>Engagements worth a closer look</h2>
+      <a href="/content/projects/">All work →</a>
     </div>
 
     <div class="l-grid">
@@ -56,10 +85,10 @@ warning: false
           <img src="/images/ukcaraccident.webp" alt="UK Car Accident Shiny App">
         </div>
         <div class="l-card-body">
-          <p class="l-card-tag">Shiny · Analytics app</p>
+          <p class="l-card-tag">Interactive analytics</p>
           <h3 class="l-card-title">UK Traffic Accident Trends</h3>
           <p class="l-card-desc">
-            An interactive dashboard for exploring UK incident patterns —
+            An interactive dashboard for exploring incident patterns —
             filters, dynamic views, defaults that surface signal first.
           </p>
         </div>
@@ -73,8 +102,8 @@ warning: false
           <p class="l-card-tag">Statistical modeling</p>
           <h3 class="l-card-title">Multivariate Analysis: Wine Quality</h3>
           <p class="l-card-desc">
-            PCA and supervised models with diagnostics to separate signal from
-            noise across correlated chemical features.
+            PCA and supervised models with diagnostics to separate signal
+            from noise across correlated chemical features.
           </p>
         </div>
       </a>
@@ -84,11 +113,11 @@ warning: false
           <img src="/images/yelpburst.svg" alt="Yelp Business Reviews Shiny App">
         </div>
         <div class="l-card-body">
-          <p class="l-card-tag">Shiny · Geospatial</p>
+          <p class="l-card-tag">Geospatial analytics</p>
           <h3 class="l-card-title">Yelp Business Reviews</h3>
           <p class="l-card-desc">
-            A spatial review explorer with map-linked filters, density layers,
-            and per-business summaries.
+            A spatial review explorer with map-linked filters, density
+            layers, and per-business summaries.
           </p>
         </div>
       </a>
@@ -96,12 +125,12 @@ warning: false
   </div>
 </section>
 
-<!-- Writing -->
+<!-- Insights -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">Writing</p>
+    <p class="l-eyebrow">Insights</p>
     <div class="l-row">
-      <h2>Recent post</h2>
+      <h2>From the blog</h2>
       <a href="/content/blog/">All posts →</a>
     </div>
 
@@ -114,8 +143,8 @@ warning: false
           <p class="l-card-tag">Teaching · webR</p>
           <h3 class="l-card-title">Interactive Teaching with webR</h3>
           <p class="l-card-desc">
-            Browser-native, no-install R lessons built with Quarto and webR so
-            students can run code inline and learn by doing.
+            Browser-native, no-install R lessons built with Quarto and webR
+            so students can run code inline and learn by doing.
           </p>
         </div>
       </a>
@@ -123,47 +152,28 @@ warning: false
   </div>
 </section>
 
-<!-- Approach -->
+<!-- Principles -->
 <section class="l-section">
   <div class="l-wrap">
-    <p class="l-eyebrow">How I work</p>
+    <p class="l-eyebrow">How we engage</p>
+    <h2>Principles</h2>
     <div class="l-cols">
       <div>
         <h3>Decision-focused</h3>
-        <p>Translate goals into crisp KPIs and hypotheses. Design analyses that answer "What should we do next?" not just "What happened?"</p>
+        <p>We translate goals into crisp KPIs and hypotheses. Every analysis answers "what should we do next?" — not just "what happened?"</p>
       </div>
       <div>
         <h3>Explainable</h3>
-        <p>Train and validate with holdout and cross-validation. Prefer interpretable models (GLMs, trees, SHAP-style diagnostics) so stakeholders can trust the output.</p>
+        <p>Models trained and validated with proper holdout and cross-validation. We default to interpretable methods so stakeholders can trust the result.</p>
       </div>
       <div>
         <h3>Reliable pipelines</h3>
-        <p>Auditable R, Python, and SQL pipelines with documented assumptions, reproducible runs, and failure-aware checks.</p>
+        <p>Auditable R, Python, and SQL with documented assumptions, reproducible runs, and failure-aware checks.</p>
       </div>
       <div>
         <h3>Production-minded</h3>
-        <p>Ship lightweight apps, instrument usage, and iterate on real-world feedback so the work compounds.</p>
+        <p>We ship lightweight tools, instrument usage, and iterate on real-world feedback so the work compounds.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Toolkit -->
-<section class="l-section">
-  <div class="l-wrap">
-    <p class="l-eyebrow">Toolkit</p>
-    <h2>Languages, frameworks, and platforms</h2>
-    <p class="l-lede">A short list of what I reach for first on real projects.</p>
-    <div class="l-chips">
-      <span class="l-chip">R / Shiny</span>
-      <span class="l-chip">Python</span>
-      <span class="l-chip">SQL</span>
-      <span class="l-chip">Statistical analysis</span>
-      <span class="l-chip">Tidyverse</span>
-      <span class="l-chip">scikit-learn</span>
-      <span class="l-chip">Quarto</span>
-      <span class="l-chip">GCP / AWS</span>
-      <span class="l-chip">Consulting</span>
     </div>
   </div>
 </section>
@@ -172,20 +182,20 @@ warning: false
 <section class="l-section">
   <div class="l-wrap">
     <div class="l-contact" id="contact">
-      <p class="l-eyebrow">Contact</p>
-      <h2>Have a data problem worth solving?</h2>
-      <p>Send a note with context and timelines and I will reply with a concrete next step.</p>
+      <p class="l-eyebrow">Engagements</p>
+      <h2>Have a question worth answering carefully?</h2>
+      <p>Tell us the question, the data you have, and when you need the answer. We will reply within two business days with next steps or a referral.</p>
       <div class="l-cta-row" style="justify-content:center;">
-        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com" aria-label="Email Brian">Email me</a>
+        <a class="l-btn" href="mailto:briancervantesalvarez@gmail.com" aria-label="Email Epsilon Labs">Email Epsilon Labs</a>
         <a class="l-btn l-btn--ghost" href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
     </div>
 
     <div class="l-resume">
-      <p><strong>Looking for the full resume?</strong> Download the PDF or open it in a new tab.</p>
+      <p><strong>Principal background:</strong> training, employment history, and full credentials.</p>
       <div class="l-cta-row" style="margin:0;">
-        <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" download="Brian-Cervantes-Alvarez-Resume.pdf">Download PDF</a>
-        <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer">Open in new tab</a>
+        <a class="l-btn l-btn--ghost" href="/content/about/">About the principal</a>
+        <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
       </div>
     </div>
   </div>
