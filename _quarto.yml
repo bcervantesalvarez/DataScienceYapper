@@ -2,12 +2,7 @@ project:
   type: website
   output-dir: docs
   resources:
-    - assets/llm/**
-    - assets/html/llm/model-info.html
     - assets/themes/**
-  #post-render: 
-  #  - tools/generate_vectors.py
-  #  - tools/cleanup.py
 website:
   favicon: assets/images/preview.png
   twitter-card: true
@@ -59,7 +54,6 @@ format:
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4365518179705452" crossorigin="anonymous"></script>
     include-after-body:
       - assets/html/cookies/custom-cookie-consent.html
-      - assets/llm/chat.html  
     filters: [assets/lua/ai-summary.lua]
 editor: source
 execute:
