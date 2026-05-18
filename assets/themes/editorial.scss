@@ -508,6 +508,71 @@
     .new-banner { display: none; }
   }
 
+  /* AI-Summary banner: lighter editorial treatment */
+  .AI-Summary {
+    margin: 2rem 0;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #e6e8ec;
+    border-radius: 12px;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .mini-banner {
+    background: #fafafa !important;
+    color: #3b424a;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.7rem 1.1rem;
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e6e8ec;
+  }
+  .mini-banner .left-banner { font-size: inherit; }
+  .mini-banner .right-banner {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: #6b7280;
+  }
+  .mini-banner .openai-logo {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    filter: invert(0.45);
+  }
+  .AI-Summary p {
+    margin: 0;
+    padding: 1rem 1.25rem 1.1rem;
+    color: #3b424a;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  /* Article body container — slightly tighter typography */
+  main#quarto-document-content {
+    > article > p,
+    > article > ul,
+    > article > ol {
+      color: #3b424a;
+      line-height: 1.7;
+    }
+    .quarto-title-meta {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+    .quarto-title-meta-heading {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+  }
+
   /* Listing: table layout (talks) */
   .quarto-listing-container-table {
     border-radius: 12px;
