@@ -145,19 +145,6 @@ warning: false
         </div>
       </div>
 
-      <!-- Slide 4  -->
-      <div class="carousel-item">
-        <div class="portfolio-card mx-auto">
-          <div class="badge-tag">LLM + RAG</div>
-          <img src="/assets/images/home/chatbot-banner.png" class="img-fluid mb-4" alt="DataScienceYapper RAG chatbot">
-          <h3 class="mb-2">DataScienceYapper (Client-side LLM + RAG)</h3>
-          <p class="proj-meta"><strong>Problem:</strong> Visitors need fast, private answers about my work without server costs.</p>
-          <p class="proj-meta"><strong>Approach:</strong> Implemented in-browser LLM with retrieval over site content; no data leaves the client.</p>
-          <p class="proj-meta"><strong>Demonstrates:</strong> Modern web ML, RAG design, UX, and performance-minded engineering.</p>
-          <a href="#openChat" class="cta-button cta-button--ghost">Open Chat →</a>
-        </div>
-      </div>
-
     </div>
 
     <!-- Carousel Controls -->
