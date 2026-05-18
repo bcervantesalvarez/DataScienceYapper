@@ -3,6 +3,9 @@ project:
   output-dir: docs
   resources:
     - styles/**
+    - CNAME
+    - .nojekyll
+    - ads.txt
 website:
   favicon: images/preview.png
   twitter-card: true
