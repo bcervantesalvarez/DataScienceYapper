@@ -16,12 +16,14 @@ website:
     right:
       - text: "About"
         href: content/about/index.qmd
-      - text: "Projects"
-        href: content/projects/index.qmd
-      - text: "Blog"
-        href: content/blog/index.qmd
-      - text: "Talks"
-        href: content/talks/index.qmd
+      - text: "Works"
+        menu:
+          - text: "Projects"
+            href: content/projects/index.qmd
+          - text: "Talks"
+            href: content/talks/index.qmd
+          - text: "Blog"
+            href: content/blog/index.qmd
       - text: "Resources"
         href: content/resources/index.qmd
   page-footer:
