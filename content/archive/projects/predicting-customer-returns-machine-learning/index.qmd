@@ -535,8 +535,8 @@ align_columns <- function(train_df, test_df, outcome = "Returned") {
 ```{r}
 # A.5 -- Creating the Feature-Engineered Datasets
 
-train_path <- file.path("../../../data", "customerReturnTrain.csv")
-test_path  <- file.path("../../../data", "customerReturnTest.csv")
+train_path <- file.path("../../../../data", "customerReturnTrain.csv")
+test_path  <- file.path("../../../../data", "customerReturnTest.csv")
 
 train_df <- read.csv(train_path, stringsAsFactors = FALSE)
 test_df  <- read.csv(test_path, stringsAsFactors = FALSE)
