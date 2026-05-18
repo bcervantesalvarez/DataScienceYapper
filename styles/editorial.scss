@@ -228,6 +228,49 @@
   .l-contact h2 { margin-bottom: 0.5rem; }
   .l-contact p { max-width: 50ch; margin: 0 auto 1.5rem; }
 
+  /* Pulsing employment-status banner */
+  .l-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1.05rem;
+    margin: 0 0 1.5rem;
+    background: #0d6e44;
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 0 0 0 rgba(13, 110, 68, 0.55);
+    animation: l-status-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .l-status strong {
+    font-weight: 800;
+    color: #ffffff;
+  }
+  .l-status-dot {
+    width: 9px;
+    height: 9px;
+    background: #ffffff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: l-status-blink 1.4s ease-in-out infinite;
+  }
+  .l-status-sep { opacity: 0.55; margin: 0 0.15rem; }
+  @keyframes l-status-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(13, 110, 68, 0.55); }
+    70%  { box-shadow: 0 0 0 14px rgba(13, 110, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(13, 110, 68, 0); }
+  }
+  @keyframes l-status-blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(0.85); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .l-status,
+    .l-status-dot { animation: none; }
+  }
+
   /* Resume note */
   .l-resume {
     display: flex;

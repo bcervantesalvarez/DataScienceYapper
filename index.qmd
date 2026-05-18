@@ -17,6 +17,12 @@ warning: false
   <div class="l-wrap">
     <div class="l-hero-row">
       <div>
+        <div class="l-status" role="status" aria-live="polite">
+          <span class="l-status-dot" aria-hidden="true"></span>
+          <span>
+            <strong>Employed at Oregon Department of Education</strong><span class="l-status-sep"> · </span>Business Intelligence Analyst<span class="l-status-sep"> · </span>Since December 8, 2025
+          </span>
+        </div>
         <p class="l-eyebrow">Brian Cervantes Alvarez</p>
         <h1>Statistician and data scientist building tools people actually use.</h1>
         <p class="l-lede">
