@@ -18,6 +18,6 @@ format:
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "Talks across applied data science and statistics — practical Quarto + GitHub Pages workflows, interactive teaching with webR, logistic regression for loan approval, survival analysis of pesticide toxicity, and handling missing data with MICE."
 ---

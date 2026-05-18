@@ -6,7 +6,7 @@ date-modified: today
 description: "Our project sets a new bar in wine origin identification, transforming how industry professionals use critic data."
 teaser: "Classifying wine origin with advanced data analysis and ML."
 categories: ["Machine Learning"]
-image: /assets/images/pinot.jpeg
+image: /images/pinot.jpeg
 format:
   html:
     code-tools: true
@@ -21,14 +21,14 @@ execute:
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I developed a predictive Random Forest model to classify the province of wine origin using critic-provided descriptions, utilizing advanced text preprocessing and feature engineering techniques such as tokenization, stemming, and stop-word removal. Through hyperparameter tuning and cross-validation, I achieved a strong Kappa score of 82%, indicating high accuracy and reliability in predicting wine origins based on sensory descriptors. The project demonstrates my proficiency in NLP, machine learning model building, and rigorous evaluation methodologies."
 ---
 
 
 
 
-![](/assets/images/pinot.jpeg)
+![](/images/pinot.jpeg)
 
 ## Purpose
 
@@ -48,7 +48,7 @@ library(SnowballC)
 
 ```{r}
 
-wine = read_rds("../../../assets/datasets/pinot.rds") 
+wine = read_rds("../../../data/pinot.rds") 
 
 wine_words <- function(df, j, stem = T){ 
   data(stop_words)

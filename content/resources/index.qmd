@@ -24,7 +24,7 @@ format:
 
       <a class="l-card" href="https://quarto.org" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/quartoLogo.jpeg" alt="Quarto Logo">
+          <img src="/images/quartologo.jpeg" alt="Quarto Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Publishing</p>
@@ -35,7 +35,7 @@ format:
 
       <a class="l-card" href="https://posit.co" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/positLogo.jpeg" alt="Posit Logo">
+          <img src="/images/positlogo.jpeg" alt="Posit Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Tools</p>
@@ -46,7 +46,7 @@ format:
 
       <a class="l-card" href="https://shiny.posit.co/" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/shinyLogo.png" alt="Shiny Logo">
+          <img src="/images/shinylogo.png" alt="Shiny Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Apps</p>
@@ -57,7 +57,7 @@ format:
 
       <a class="l-card" href="https://pages.github.com/" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/githubPagesLogo.png" alt="GitHub Pages Logo">
+          <img src="/images/githubpageslogo.png" alt="GitHub Pages Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Hosting</p>
@@ -68,7 +68,7 @@ format:
 
       <a class="l-card" href="https://www.rfordatasci.com/" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/r4dsLogo.png" alt="R for Data Science Logo">
+          <img src="/images/r4dslogo.png" alt="R for Data Science Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Community</p>
@@ -79,7 +79,7 @@ format:
 
       <a class="l-card" href="https://www.r-bloggers.com/" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/rbloggersLogo.png" alt="R-bloggers Logo">
+          <img src="/images/rbloggerslogo.png" alt="R-bloggers Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Reading</p>
@@ -90,7 +90,7 @@ format:
 
       <a class="l-card" href="https://rweekly.org/" target="_blank" rel="noreferrer">
         <div class="l-card-media">
-          <img src="/assets/images/rweeklyLogo.jpeg" alt="R Weekly Logo">
+          <img src="/images/rweeklylogo.jpeg" alt="R Weekly Logo">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Newsletter</p>

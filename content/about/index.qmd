@@ -27,7 +27,7 @@ format:
           <a href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" class="l-btn l-btn--ghost">LinkedIn</a>
         </div>
       </div>
-      <img src="/assets/images/profile.JPG" alt="Portrait of Brian Cervantes Alvarez"
+      <img src="/images/profile.jpg" alt="Portrait of Brian Cervantes Alvarez"
            class="l-portrait" loading="eager">
     </div>
   </div>
@@ -162,35 +162,35 @@ format:
 
     <div class="l-travel-grid">
       <figure class="l-travel-item">
-        <img src="/assets/images/about/Madrid.jpeg" alt="Madrid, Spain" loading="lazy">
+        <img src="/images/about/madrid.jpeg" alt="Madrid, Spain" loading="lazy">
         <figcaption class="l-travel-cap">
           <strong>Madrid</strong>
           <span>Dec 12–13, 2024</span>
         </figcaption>
       </figure>
       <figure class="l-travel-item">
-        <img src="/assets/images/about/Barcelona.JPG" alt="Barcelona, Spain" loading="lazy">
+        <img src="/images/about/barcelona.jpg" alt="Barcelona, Spain" loading="lazy">
         <figcaption class="l-travel-cap">
           <strong>Barcelona</strong>
           <span>Dec 14, 2024</span>
         </figcaption>
       </figure>
       <figure class="l-travel-item">
-        <img src="/assets/images/about/Venice.JPG" alt="Venice, Italy" loading="lazy">
+        <img src="/images/about/venice.jpg" alt="Venice, Italy" loading="lazy">
         <figcaption class="l-travel-cap">
           <strong>Venice</strong>
           <span>Dec 15–17, 2024</span>
         </figcaption>
       </figure>
       <figure class="l-travel-item">
-        <img src="/assets/images/about/Rome.JPG" alt="Rome, Italy" loading="lazy">
+        <img src="/images/about/rome.jpg" alt="Rome, Italy" loading="lazy">
         <figcaption class="l-travel-cap">
           <strong>Rome</strong>
           <span>Dec 18–20, 2024</span>
         </figcaption>
       </figure>
       <figure class="l-travel-item">
-        <img src="/assets/images/about/France.jpg" alt="Paris, France" loading="lazy">
+        <img src="/images/about/france.jpg" alt="Paris, France" loading="lazy">
         <figcaption class="l-travel-cap">
           <strong>Paris</strong>
           <span>Dec 21–22, 2024</span>

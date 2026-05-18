@@ -5,7 +5,7 @@ author: "Brian Cervantes Alvarez"
 date: "08-12-2024"
 date-modified: today
 date-format: long
-image: /assets/images/webR.png
+image: /images/webr.png
 format: 
     html:
         code-tools: true
@@ -25,12 +25,12 @@ filters:
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I built an interactive lab using webR to run R code directly in the browser, streamlining the setup process and providing students with immediate access to real-time data wrangling and visualization tools. I demonstrated key techniques—filtering, selecting, mutating, summarizing, reshaping data, and handling missing values—integrated with dynamic visualizations using ggplot2 to make complex concepts tangible and accessible. This lab showcases how webR transforms the learning experience by offering instant feedback and hands-on exploration, enabling students to master data manipulation skills efficiently."
 ---
 
 ::: {style="text-align: center; padding-top: 10px; padding-bottom: 10px;"}
-<img src="/assets/images/webR.png" style="height: 400px;"/>
+<img src="/images/webr.png" style="height: 400px;"/>
 :::
 
 # The Case for `webR`
@@ -56,7 +56,7 @@ For example, when teaching data wrangling concepts such as filtering, selecting,
 ```{webr-r}
 #| autorun: TRUE
 # Sample code block for demonstration
-url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/refs/heads/main/assets/datasets/countries.csv"
+url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/refs/heads/main/data/countries.csv"
 download.file(url, "countries.csv")
 countriesDs <- read_csv("countries.csv", show_col_types = FALSE)
 ```
@@ -149,7 +149,7 @@ library(lubridate)
 ```{webr-r}
 #| autorun: TRUE
 # Specify the data URL using HTTPS
-url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/main/assets/datasets/countries.csv"
+url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/main/data/countries.csv"
 
 # Download the data files from the HTTPS URL and save it as
 # countries.csv

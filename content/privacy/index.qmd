@@ -7,7 +7,7 @@ format:
     code-tools: false
     include-in-header:
       - text: |
-          <script type="text/javascript" src="/assets/scripts/privacy/privacyForm.js" defer></script>
+          <script type="text/javascript" src="/scripts/privacy-form.js" defer></script>
 ---
 
 ```{=html}

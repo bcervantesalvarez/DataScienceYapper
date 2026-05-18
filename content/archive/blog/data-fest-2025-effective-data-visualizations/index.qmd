@@ -2,7 +2,7 @@
 title: "Effective Data Visualizations for DataFest"
 author: "Brian Cervantes Alvarez"
 date: "April 3, 2025"
-image: /assets/images/datafest_GPT4o.png
+image: /images/datafest_gpt4o.png
 format: 
   html:
     code-tools: true
@@ -13,12 +13,12 @@ message: false
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I created a professional guide on effective data visualization tailored for the ASA DataFest competition, emphasizing the appropriate selection of chart types based on data structures, and clearly differentiating static and interactive visualizations. I included practical examples demonstrating both strong and weak visuals, highlighting common pitfalls like misleading axes and unnecessary complexity. I provided guidance to participants, so they can enhance visualization effectiveness under tight deadlines."
 ---
 
 
-![](/assets/images/datafest_GPT4o.png)
+![](/images/datafest_gpt4o.png)
 
 ## Introduction
 
@@ -125,7 +125,7 @@ p <- ggplot(df, aes(x = Quarter, y = Sales)) +
 
 p_with_logo <- ggdraw(p) +
   draw_image(
-    "../../../assets/images/toyotaLogo.png",
+    "../../../images/toyotalogo.png",
     x = 1,        # X position near the right edge
     y = 1,        # Y position near the top edge
     hjust = 1,    # Right-align the image

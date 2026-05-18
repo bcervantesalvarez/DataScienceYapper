@@ -9,9 +9,9 @@ categories: ["Statistics"]
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I conducted symptom-based severity prediction using a Random Forest model, performing exploratory analysis, strategic feature engineering, and comprehensive evaluations. I successfully classified patient severity into Mild, Moderate, and Severe categories, achieving strong model performance metrics (ROC AUC = 0.95, Recall = 90%, Precision = 91.3%, Kappa = 0.85). These results enable personalized healthcare strategies by providing clear classification rules based on symptoms."
-image: /assets/images/severity.jpeg
+image: /images/severity.jpeg
 format:
   html:
     code-tools: true
@@ -28,7 +28,7 @@ execute:
 jupyter: python3
 ---
 
-![](/assets/images/severity.jpeg)
+![](/images/severity.jpeg)
 
 
 # Abstract
@@ -69,7 +69,7 @@ from sklearn.metrics import (                        # Library for model evaluat
 )
 
 # Load the dataset
-ds = pd.read_csv("../../../assets/datasets/severityLevels.csv")  
+ds = pd.read_csv("../../../data/severitylevels.csv")  
 ds.head(10)  # Display the first 10 rows of the dataset
 ```
 

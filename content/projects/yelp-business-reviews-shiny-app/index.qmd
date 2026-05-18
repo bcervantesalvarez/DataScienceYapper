@@ -6,7 +6,7 @@ date-modified: today
 description: "An interactive Shiny dashboard for exploring Yelp business reviews, spatial patterns, and advanced spatial modeling."
 teaser: "Explore Yelp reviews and spatial trends using our interactive dashboard."
 categories: ["Interactive Visualizations"]
-image: /assets/images/yelpBurst.svg
+image: /images/yelpburst.svg
 format:  
   html:
     code-tools: true
@@ -17,12 +17,12 @@ execute:
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I developed an interactive Shiny dashboard for spatial analysis and visualization of Yelp business reviews, enabling users to explore geographic patterns, star ratings, and business attributes through interactive mapping and dynamic plots. The dashboard incorporates advanced geostatistical analysis features, including variogram modeling, allowing users to assess spatial autocorrelation effects on Yelp star ratings through customizable parameters such as Partial Sill, Range, Nugget, and Kappa. This interactive tool leverages spatial analytics and visualization to reveal hidden patterns and provide insightful spatial interpretations of Yelp review data."
 ---
 
 
-![](/assets/images/yelpBurst.svg)
+![](/images/yelpburst.svg)
 
 Welcome to the Yelp Review Dashboard – an interactive Shiny application designed to help you explore and analyze Yelp business reviews and spatial patterns. This dashboard allows you to:
 

@@ -8,7 +8,7 @@ date-modified: today
 description: "Expertly predicting $50K+ incomes through ML, our project highlights the synergy of data science skills and team collaboration."
 teaser: "Accurately classify individuals by income bracket using advanced ML."
 categories: ["Machine Learning"]
-image: /assets/images/income.jpeg
+image: /images/income.jpeg
 bibliography: "bibliography.bib"
 nocite: |
   @*
@@ -26,12 +26,12 @@ execute:
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "We conducted a comprehensive machine learning analysis aiming to predict if individuals earn more than $50K, involving feature engineering, PCA for dimensionality reduction, and building predictive models including Random Forest, Gradient Boosting Machines (GBM), Logistic Regression, and KMeans clustering. We achieved exceptional model performance, with the GBM model yielding a Kappa score of 0.9543 and an accuracy of 98.3%, significantly improved by careful hyperparameter tuning and PCA integration. KPIs clearly presented include Kappa scores, accuracy, sensitivity (99.3%), and specificity (95.3%), reflecting the robustness and precision of the model we developed"
 ---
 
 
-![](/assets/images/income.jpeg)
+![](/images/income.jpeg)
 
 ## Project Overview
 
@@ -60,7 +60,7 @@ library(randomForest)
 ### Load The Data
 
 ```{r}
-income = read_csv("../../../assets/datasets/openml_1590.csv", na = c("?")) %>%
+income = read_csv("../../../data/openml_1590.csv", na = c("?")) %>%
   drop_na() %>%
   mutate(income_above_50K = ifelse(class == ">50K",1,0)) %>%
   select(-class) %>%

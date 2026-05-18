@@ -9,8 +9,8 @@ categories: ["Interactive Visualizations"]
 format: 
   dashboard:
     orientation: columns
-    logo: /assets/images/olympics-logo.svg
-image: /assets/images/olympics-logo.svg
+    logo: /images/olympics-logo.svg
+image: /images/olympics-logo.svg
 code-tools: true
 execute: 
   warning: false
@@ -31,7 +31,7 @@ library(forcats)
 ```{r}
 #| label: load-data
 #| message: false
-olympics_full <- read_csv("../../../assets/datasets/olympics.csv")
+olympics_full <- read_csv("../../../data/olympics.csv")
 ```
 
 ```{r}

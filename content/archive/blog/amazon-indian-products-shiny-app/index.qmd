@@ -3,7 +3,7 @@ title: "Building A Quick Dashboard For Amazon Products (EN.)"
 author: "Brian Cervantes Alvarez"
 date: "04-21-2023"
 date-modified: today
-image: /assets/images/AmazonLogo.jpeg
+image: /images/amazonlogo.jpeg
 description: "Explore Amazon products in India with our Shiny app. Discover categories with the highest ratings and reviews. Efficient, informative, and visually appealing."
 bibliography: "bibliography.bib"
 nocite: |
@@ -24,11 +24,11 @@ categories: [R, Shiny, CSS, Data Tables, Data Visualization, Dashboard]
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I built a Shiny dashboard to analyze Amazon products in India by integrating multiple datasets, performing extensive data wrangling, and applying advanced CSS theming to enhance design and efficiency. I developed interactive visualizations using Plotly and DT to display average product ratings and review counts across categories, facilitating easy exploration and comparison. My work demonstrates strong skills in data processing, dynamic UI development, and effective dashboard design for clear, insightful data analysis."
 ---
 
-![](/assets/images/AmazonLogo.jpeg)
+![](/images/amazonlogo.jpeg)
 
 ## Abstract
 

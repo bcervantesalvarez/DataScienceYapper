@@ -3,7 +3,7 @@ title: "Parameterized Reports"
 author: "Brian Cervantes Alvarez"
 date: "4-03-2023"
 date-modified: today
-image: /assets/images/report.jpeg
+image: /images/report.jpeg
 description: "Achieving peak productivity in data analysis with automated R Markdown reports, minimizing effort and errors."
 bibliography: "bibliography.bib"
 nocite: |
@@ -26,11 +26,11 @@ categories: [R, Plotly, Reports, Time Series, Data Visualization]
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I automated the report generation process using parameterized R Markdown, which allowed me to update the `year` parameter dynamically and consistently produce reports without manual intervention. I developed custom themes and employed ggplotly to create interactive time series visualizations of monthly sales data, ensuring each report accurately reflected key trends and patterns. Additionally, I implemented a loop to render separate reports for multiple years, demonstrating efficiency and reproducibility in automated data reporting workflows."
 ---
 
-![](/assets/images/report.jpeg)
+![](/images/report.jpeg)
 
 ## Objective
 
@@ -82,7 +82,7 @@ library(purrr)
 ## Load Dataset & Wrangle
 
 ```{r}
-ds <- read_csv("../../../assets/datasets/retail.csv")
+ds <- read_csv("../../../data/retail.csv")
 
 #head(ds)
 

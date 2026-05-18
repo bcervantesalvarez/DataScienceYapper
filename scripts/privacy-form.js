@@ -1,4 +1,4 @@
-// /assets/scripts/privacy/privacyForm.js
+// /scripts/privacy-form.js
 //
 // Hardens the contact form on /content/privacy/ against the most common
 // drive-by spam:

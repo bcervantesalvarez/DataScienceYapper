@@ -29,7 +29,7 @@ warning: false
           <a href="#work" class="l-btn l-btn--ghost">See selected work</a>
         </div>
       </div>
-      <img src="/assets/images/profile2.JPG" alt="Portrait of Brian Cervantes Alvarez"
+      <img src="/images/profile2.jpg" alt="Portrait of Brian Cervantes Alvarez"
            class="l-portrait" loading="eager">
     </div>
   </div>
@@ -47,7 +47,7 @@ warning: false
     <div class="l-grid">
       <a class="l-card" href="/content/projects/united-kingdom-car-accident-shiny-app/">
         <div class="l-card-media">
-          <img src="/assets/images/ukCarAccident.webp" alt="UK Car Accident Shiny App">
+          <img src="/images/ukcaraccident.webp" alt="UK Car Accident Shiny App">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Shiny · Analytics app</p>
@@ -61,7 +61,7 @@ warning: false
 
       <a class="l-card" href="/content/projects/wine-multivariate-statistical-analysis/">
         <div class="l-card-media">
-          <img src="/assets/images/redwhite.jpeg" alt="Wine Multivariate Analysis">
+          <img src="/images/redwhite.jpeg" alt="Wine Multivariate Analysis">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Statistical modeling</p>
@@ -75,7 +75,7 @@ warning: false
 
       <a class="l-card" href="/content/projects/yelp-business-reviews-shiny-app/">
         <div class="l-card-media">
-          <img src="/assets/images/yelpBurst.svg" alt="Yelp Business Reviews Shiny App">
+          <img src="/images/yelpburst.svg" alt="Yelp Business Reviews Shiny App">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Shiny · Geospatial</p>
@@ -102,7 +102,7 @@ warning: false
     <div class="l-grid">
       <a class="l-card" href="/content/blog/interactive-teaching-with-webr/" style="grid-column: span 1;">
         <div class="l-card-media">
-          <img src="/assets/images/webR.png" alt="Interactive Teaching with webR">
+          <img src="/images/webr.png" alt="Interactive Teaching with webR">
         </div>
         <div class="l-card-body">
           <p class="l-card-tag">Teaching · webR</p>
@@ -178,8 +178,8 @@ warning: false
     <div class="l-resume">
       <p><strong>Looking for the full resume?</strong> Download the PDF or open it in a new tab.</p>
       <div class="l-cta-row" style="margin:0;">
-        <a class="l-btn l-btn--ghost" href="/assets/documents/resume/BCA-Resume.pdf" download="Brian-Cervantes-Alvarez-Resume.pdf">Download PDF</a>
-        <a class="l-btn l-btn--ghost" href="/assets/documents/resume/BCA-Resume.pdf" target="_blank" rel="noreferrer">Open in new tab</a>
+        <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" download="Brian-Cervantes-Alvarez-Resume.pdf">Download PDF</a>
+        <a class="l-btn l-btn--ghost" href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer">Open in new tab</a>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ author:
 date: "12-02-2022"
 date-modified: today
 description: "Collaborating with Corey Cassell, we've developed an interactive tool aiding students in career and financial planning, empowering informed decisions."
-image: /assets/images/uni.jpeg
+image: /images/uni.jpeg
 bibliography: "bibliography.bib"
 nocite: |
      @*
@@ -22,11 +22,11 @@ categories: [R, Shiny, Data Visualization, Dashboard]
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I collaborated with Corey Cassell to build an interactive Shiny dashboard that empowers high school students to make informed decisions by estimating salaries, tuition costs, and student debt. I performed extensive data wrangling on multiple datasets, implemented responsive UI elements, and developed custom visualizations using ggplot2 and Plotly to dynamically showcase higher education financial metrics. This project demonstrates my proficiency in integrating complex data pipelines, crafting interactive interfaces, and delivering insightful, user-friendly visualizations that guide future college financial planning."
 ---
 
-![](/assets/images/uni.jpeg)
+![](/images/uni.jpeg)
 
 
 ## Overview
@@ -59,10 +59,10 @@ library(scales)
 library(ggplot2)
 
 # Reading necessary files from GitHub
-allAgesDf <- read_csv("../../../assets/datasets/all-ages.csv")
-tuition_cost <- read_csv("../../../assets/datasets/tuition_income.csv")
-tuition <- read_csv("../../../assets/datasets/tuition_cost.csv")
-ds4 <- read_csv("../../../assets/datasets/salary_and_stats.csv")
+allAgesDf <- read_csv("../../../data/all-ages.csv")
+tuition_cost <- read_csv("../../../data/tuition_income.csv")
+tuition <- read_csv("../../../data/tuition_cost.csv")
+ds4 <- read_csv("../../../data/salary_and_stats.csv")
 
 # Wrangling Salary Potential
 # This section prepares data related to salary estimates for various majors.

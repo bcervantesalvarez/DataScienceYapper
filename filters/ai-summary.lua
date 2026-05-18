@@ -1,4 +1,4 @@
--- /assets/lua/ai-summary.lua
+-- /filters/ai-summary.lua
 function Pandoc(doc)
   if doc.meta["ai-summary"] then
     local meta = doc.meta["ai-summary"]
@@ -6,7 +6,7 @@ function Pandoc(doc)
     -- Extract values, with sensible defaults if a key is missing
     local bannerTitle = pandoc.utils.stringify(meta["banner-title"] or "Yapper Labs | AI Summary")
     local modelTitle  = pandoc.utils.stringify(meta["model-title"] or "Model: o3-mini-high")
-    local modelImg    = pandoc.utils.stringify(meta["model-img"] or "/assets/images/OpenAI-white-monoblossom.svg")
+    local modelImg    = pandoc.utils.stringify(meta["model-img"] or "/images/openai-white-monoblossom.svg")
     local summaryText = pandoc.utils.stringify(meta["summary"] or "")
 
     -- Define basic CSS for the banner

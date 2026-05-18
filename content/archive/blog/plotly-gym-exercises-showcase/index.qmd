@@ -1,7 +1,7 @@
 ---
 title: "Do You Like Stretching? I Would Reconsider!"
 author: "Brian Cervantes Alvarez"
-image: /assets/images/gymRat.jpeg
+image: /images/gymrat.jpeg
 date: "2-24-2023"
 date-modified: today
 description: "Stretching enhances flexibility but lacks muscle-building benefits. Weight training and resistance exercises stimulate muscle growth. Supplement, not substitute, for effective muscle building."
@@ -24,11 +24,11 @@ categories: [R, Data Visualization, Plotly]
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT o3-mini-high"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I imported and cleaned a gym dataset using tidyverse to properly factorize variables, remove missing values, and prepare the data for analysis. I then computed mean workout ratings by exercise type and experience level and created interactive Plotly visualizations with a custom ggplot theme to rank these exercises. My analysis revealed that while stretching improves flexibility and reduces injury risk, it consistently ranks the lowest for muscle building compared to weight training, emphasizing its role as a supplementary activity."
 ---
 
-![](/assets/images/gymRat.jpeg)
+![](/images/gymrat.jpeg)
 
 
 ## Abstract
@@ -59,7 +59,7 @@ loadfonts()
 ## Data Wrangling
 
 ```{r}
-gymDs <- read_csv("../../../assets/datasets/megaGymDataset.csv")
+gymDs <- read_csv("../../../data/megagymdataset.csv")
 
 # head(gymDs, 5)
 # names(gymDs)

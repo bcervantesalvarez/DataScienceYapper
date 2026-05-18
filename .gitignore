@@ -164,14 +164,11 @@ $RECYCLE.BIN/
 .DS_Store
 
 /.quarto/
-./assets/datasets/Card-Transaction_log.csv
+data/
 /content/blog/Capstone
 
-
-assets/datasets/
-
-./assets/datasets/amazonProducts.csv
-assets/datasets/amazonProducts.csv
+# Keep dataset readme tracked
+!data/readme.md
 
 /.luarc.json
 

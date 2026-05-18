@@ -10,9 +10,9 @@ bibliography: "bibliography.bib"
 ai-summary:
   banner-title: "Yapper Labs | AI Summary"
   model-title: "Model: ChatGPT 4.5"
-  model-img: "/assets/images/OpenAI-white-monoblossom.svg"
+  model-img: "/images/openai-white-monoblossom.svg"
   summary: "I developed a Random Forest model with repeated 5-fold cross-validation (3 repeats) to accurately predict customer product returns, achieving 97.8% accuracy, a Kappa of 0.95, and an AUC of 0.98—significantly outperforming the baseline (AUC=0.625). He executed comprehensive exploratory data analysis, engineered strategic features like customer demographics, product price sensitivity, and seasonal trends, and created an interactive dashboard for actionable decision-making. This model greatly enhances profitability and customer satisfaction by proactively identifying potential returns."
-image: /assets/images/return.jpeg
+image: /images/return.jpeg
 nocite: |
   @*
 format:
@@ -28,7 +28,7 @@ execute:
 ---
 
 
-![](/assets/images/return.jpeg)
+![](/images/return.jpeg)
 
 
 
@@ -50,19 +50,19 @@ This analysis aimed to predict customer product returns, leveraging detailed pro
 We then generated the following plots to visualize return behavior in more depth:
 
 1. **Returned Orders by Department**  
-   ![](/assets/images/ReturnedOrdersByDept.png)
+   ![](/images/returnedordersbydept.png)
 
 2. **Returned Orders by Product Size**  
-   ![](/assets/images/ReturnedOrdersBySize.png)
+   ![](/images/returnedordersbysize.png)
 
 3. **Returned Orders by State and Region**  
-   ![](/assets/images/ReturnedOrdersByStateRegion.png)
+   ![](/images/returnedordersbystateregion.png)
 
 4. **State Contribution to Total Returns** (Lollipop Chart)  
-   ![](/assets/images/StateContribution.png)
+   ![](/images/statecontribution.png)
 
 5. **Standardized Returns by State** (Per 100k Population)  
-   ![](/assets/images/StandardizedReturnsByState.png)
+   ![](/images/standardizedreturnsbystate.png)
 
 ## Strategic Feature Engineering
 
@@ -171,8 +171,8 @@ library(pROC)
 
 ```{r}
 # A.2 -- Read CSVs, Merge Region & Population
-train <- read_csv("../../../assets/datasets/customerReturnTrain.csv") 
-test  <- read_csv("../../../assets/datasets/customerReturnTest.csv") 
+train <- read_csv("../../../data/customerreturntrain.csv") 
+test  <- read_csv("../../../data/customerreturntest.csv") 
 
 state_regions <- tibble::tribble(
   ~CustomerState,    ~Region,
@@ -327,7 +327,7 @@ ReturnedOrdersByDept <- ggplot(
     plot.title = element_text(face = "bold"),
     plot.subtitle = element_text(color = "gray20")
   )
-ggsave("ReturnedOrdersByDept.png", plot = ReturnedOrdersByDept, width = 10, height = 10)
+ggsave("returnedordersbydept.png", plot = ReturnedOrdersByDept, width = 10, height = 10)
 
 # 2. Returned Orders by Product Size
 ReturnedOrdersBySize <- ggplot(
@@ -346,7 +346,7 @@ ReturnedOrdersBySize <- ggplot(
     plot.title = element_text(face = "bold"),
     plot.subtitle = element_text(color = "gray20")
   )
-ggsave("ReturnedOrdersBySize.png", plot = ReturnedOrdersBySize, width = 10, height = 10)
+ggsave("returnedordersbysize.png", plot = ReturnedOrdersBySize, width = 10, height = 10)
 
 # 3. Returned Orders by State & Region
 ReturnedOrdersByStateRegion <- ggplot(
@@ -368,7 +368,7 @@ ReturnedOrdersByStateRegion <- ggplot(
     strip.text = element_text(face = "bold", color = "white"),
     plot.title = element_text(face = "bold")
   )
-ggsave("ReturnedOrdersByStateRegion.png", plot = ReturnedOrdersByStateRegion, width = 10, height = 10)
+ggsave("returnedordersbystateregion.png", plot = ReturnedOrdersByStateRegion, width = 10, height = 10)
 
 # 4. State Contribution (Lollipop)
 train_returns_by_state <- train %>%
@@ -396,7 +396,7 @@ StateContribution <- ggplot(train_returns_by_state,
     plot.title = element_text(face = "bold"),
     plot.subtitle = element_text(color = "gray30")
   )
-ggsave("StateContribution.png", plot = StateContribution, width = 10, height = 10)
+ggsave("statecontribution.png", plot = StateContribution, width = 10, height = 10)
 
 # 5. Standardized Returns by State
 train_returns_by_state_pop <- train %>%
@@ -427,7 +427,7 @@ StandardizedReturnsByState <- ggplot(
     plot.title = element_text(face = "bold"),
     plot.subtitle = element_text(color = "gray30")
   )
-ggsave("StandardizedReturnsByState.png", plot = StandardizedReturnsByState, width = 10, height = 10)
+ggsave("standardizedreturnsbystate.png", plot = StandardizedReturnsByState, width = 10, height = 10)
 ```
 
 
@@ -535,8 +535,8 @@ align_columns <- function(train_df, test_df, outcome = "Returned") {
 ```{r}
 # A.5 -- Creating the Feature-Engineered Datasets
 
-train_path <- file.path("../../../assets/datasets", "customerReturnTrain.csv")
-test_path  <- file.path("../../../assets/datasets", "customerReturnTest.csv")
+train_path <- file.path("../../../data", "customerReturnTrain.csv")
+test_path  <- file.path("../../../data", "customerReturnTest.csv")
 
 train_df <- read.csv(train_path, stringsAsFactors = FALSE)
 test_df  <- read.csv(test_path, stringsAsFactors = FALSE)
@@ -615,7 +615,7 @@ ConfMatPlot <- ggplot(cm_df, aes(x = Prediction, y = Reference, fill = Freq)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
-ggsave("ConfMatrixRF.png", plot = ConfMatPlot, width = 8, height = 6)
+ggsave("confmatrixrf.png", plot = ConfMatPlot, width = 8, height = 6)
 
 # ROC Curve
 roc_obj <- pROC::roc(
@@ -628,7 +628,7 @@ auc_val <- pROC::auc(roc_obj)
 legend("bottomright", legend = sprintf("AUC = %.3f", auc_val), bty = "n")
 ```
 
-*(The confusion matrix plot is also saved as `ConfMatrixRF.png`.)*
+*(The confusion matrix plot is also saved as `confmatrixrf.png`.)*
 
 ---
 
