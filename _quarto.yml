@@ -51,7 +51,9 @@ format:
   html:
     citations-hover: true
     footnotes-hover: true
-    theme: assets/themes/MainThemeBCA.scss
+    theme:
+      - assets/themes/MainThemeBCA.scss
+      - assets/themes/editorial.scss
     highlight-style: github-dark
     include-in-header:
             - text: |
