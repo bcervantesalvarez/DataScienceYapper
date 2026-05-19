@@ -17,12 +17,28 @@ warning: false
   <div class="l-wrap">
     <div class="l-hero-row">
       <div>
-        <div class="l-status" role="status" aria-live="polite">
-          <span class="l-status-dot" aria-hidden="true"></span>
-          <span>
-            <strong>Currently:</strong> Business Intelligence Analyst, Oregon Department of Education<span class="l-status-sep"> · </span>Since Dec 8, 2025
+        <a class="l-status" role="status" aria-live="polite"
+           href="https://www.oregon.gov/ode/" target="_blank" rel="noreferrer"
+           aria-label="Currently employed at the Oregon Department of Education">
+          <span class="l-status-mark" aria-hidden="true">
+            <!-- Placeholder ODE seal. Replace with /images/ode-logo.png when
+                 you've grabbed the official artwork from oregon.gov/ode -->
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="23" fill="#0b2545"/>
+              <circle cx="24" cy="24" r="20" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+              <text x="24" y="29.5" text-anchor="middle"
+                    font-family="Georgia, 'Times New Roman', serif"
+                    font-weight="700" font-size="13.5" fill="#ffffff"
+                    letter-spacing="0.5">ODE</text>
+            </svg>
           </span>
-        </div>
+          <span class="l-status-body">
+            <span class="l-status-eyebrow">Currently engaged</span>
+            <strong class="l-status-org">Oregon Department of Education</strong>
+            <span class="l-status-role">Business Intelligence Analyst · Since Dec 8, 2025</span>
+          </span>
+          <span class="l-status-dot" aria-hidden="true"></span>
+        </a>
         <p class="l-eyebrow">Epsilon Labs</p>
         <h1>Decision-grade statistics, scoped to ship.</h1>
         <p class="l-lede">
