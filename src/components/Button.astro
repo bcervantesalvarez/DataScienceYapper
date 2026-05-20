@@ -1,0 +1,46 @@
+---
+// src/components/Button.astro
+// Primary or ghost CTA. Renders as <a> by default; pass `as="button"`
+// for form submits.
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'ghost';
+  as?: 'a' | 'button';
+  target?: '_blank' | '_self';
+  rel?: string;
+  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  as = href ? 'a' : 'button',
+  target,
+  rel,
+  type,
+  ariaLabel,
+  class: extra = '',
+} = Astro.props;
+
+const base = [
+  'inline-flex items-center gap-2 px-5 py-3 rounded-full',
+  'font-sans font-semibold text-sm tracking-tight no-underline',
+  'transition-colors duration-150 cursor-pointer',
+];
+const styles = variant === 'primary'
+  ? ['bg-ink text-bg border border-ink hover:bg-accent-ink hover:border-accent-ink']
+  : ['bg-transparent text-ink border border-rule-strong hover:bg-surface-soft hover:border-ink'];
+
+const cls = [...base, ...styles, extra].join(' ');
+---
+{as === 'a' ? (
+  <a href={href} target={target} rel={rel} aria-label={ariaLabel} class={cls}>
+    <slot />
+  </a>
+) : (
+  <button type={type ?? 'button'} aria-label={ariaLabel} class={cls}>
+    <slot />
+  </button>
+)}

@@ -1,0 +1,45 @@
+---
+title: "Multivariate Analysis: Wine Quality"
+description: "PCA and supervised models with diagnostics to separate signal from noise across correlated chemical features."
+tag: "Statistical modeling"
+date: 2025-03-15
+status: active
+---
+
+# Project overview
+
+> **Sample MDX entry.** This file demonstrates how content collections render.
+> Add new projects by dropping `.mdx` files into `src/content/projects/`.
+
+PCA and supervised classification on the UCI wine-quality dataset, with
+emphasis on:
+
+- **Feature collinearity** — correlated chemical predictors create
+  unstable coefficient estimates in straight OLS.
+- **Component interpretation** — projecting features onto the first
+  two principal components recovers a clean separation between red
+  and white wines.
+- **Supervised follow-up** — logistic regression and random forests
+  on the PC-rotated features, comparing AUC and calibration.
+
+## Methodology
+
+```r
+library(tidyverse)
+red   <- read_csv("data/winequality-red.csv")
+white <- read_csv("data/winequality-white.csv")
+
+wine <- bind_rows(
+  red   |> mutate(kind = "red"),
+  white |> mutate(kind = "white")
+)
+
+pca <- prcomp(select(wine, -kind, -quality), scale. = TRUE)
+```
+
+## Results
+
+The first two principal components capture ~52% of variance and
+visibly separate red from white wines without any class labels.
+Random forest on the PC-rotated features matches a tuned XGBoost
+within 0.5 AUC — interpretability for free.

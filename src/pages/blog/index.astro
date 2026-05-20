@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Card from '@components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('blog', ({ data }) => !data.draft && data.status === 'active');
+const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Blog" description="Practical notes on statistical practice, modeling, and analytical tooling.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Insights</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          From the blog.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          Practical notes on statistical practice, modeling, and analytical
+          tooling.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      {posts.length === 0 ? (
+        <p class="text-body">More writing is on the way.</p>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map(p => (
+            <Card
+              href={`/blog/${p.slug}`}
+              title={p.data.title}
+              description={p.data.description}
+              tag={p.data.tag}
+              image={p.data.image?.src}
+              imageAlt={p.data.title}
+            />
+          ))}
+        </div>
+      )}
+    </Section>
+
+  </div>
+</BaseLayout>

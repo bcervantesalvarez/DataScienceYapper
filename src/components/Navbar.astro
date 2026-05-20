@@ -1,0 +1,69 @@
+---
+// src/components/Navbar.astro
+// Edit `links` to change top-level navigation.
+const links = [
+  { href: '/about',     label: 'About'     },
+  { href: '/services',  label: 'Services'  },
+  { href: '/projects',  label: 'Projects'  },
+  { href: '/blog',      label: 'Blog'      },
+  { href: '/talks',     label: 'Talks'     },
+  { href: '/resources', label: 'Resources' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+<header class="sticky top-0 z-50 border-b border-rule bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
+  <nav class="max-w-wrap mx-auto px-6 py-4 flex items-center justify-between gap-6">
+    <a href="/" class="font-bold text-ink text-base tracking-tight hover:no-underline">
+      Epsilon&nbsp;Labs
+    </a>
+
+    <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0">
+      {links.map(l => (
+        <li class="m-0">
+          <a
+            href={l.href}
+            class:list={[
+              'inline-block px-3 py-2 rounded-lg font-medium text-sm transition-colors',
+              'no-underline',
+              isActive(l.href)
+                ? 'text-ink bg-surface-soft'
+                : 'text-body hover:text-ink hover:bg-surface-soft',
+            ]}
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      id="theme-toggle"
+      aria-label="Toggle color theme"
+      class="text-body hover:text-ink p-2 rounded-lg hover:bg-surface-soft transition-colors"
+    >
+      <svg class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="w-5 h-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+</script>

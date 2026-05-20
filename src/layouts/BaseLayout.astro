@@ -1,0 +1,68 @@
+---
+// src/layouts/BaseLayout.astro
+// Site shell: <html>, <head>, navbar, footer. Every page should use this.
+import Navbar from '@components/Navbar.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'Epsilon Labs',
+  description = 'Statistical consulting, predictive modeling, and decision-grade analytics by Brian Cervantes Alvarez.',
+  ogImage = '/images/preview.png',
+} = Astro.props;
+
+const fullTitle = title === 'Epsilon Labs' ? title : `${title} · Epsilon Labs`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- OpenGraph / Twitter -->
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Type -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500..800&display=swap"
+  />
+
+  <!-- Set theme before paint to avoid flash -->
+  <script is:inline>
+    (function () {
+      try {
+        const stored = localStorage.getItem('theme');
+        const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', stored || prefers);
+      } catch (e) { /* no-op */ }
+    })();
+  </script>
+</head>
+<body class="bg-bg text-body font-sans text-base">
+  <Navbar />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

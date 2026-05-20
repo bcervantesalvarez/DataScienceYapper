@@ -1,0 +1,199 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+---
+<BaseLayout title="Privacy Policy" description="How this site handles data, plus a contact form.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Privacy</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          Privacy policy.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          How this site handles the small amount of data it collects, and
+          how to reach me with questions.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      <article class="max-w-prose text-body">
+        <h2 class="font-sans text-2xl text-ink mt-0 mb-4">What is collected</h2>
+        <p>Two categories of data:</p>
+        <ul class="pl-6 mb-6 list-disc">
+          <li class="mb-2"><strong>Anonymous usage data.</strong> Pages visited, time on page, basic device or browser info. No personally identifying information.</li>
+          <li><strong>Voluntary information.</strong> Anything you send via the contact form below — name, email, and message.</li>
+        </ul>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">How it is used</h2>
+        <p class="mb-6">Anonymous metrics inform navigation, content, and performance improvements. Voluntary information is used only to reply to you. Never sold or shared beyond analytics processors that produce aggregate counts.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Your choices</h2>
+        <p>You can request deletion or modification of anything you've submitted by contacting me. Analytics can be opted out via the cookie banner, browser settings, or the
+          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noreferrer">Google Analytics opt-out extension</a>.</p>
+      </article>
+    </Section>
+
+    <Section eyebrow="Contact" title="Questions about this policy?">
+      <p class="text-lede text-body max-w-[60ch]">
+        Use the form below for privacy questions, suggestions on the
+        policy, or anything else worth a longer message.
+      </p>
+
+      <iframe id="policyFormTarget" name="policyFormTarget" title="Form submission target" style="display:none;border:0;"></iframe>
+
+      <form
+        id="policyForm"
+        class="flex flex-col gap-5 max-w-[540px] mt-6"
+        target="policyFormTarget"
+        action="https://script.google.com/macros/s/AKfycbwgvahSl92clLNtOoVs2yGhfninvTex3DbRFvOTDy9TSWVFuIgJ1L3BduhLu4EemVQ/exec"
+        method="POST"
+        autocomplete="on"
+        novalidate
+      >
+        <input type="hidden" name="_next" value="https://epsilon-labs.org/forms/thank-you/" />
+        <input type="hidden" name="referrer" value="" />
+        <input type="hidden" name="userAgent" value="" />
+        <input type="hidden" name="formLoadedAt" value="" />
+
+        <div class="hp-trap" aria-hidden="true">
+          <label for="hp_website">Website</label>
+          <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off" />
+          <label for="hp_phone">Phone</label>
+          <input type="text" id="hp_phone" name="phone" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">First name</span>
+          <input type="text" name="firstName" required maxlength="60" autocomplete="given-name"
+                 placeholder="First name"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Last name</span>
+          <input type="text" name="lastName" required maxlength="60" autocomplete="family-name"
+                 placeholder="Last name"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Profession</span>
+          <select name="profession" required
+                  class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10">
+            <option value="">Select…</option>
+            <option value="Student">Student</option>
+            <option value="Instructor or Professor">Instructor / Professor</option>
+            <option value="Recruiter">Recruiter</option>
+            <option value="Professional">Professional</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Email</span>
+          <input type="email" name="_replyto" required maxlength="120" inputmode="email" autocomplete="email"
+                 placeholder="you@example.com"
+                 class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10" />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-ink">Message</span>
+          <textarea name="message" required maxlength="3000" rows={6}
+                    placeholder="What's on your mind?"
+                    class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink min-h-[140px] resize-y focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10"></textarea>
+        </label>
+
+        <!-- Cloudflare Turnstile placeholder. Replace REPLACE_WITH_TURNSTILE_SITEKEY
+             with your Turnstile site key from https://dash.cloudflare.com/?to=/:account/turnstile -->
+        <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITEKEY" data-theme="light"></div>
+
+        <p id="policyFormStatus" role="status" aria-live="polite"
+           class="hidden px-4 py-3 rounded-lg border border-rule bg-surface-soft text-body text-sm"></p>
+
+        <Button as="button" type="submit" class="self-start">Send message</Button>
+
+        <p class="text-xs text-muted m-0">
+          I'll reply directly to the email you provide. Your data is used
+          only to respond.
+        </p>
+      </form>
+
+      <script>
+        // Three-gate spam defense: dual honeypot + dwell time + optional Turnstile
+        const MIN_DWELL_MS = 2500;
+        const SUBMIT_TIMEOUT_MS = 15000;
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const form = document.getElementById('policyForm');
+          if (!form) return;
+          const status = document.getElementById('policyFormStatus');
+          const submit = form.querySelector('button[type="submit"]');
+          const frame = document.getElementById('policyFormTarget');
+
+          form.querySelector('input[name="referrer"]').value = document.referrer || '';
+          form.querySelector('input[name="userAgent"]').value = navigator.userAgent || '';
+          form.querySelector('input[name="formLoadedAt"]').value = String(Date.now());
+
+          // Turnstile autoloader (only loads if a real key is set)
+          const widget = form.querySelector('.cf-turnstile');
+          const key = widget?.getAttribute('data-sitekey') ?? '';
+          if (!key || key.startsWith('REPLACE_WITH_')) {
+            widget && (widget.style.display = 'none');
+          } else if (!document.querySelector('script[data-cf-turnstile]')) {
+            const s = document.createElement('script');
+            s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            s.async = true; s.defer = true;
+            s.setAttribute('data-cf-turnstile', '1');
+            document.head.appendChild(s);
+          }
+
+          let pending = false, failsafe = null;
+          frame.addEventListener('load', () => {
+            if (!pending) return;
+            pending = false;
+            clearTimeout(failsafe);
+            location.href = form.querySelector('input[name="_next"]').value || '/';
+          });
+
+          form.addEventListener('submit', (e) => {
+            status.classList.remove('is-visible'); status.style.display = 'none';
+
+            const hpHit = ['website', 'phone'].some(n => {
+              const el = form.querySelector(`input[name="${n}"]`);
+              return el && el.value && el.value.trim().length > 0;
+            });
+            if (hpHit) {
+              e.preventDefault(); status.style.display = 'block';
+              status.textContent = 'Message could not be sent. Please try again.';
+              return;
+            }
+
+            const loaded = Number(form.querySelector('input[name="formLoadedAt"]').value || 0);
+            if (!loaded || Date.now() - loaded < MIN_DWELL_MS) {
+              e.preventDefault(); status.style.display = 'block';
+              status.textContent = 'Please take a moment before sending.';
+              return;
+            }
+
+            if (!form.checkValidity()) return;
+
+            pending = true;
+            submit.disabled = true; submit.textContent = 'Sending…';
+            status.style.display = 'block'; status.textContent = 'Sending your message…';
+
+            failsafe = setTimeout(() => {
+              pending = false;
+              submit.disabled = false; submit.textContent = 'Send message';
+              status.textContent = 'Submission stalled. Check your connection and try again.';
+            }, SUBMIT_TIMEOUT_MS);
+          });
+        });
+      </script>
+    </Section>
+
+  </div>
+</BaseLayout>

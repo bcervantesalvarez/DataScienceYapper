@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Card from '@components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => data.status === 'archived'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const blog = (await getCollection('blog', ({ data }) => data.status === 'archived'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const talks = (await getCollection('talks', ({ data }) => data.status === 'archived'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Archive" description="Past projects, blog posts, and talks kept for reference.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Archive</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          For reference.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          Past projects, blog posts, and talks. Held aside from the main
+          listings but kept reachable.
+        </p>
+      </div>
+    </section>
+
+    <Section eyebrow="Projects" first>
+      {projects.length === 0
+        ? <p class="text-body">No archived projects yet.</p>
+        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map(p => <Card href={`/projects/${p.slug}`} title={p.data.title} description={p.data.description} tag={p.data.tag} image={p.data.image?.src} imageAlt={p.data.title} />)}
+          </div>}
+    </Section>
+
+    <Section eyebrow="Blog">
+      {blog.length === 0
+        ? <p class="text-body">No archived posts yet.</p>
+        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blog.map(p => <Card href={`/blog/${p.slug}`} title={p.data.title} description={p.data.description} tag={p.data.tag} image={p.data.image?.src} imageAlt={p.data.title} />)}
+          </div>}
+    </Section>
+
+    <Section eyebrow="Talks">
+      {talks.length === 0
+        ? <p class="text-body">No archived talks yet.</p>
+        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {talks.map(t => <Card href={`/talks/${t.slug}`} title={t.data.title} description={t.data.description} tag="Talk" image={t.data.image?.src} imageAlt={t.data.title} />)}
+          </div>}
+    </Section>
+
+  </div>
+</BaseLayout>

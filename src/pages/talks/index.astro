@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('talks', ({ data }) => !data.draft && data.status === 'active');
+const talks = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString('en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title="Talks" description="Workshops, lectures, and applied analyses presented to live audiences.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Talks</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          Live audiences.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          Workshops, lectures, and applied analyses.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      {talks.length === 0 ? (
+        <p class="text-body">New talks will be posted here.</p>
+      ) : (
+        <div class="max-w-narrow border border-rule rounded-xl overflow-hidden bg-surface">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-surface-soft">
+                <th class="text-left px-5 py-3 font-semibold text-xs uppercase tracking-[0.1em] text-muted border-b border-rule">Date</th>
+                <th class="text-left px-5 py-3 font-semibold text-xs uppercase tracking-[0.1em] text-muted border-b border-rule">Title</th>
+                <th class="text-left px-5 py-3 font-semibold text-xs uppercase tracking-[0.1em] text-muted border-b border-rule hidden md:table-cell">Venue</th>
+              </tr>
+            </thead>
+            <tbody>
+              {talks.map(t => (
+                <tr class="border-b border-rule last:border-b-0 hover:bg-surface-soft transition-colors">
+                  <td class="px-5 py-4 text-sm text-muted whitespace-nowrap">{fmt(t.data.date)}</td>
+                  <td class="px-5 py-4">
+                    <a href={`/talks/${t.slug}`} class="text-ink font-semibold hover:text-accent no-underline">
+                      {t.data.title}
+                    </a>
+                    <div class="text-sm text-muted mt-1">{t.data.description}</div>
+                  </td>
+                  <td class="px-5 py-4 text-sm text-muted hidden md:table-cell">{t.data.venue ?? '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Section>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+
+const practiceAreas = [
+  { title: 'Statistical analysis & modeling',
+    body: 'Experimental design, hypothesis testing, regression, Bayesian inference, survival analysis. The right method for the question, communicated in plain language.' },
+  { title: 'Predictive modeling & ML',
+    body: 'Classification, forecasting, and risk scoring with proper validation. Models that hold up under audit — not just on the holdout set.' },
+  { title: 'Interactive analytics & dashboards',
+    body: 'R Shiny, Quarto, and lightweight web tools that turn an analysis into a self-service decision aid.' },
+  { title: 'Reproducible reporting',
+    body: 'R, Python, and SQL pipelines and reports that document assumptions, version cleanly, and rerun reliably quarter after quarter.' },
+  { title: 'Statistical training & curriculum',
+    body: 'Workshops and applied curricula for analytics teams, faculties, and students. I help people move from "I ran the test" to "I can defend the choice."' },
+  { title: 'Independent methodology review',
+    body: 'Outside review of in-house statistical work ahead of a leadership decision, audit, or external release. Tight written feedback, no hand-holding.' },
+];
+
+const steps = [
+  ['1. Scoping call', 'A 30-minute conversation about the question, the data, the timeline, and the decision the analysis needs to support. No charge, no obligation.'],
+  ['2. Written proposal', "A short document covering approach, deliverables, milestones, fee, and what's explicitly out of scope. You sign or pass."],
+  ['3. Project or retainer', 'Fixed-fee for bounded work. Monthly retainer for ongoing support across a quarter or year. Every billable hour ties back to a deliverable.'],
+  ['4. Handoff', 'Source code, documentation, and a written debrief. Your team owns the result and can rerun it without me.'],
+];
+---
+<BaseLayout title="Services" description="What you can hire Epsilon Labs for and how an engagement runs.">
+  <div class="ed">
+
+    <section class="pt-24 pb-12 lg:pt-28 lg:pb-16">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Services</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-7xl tracking-tight leading-[1.04] m-0 mb-6">
+          What you can hire me for.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0 mb-9">
+          Statistical consulting, predictive modeling, and interactive
+          analytics — on a project or short-retainer basis. Every
+          engagement is scoped, documented, and built to be defended in
+          front of the people who depend on it.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
+          <Button href="#practice-areas" variant="ghost">See practice areas</Button>
+        </div>
+      </div>
+    </section>
+
+    <Section eyebrow="Practice areas" title="What I do." first id="practice-areas">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+        {practiceAreas.map(a => (
+          <div>
+            <h3 class="text-lg font-bold text-ink m-0 mb-2">{a.title}</h3>
+            <p class="text-body m-0">{a.body}</p>
+          </div>
+        ))}
+      </div>
+    </Section>
+
+    <Section eyebrow="Engagement" title="How an engagement runs.">
+      <ul class="list-none m-0 p-0 max-w-narrow">
+        {steps.map(([label, body]) => (
+          <li class="py-6 border-t border-rule first:border-t-0 first:pt-0 grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
+            <div class="font-bold text-ink text-base">{label}</div>
+            <div class="text-body">{body}</div>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <Section>
+      <div class="bg-surface-soft border border-rule rounded-2xl px-8 py-12 lg:px-12 lg:py-14 text-center" id="contact">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">Let's talk</p>
+        <h2 class="font-serif font-semibold text-ink text-4xl md:text-5xl tracking-tight leading-[1.08] m-0 mb-4">
+          Have a question worth answering carefully?
+        </h2>
+        <p class="text-body max-w-[52ch] mx-auto m-0 mb-8">
+          Send the question, the data you have, and when you need the
+          answer. I'll reply within two business days — or refer you to
+          someone better suited.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
+          <Button href="/privacy#contact" variant="ghost">Use the contact form</Button>
+        </div>
+      </div>
+    </Section>
+
+  </div>
+</BaseLayout>

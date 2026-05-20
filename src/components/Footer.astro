@@ -1,0 +1,36 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+const legal = [
+  { href: '/archive',  label: 'Archive'        },
+  { href: '/privacy',  label: 'Privacy Policy' },
+  { href: '/license',  label: 'License'        },
+];
+const social = [
+  { href: 'https://www.linkedin.com/in/bcervantesalvarez/', label: 'LinkedIn' },
+  { href: 'https://github.com/bcervantesalvarez/',          label: 'GitHub'   },
+  { href: 'mailto:briancervantesalvarez@gmail.com',         label: 'Email'    },
+];
+---
+<footer class="border-t border-rule mt-24">
+  <div class="max-w-wrap mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <p class="text-sm text-muted m-0">
+      © {year} Epsilon Labs · Brian Cervantes Alvarez
+    </p>
+    <div class="flex flex-wrap items-center gap-6 text-sm">
+      {legal.map(l => (
+        <a href={l.href} class="text-muted hover:text-ink no-underline">{l.label}</a>
+      ))}
+      {social.map(s => (
+        <a
+          href={s.href}
+          target={s.href.startsWith('http') ? '_blank' : undefined}
+          rel={s.href.startsWith('http') ? 'noreferrer' : undefined}
+          class="text-muted hover:text-ink no-underline"
+        >
+          {s.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

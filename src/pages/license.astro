@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+---
+<BaseLayout title="License" description="Content and source-code licensing for the Epsilon Labs site.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">License</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          License &amp; disclaimers.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          How content on this site is licensed and what you can do with it.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      <article class="max-w-prose prose-content text-body">
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4 first:mt-0">Content</h2>
+        <p class="mb-4">
+          © 2024–2026 Brian Adolfo Cervantes Alvarez. The views expressed
+          here are personal and do not represent any employer or affiliated
+          organization.
+        </p>
+        <p class="mb-6">
+          All text, graphics, and other written material on this site are
+          licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.
+          Share, adapt, and build upon it with appropriate credit.
+        </p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Source code</h2>
+        <p class="mb-6">
+          Code snippets and example projects are released under the
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noreferrer">MIT License</a>.
+          Use, modify, and redistribute freely. Credit appreciated but not required.
+        </p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Disclaimers</h2>
+        <p class="mb-6">
+          I aim for accuracy but can't guarantee completeness or timeliness.
+          Decisions based on the content here are made at your own risk.
+          Validate code in your own environment before production use.
+        </p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Use of AI</h2>
+        <p class="mb-6">
+          Some content benefited from AI-assisted drafting or ideation.
+          Every final edit, conceptual choice, and validation step is
+          mine. If something looks off, please let me know.
+        </p>
+      </article>
+    </Section>
+
+  </div>
+</BaseLayout>

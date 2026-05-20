@@ -1,0 +1,86 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+---
+<BaseLayout title="About">
+  <div class="ed">
+
+    <section class="pt-24 pb-12 lg:pt-28 lg:pb-16">
+      <div class="max-w-wrap mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16 items-center">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">About</p>
+            <h1 class="font-serif font-semibold text-ink text-5xl md:text-7xl tracking-tight leading-[1.04] m-0 mb-6">
+              Brian Cervantes Alvarez.
+            </h1>
+            <p class="text-lede text-body max-w-[60ch] m-0 mb-9">
+              Statistician and data scientist. I run Epsilon Labs as an
+              independent statistical-consulting practice serving teams
+              that need careful analysis, defensible models, and analytics
+              tools they can keep using.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
+              <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
+              <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">CV (PDF)</Button>
+            </div>
+          </div>
+          <img
+            src="/images/profile.jpg"
+            alt="Brian Cervantes Alvarez"
+            loading="eager"
+            class="justify-self-center lg:justify-self-end w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover border border-rule-strong"
+          />
+        </div>
+      </div>
+    </section>
+
+    <Section eyebrow="Practice" title="How I work." first>
+      <div class="max-w-prose">
+        <p class="text-body m-0 mb-4">
+          Most analytics work is judged by how it reads. I build mine to
+          be judged by how well it holds up under audit, replication, and
+          a critical reader. Assumptions are documented. Models are
+          validated the right way. Code is handed off in a form your team
+          can actually rerun.
+        </p>
+        <p class="text-body m-0">
+          Engagements are bounded — project-based or short retainer — and
+          every one starts with a scoping conversation and a written
+          proposal. Nothing gets billed without a deliverable behind it.
+        </p>
+      </div>
+    </Section>
+
+    <Section eyebrow="Training" title="Where I trained.">
+      <ul class="list-none m-0 p-0 max-w-narrow">
+        <li class="py-6 border-t border-rule first:border-t-0 first:pt-0 grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
+          <div class="font-bold text-ink text-base">M.S. Statistics</div>
+          <div class="text-body">Oregon State University — Bayesian methods, experimental design, and applied modeling. Taught undergraduate sections and developed data-visualization curriculum.</div>
+        </li>
+        <li class="py-6 border-t border-rule grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
+          <div class="font-bold text-ink text-base">M.S. Data Science</div>
+          <div class="text-body">Willamette University — Machine learning, predictive modeling, and reproducible analytics workflows.</div>
+        </li>
+        <li class="py-6 border-t border-rule grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
+          <div class="font-bold text-ink text-base">B.S. Mathematics</div>
+          <div class="text-body">Linfield University — Calculus, linear algebra, statistics, and the analytical foundations everything else sits on.</div>
+        </li>
+      </ul>
+    </Section>
+
+    <Section eyebrow="Independence" title="A note on conflicts.">
+      <div class="max-w-prose">
+        <p class="text-body m-0">
+          I'm currently employed as a Business Intelligence Analyst at the
+          Oregon Department of Education. Epsilon Labs is operated
+          independently of that role. I do not accept engagements that
+          conflict with my day-job responsibilities, and I decline work
+          that touches the same data systems or stakeholders.
+        </p>
+      </div>
+    </Section>
+
+  </div>
+</BaseLayout>

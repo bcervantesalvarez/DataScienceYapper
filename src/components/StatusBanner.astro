@@ -1,0 +1,64 @@
+---
+// src/components/StatusBanner.astro
+// Prominent "currently engaged" banner: 44x44 agency mark + body text
+// + pulsing live-dot. The whole element is a click-through link.
+//
+// Replace the inline <svg> with <img src="/images/ode-logo.png" alt="..."/>
+// once you have the official artwork from oregon.gov/ode.
+interface Props {
+  href: string;
+  eyebrow?: string;
+  org: string;
+  role: string;
+  /** SVG markup or HTML string. Defaults to the ODE placeholder mark. */
+  markHtml?: string;
+}
+
+const {
+  href,
+  eyebrow = 'Currently engaged',
+  org,
+  role,
+  markHtml,
+} = Astro.props;
+---
+<a
+  href={href}
+  target="_blank"
+  rel="noreferrer"
+  role="status"
+  aria-label={`Currently employed at ${org}`}
+  class="relative inline-flex items-center gap-4 pl-3 pr-7 py-3 mb-7 bg-surface border border-rule rounded-2xl no-underline text-body transition-all duration-200 hover:border-rule-strong hover:-translate-y-px hover:shadow-[0_10px_28px_-18px_rgba(15,17,21,0.22)] animate-el-rise"
+>
+  <span class="shrink-0 w-11 h-11 rounded-full bg-surface-soft border border-rule overflow-hidden inline-flex items-center justify-center" aria-hidden="true">
+    {markHtml ? <Fragment set:html={markHtml} /> : (
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <circle cx="24" cy="24" r="23" fill="#0b2545"/>
+        <circle cx="24" cy="24" r="20" fill="none" stroke="#d4af37" stroke-width="0.8"/>
+        <text x="24" y="29.5" text-anchor="middle"
+              font-family="Georgia, 'Times New Roman', serif"
+              font-weight="700" font-size="13.5" fill="#ffffff"
+              letter-spacing="0.5">ODE</text>
+      </svg>
+    )}
+  </span>
+
+  <span class="flex flex-col gap-px leading-tight">
+    <span class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-status">
+      {eyebrow}
+    </span>
+    <strong class="font-serif font-semibold text-ink text-base">
+      {org}
+    </strong>
+    <span class="text-sm text-body">
+      {role}
+    </span>
+  </span>
+
+  <span
+    aria-hidden="true"
+    class="absolute top-3 right-3 w-2.5 h-2.5 bg-status rounded-full"
+  >
+    <span class="absolute inset-0 rounded-full bg-status opacity-50 motion-safe:animate-el-ping"></span>
+  </span>
+</a>

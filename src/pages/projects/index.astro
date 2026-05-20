@@ -1,0 +1,48 @@
+---
+// src/pages/projects/index.astro — Projects listing
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Card from '@components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('projects', ({ data }) => !data.draft && data.status === 'active');
+const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Projects" description="Statistical analyses, predictive modeling, and interactive applications.">
+  <div class="ed">
+
+    <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
+      <div class="max-w-wrap mx-auto px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Projects</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          Selected work.
+        </h1>
+        <p class="text-lede text-body max-w-[60ch] m-0">
+          Statistical analyses, predictive modeling, and interactive
+          applications. Older work lives in the <a href="/archive">archive</a>.
+        </p>
+      </div>
+    </section>
+
+    <Section first>
+      {projects.length === 0 ? (
+        <p class="text-body">Projects coming soon. Until then, see the <a href="/archive">archive</a>.</p>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map(p => (
+            <Card
+              href={p.data.external ?? `/projects/${p.slug}`}
+              external={!!p.data.external}
+              title={p.data.title}
+              description={p.data.description}
+              tag={p.data.tag}
+              image={p.data.image?.src}
+              imageAlt={p.data.title}
+            />
+          ))}
+        </div>
+      )}
+    </Section>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+---
+<BaseLayout title="Thank you" description="Form submission received.">
+  <head slot="head">
+    <meta name="robots" content="noindex,nofollow" />
+  </head>
+
+  <div class="ed">
+
+    <section class="pt-24 pb-12 lg:pt-28 lg:pb-16 text-center">
+      <div class="max-w-wrap mx-auto px-6">
+        <svg width="72" height="72" viewBox="0 0 56 56" aria-hidden="true" class="mx-auto mb-5">
+          <circle cx="28" cy="28" r="25" fill="none" stroke="rgb(var(--color-status))" stroke-width="3" opacity="0.18" />
+          <circle cx="28" cy="28" r="25" fill="none" stroke="rgb(var(--color-status))" stroke-width="3"
+                  stroke-dasharray="157" stroke-dashoffset="157">
+            <animate attributeName="stroke-dashoffset" from="157" to="0" dur="0.7s" fill="freeze" />
+          </circle>
+          <polyline points="16,30 25,38 40,20" fill="none" stroke="rgb(var(--color-status))"
+                    stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-dasharray="40" stroke-dashoffset="40">
+            <animate attributeName="stroke-dashoffset" from="40" to="0" dur="0.5s" begin="0.3s" fill="freeze" />
+          </polyline>
+        </svg>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-3">Message received</p>
+        <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
+          Thanks — I got it.
+        </h1>
+        <p class="text-lede text-body max-w-[52ch] mx-auto m-0 mb-7">
+          I'll review your message and reply by email. Redirecting you
+          home in <span id="ty-sec">15</span> seconds.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <Button href="/">Go home</Button>
+          <Button href="/projects" variant="ghost">Projects</Button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      let secs = 15;
+      const el = document.getElementById('ty-sec');
+      const t = setInterval(() => {
+        secs--; el && (el.textContent = String(secs));
+        if (secs <= 0) { clearInterval(t); location.href = '/'; }
+      }, 1000);
+    </script>
+
+  </div>
+</BaseLayout>

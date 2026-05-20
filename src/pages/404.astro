@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/Button.astro';
+---
+<BaseLayout title="Not found" description="That page doesn't exist.">
+  <section class="pt-32 pb-24 text-center">
+    <div class="max-w-wrap mx-auto px-6">
+      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">404</p>
+      <h1 class="font-serif font-semibold text-ink text-6xl md:text-7xl tracking-tight leading-[1.06] m-0 mb-5">
+        Page not found.
+      </h1>
+      <p class="text-lede text-body max-w-[52ch] mx-auto m-0 mb-8">
+        The page you're looking for doesn't exist here — or has moved.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button href="/">Go home</Button>
+        <Button href="/services" variant="ghost">See services</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
