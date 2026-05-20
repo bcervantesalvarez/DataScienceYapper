@@ -3,44 +3,57 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
 ---
-<BaseLayout title="Privacy Policy" description="How this site handles data, plus a contact form.">
+<BaseLayout title="Privacy" description="What this site collects, how it's used, and how to reach me.">
   <div class="ed">
 
     <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
       <div class="max-w-wrap mx-auto px-6">
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Privacy</p>
         <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
-          Privacy policy.
+          A short, honest privacy note.
         </h1>
         <p class="text-lede text-body max-w-[60ch] m-0">
-          How this site handles the small amount of data it collects, and
-          how to reach me with questions.
+          The short version: this site does not run analytics, does not
+          set tracking cookies, and only collects what you choose to
+          send me through the form below.
         </p>
       </div>
     </section>
 
     <Section first>
       <article class="max-w-prose text-body">
-        <h2 class="font-sans text-2xl text-ink mt-0 mb-4">What is collected</h2>
-        <p>Two categories of data:</p>
+        <h2 class="font-sans text-2xl text-ink mt-0 mb-4">What I collect</h2>
         <ul class="pl-6 mb-6 list-disc">
-          <li class="mb-2"><strong>Anonymous usage data.</strong> Pages visited, time on page, basic device or browser info. No personally identifying information.</li>
-          <li><strong>Voluntary information.</strong> Anything you send via the contact form below — name, email, and message.</li>
+          <li class="mb-2"><strong>Nothing automatic.</strong> No Google Analytics, no advertising tags, no third-party trackers, no cookies set by this site.</li>
+          <li><strong>Voluntary information.</strong> Anything you send via the form below — name, email, profession, and message — is delivered to me by email.</li>
         </ul>
 
-        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">How it is used</h2>
-        <p class="mb-6">Anonymous metrics inform navigation, content, and performance improvements. Voluntary information is used only to reply to you. Never sold or shared beyond analytics processors that produce aggregate counts.</p>
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">How I use it</h2>
+        <p class="mb-6">Voluntary information is used only to reply to you. It is not sold, shared with third parties, or used for marketing. If you ask me to delete it, I will.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Hosting</h2>
+        <p class="mb-6">The site is served as static HTML through Cloudflare. Cloudflare may keep brief, aggregated request logs (IP, country, path) for abuse prevention and uptime; that data is governed by <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noreferrer">Cloudflare's privacy policy</a>, not mine.</p>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Form submission</h2>
+        <p class="mb-6">When you submit the contact form, the payload posts to a private Google Apps Script endpoint that forwards the message to my inbox. The form runs three lightweight spam defenses (two honeypot fields, a minimum dwell-time check, and an optional Cloudflare Turnstile challenge) — none of which set tracking cookies in your browser.</p>
 
         <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Your choices</h2>
-        <p>You can request deletion or modification of anything you've submitted by contacting me. Analytics can be opted out via the cookie banner, browser settings, or the
-          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noreferrer">Google Analytics opt-out extension</a>.</p>
+        <p class="mb-2">You can:</p>
+        <ul class="pl-6 mb-6 list-disc">
+          <li class="mb-2">Use the site without submitting anything — there's nothing to opt out of.</li>
+          <li class="mb-2">Email me directly at <a href="mailto:briancervantesalvarez@gmail.com">briancervantesalvarez@gmail.com</a> instead of using the form.</li>
+          <li>Ask me to delete any message you've sent — I'll confirm in writing.</li>
+        </ul>
+
+        <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Scope</h2>
+        <p class="mb-6">This policy covers <code>epsilon-labs.org</code> only. External links (Shiny app hosts, LinkedIn, GitHub, etc.) are governed by their own policies.</p>
       </article>
     </Section>
 
-    <Section eyebrow="Contact" title="Questions about this policy?">
+    <Section eyebrow="Contact" title="Reach out.">
       <p class="text-lede text-body max-w-[60ch]">
-        Use the form below for privacy questions, suggestions on the
-        policy, or anything else worth a longer message.
+        Use the form for privacy questions, suggestions on the policy,
+        or anything else worth a longer message.
       </p>
 
       <iframe id="policyFormTarget" name="policyFormTarget" title="Form submission target" style="display:none;border:0;"></iframe>
@@ -85,10 +98,11 @@ import Button from '@components/Button.astro';
           <select name="profession" required
                   class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10">
             <option value="">Select…</option>
-            <option value="Student">Student</option>
-            <option value="Instructor or Professor">Instructor / Professor</option>
-            <option value="Recruiter">Recruiter</option>
-            <option value="Professional">Professional</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Data / Analytics">Data / Analytics</option>
+            <option value="Research">Research</option>
+            <option value="Public sector">Public sector</option>
+            <option value="Education">Education</option>
             <option value="Other">Other</option>
           </select>
         </label>
@@ -103,12 +117,10 @@ import Button from '@components/Button.astro';
         <label class="flex flex-col gap-1">
           <span class="text-sm font-semibold text-ink">Message</span>
           <textarea name="message" required maxlength="3000" rows={6}
-                    placeholder="What's on your mind?"
+                    placeholder="What's the question?"
                     class="w-full px-4 py-3 bg-surface border border-rule rounded-lg text-ink min-h-[140px] resize-y focus:outline-none focus:border-ink focus:ring-4 focus:ring-ink/10"></textarea>
         </label>
 
-        <!-- Cloudflare Turnstile placeholder. Replace REPLACE_WITH_TURNSTILE_SITEKEY
-             with your Turnstile site key from https://dash.cloudflare.com/?to=/:account/turnstile -->
         <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITEKEY" data-theme="light"></div>
 
         <p id="policyFormStatus" role="status" aria-live="polite"
@@ -117,13 +129,11 @@ import Button from '@components/Button.astro';
         <Button as="button" type="submit" class="self-start">Send message</Button>
 
         <p class="text-xs text-muted m-0">
-          I'll reply directly to the email you provide. Your data is used
-          only to respond.
+          I'll reply directly to the email you provide. Your data is used only to respond.
         </p>
       </form>
 
       <script>
-        // Three-gate spam defense: dual honeypot + dwell time + optional Turnstile
         const MIN_DWELL_MS = 2500;
         const SUBMIT_TIMEOUT_MS = 15000;
 
@@ -138,7 +148,6 @@ import Button from '@components/Button.astro';
           form.querySelector('input[name="userAgent"]').value = navigator.userAgent || '';
           form.querySelector('input[name="formLoadedAt"]').value = String(Date.now());
 
-          // Turnstile autoloader (only loads if a real key is set)
           const widget = form.querySelector('.cf-turnstile');
           const key = widget?.getAttribute('data-sitekey') ?? '';
           if (!key || key.startsWith('REPLACE_WITH_')) {
@@ -160,7 +169,7 @@ import Button from '@components/Button.astro';
           });
 
           form.addEventListener('submit', (e) => {
-            status.classList.remove('is-visible'); status.style.display = 'none';
+            status.style.display = 'none';
 
             const hpHit = ['website', 'phone'].some(n => {
               const el = form.querySelector(`input[name="${n}"]`);

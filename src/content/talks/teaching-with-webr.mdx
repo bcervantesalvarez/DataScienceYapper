@@ -1,16 +1,26 @@
 ---
 title: 'Interactive Teaching with webR'
-description: 'Live talk on why webR belongs in the modern R classroom and how to integrate it without rewriting your curriculum.'
+description: 'Why webR belongs in the modern R classroom, demonstrated live.'
 date: 2024-08-06
-tag: 'Teaching'
+tag: 'Statistics Lab'
 image: '/images/uni.jpeg'
-status: active
+status: 'active'
+venue: 'Teaching workshop'
 ---
 
-A live talk on integrating webR into existing R coursework. Where the blog post
-makes the case in writing, this session demonstrates the workflow in real time —
-embedding live executable R blocks in Quarto slides, building reactive lab exercises,
-and removing the install-the-tidyverse opening lecture from the syllabus entirely.
+import Overview from "@components/Overview.astro";
 
-The pitch: instructors get to spend their time on content, and students get
-immediate feedback instead of fighting their environment.
+<Overview>
+  Students should not spend their first class fighting an R install. This talk demonstrates an alternative — webR running R directly in the browser — and shows how to integrate it into existing course materials.
+</Overview>
+
+## The presentation
+
+<iframe src="https://bcervantesalvarez.github.io/Presentations/WebR/" title="Interactive Teaching with webR" loading="lazy" allow="fullscreen"
+        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
+
+[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/WebR/)
+
+## Context
+
+Live demonstrations of embedding executable R chunks in Quarto slides and lab handouts, building reactive lab exercises, and removing the "install the tidyverse" opening lecture from the syllabus entirely. The pitch lands fast: instructors spend their time on content, students get instant feedback, and the cross-platform headache disappears.

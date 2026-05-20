@@ -1,16 +1,18 @@
 ---
 title: 'Predicting $50K+ Salaries'
-description: 'Team ML project on the OpenML census dataset — PCA feature selection plus a tuned Random Forest at Kappa 0.95.'
+description: 'Team ML project on the OpenML census data — PCA feature selection plus a tuned Random Forest reaching kappa 0.95.'
 date: 2023-04-11
 tag: 'ML'
 image: '/images/income.jpeg'
-status: archived
+status: 'archived'
 ---
 
-A team ML project classifying whether an individual earns more than $50K from
-the OpenML census dataset. The pipeline runs preprocessing, PCA-based feature
-selection, and Random Forest tuning to a Kappa of 0.9543.
+import Overview from "@components/Overview.astro";
 
-Mostly useful as a template for how to structure a small applied-ML project: a
-clean train/validation split, an explicit feature-selection step, and a single
-ranked-model output that you can defend to a reviewer.
+<Overview>
+  A team ML project to classify whether an individual earns more than $50K from the OpenML census dataset. Reached a kappa of 0.9543 with PCA-driven feature selection followed by a tuned Random Forest.
+</Overview>
+
+## Notes from the archive
+
+Useful mostly as a template for a small, defensible applied-ML project: a clean train/validation split, an explicit feature-selection step, and a single ranked-model output that holds up to a reviewer's questions. Built collaboratively with classmates as a graduate course capstone.

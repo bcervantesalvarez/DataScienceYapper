@@ -1,17 +1,52 @@
 ---
-title: 'Applied Multivariate Analysis: Wine'
-description: 'MANOVA, classification, and clustering on red and white wine chemistry — which features actually separate them.'
+title: 'Applied Multivariate Analysis: Wine Chemistry'
+description: 'MANOVA, classification, and clustering on red and white wine chemistry — what actually separates them, and how confidently.'
 date: 2023-12-14
 tag: 'Statistics'
 image: '/images/redwhite.jpeg'
-status: active
+status: 'active'
 ---
 
-A multivariate statistical study of red and white wine chemistry. MANOVA tests
-which chemical attributes most strongly differentiate the two types, while supervised
-models — Random Forest, SVM, and Logistic Regression — push classification accuracy
-to roughly 99% with the Random Forest.
+import Overview from "@components/Overview.astro";
 
-K-means clustering rounds out the analysis to surface quality tiers that aren't
-obvious from the raw labels. The end result is a compact account of what actually
-drives the difference between a red and a white in measurable terms.
+<Overview>
+  Red wine and white wine taste different, but here is the better question: are they different in measurable ways, and which measurements matter most? This project answers that with statistics. The short version: yes, the difference is real, and a small handful of chemistry features carry most of the signal.
+</Overview>
+
+## The question
+
+Given the UCI wine-quality dataset — eleven physiochemical measurements plus a quality
+rating for ~6,500 Portuguese wines — can we identify which features actually separate
+reds from whites, and can we build a classifier good enough to trust?
+
+## Methods
+
+- **Exploratory analysis.** Univariate distributions, pairwise correlations, and
+  side-by-side boxplots to spot the obvious differentiators and rule out collinearity
+  surprises.
+- **MANOVA.** A multivariate test on all eleven features simultaneously, with follow-up
+  univariate ANOVAs and Tukey HSDs to isolate which features carry significance.
+- **Supervised classification.** Logistic regression, Support Vector Machines, and
+  Random Forest, evaluated with 10-fold cross-validation, ROC AUC, and Cohen kappa.
+- **Unsupervised clustering.** K-means on standardized features to check whether the
+  red/white split shows up without the labels.
+
+## Results
+
+Random Forest reaches roughly **99% classification accuracy** with a kappa of 0.97.
+Volatile acidity, total sulfur dioxide, and chlorides do most of the lifting — they
+alone separate the classes with high accuracy. K-means on unlabeled data recovers the
+red/white split as the dominant axis of variation.
+
+The supervised lift over a naive baseline is large, but the more useful finding is
+methodological: a careful MANOVA + ANOVA path gives you the same conclusion as the ML
+pipeline, with far more interpretability.
+
+## Takeaways
+
+- **Multivariate first, univariate second.** Running univariate tests on every feature
+  blindly inflates the false-positive rate; MANOVA is the right entry point.
+- **Don't oversell the ML.** A linear model on the three top features gets you most of
+  the way there. The 99% Random Forest accuracy is a sanity check, not the headline.
+- **Interpretability is a deliverable.** Volatile acidity being the strongest separator
+  is a more useful conclusion than a confusion-matrix screenshot.

@@ -1,18 +1,26 @@
 ---
-title: 'Missing Data & the MICE Approach'
-description: 'Why missingness matters, the three flavors (MCAR, MAR, MNAR), and how to apply Multiple Imputation by Chained Equations.'
+title: 'Missing Data and the MICE Approach'
+description: 'Why missingness matters, the three flavors (MCAR, MAR, MNAR), and a practical Multiple Imputation walkthrough.'
 date: 2024-12-03
 tag: 'Statistics'
 image: '/images/missing.png'
-status: active
+status: 'active'
+venue: 'Graduate seminar'
 ---
 
-A practical session on handling missing data without pretending it doesn't exist.
-Covers the three flavors of missingness — MCAR, MAR, and MNAR — and where each
-naive approach (drop the row, mean-impute, fill forward) silently distorts your
-downstream estimates.
+import Overview from "@components/Overview.astro";
 
-The back half of the talk applies Multiple Imputation by Chained Equations via
-the `mice` R package, with worked examples that show how to inspect convergence,
-diagnose imputation quality, and propagate uncertainty through to the final
-analysis.
+<Overview>
+  Real datasets have holes. How you fill those holes silently determines what conclusion you reach. This talk explains the three flavors of missingness and walks through a real imputation in R.
+</Overview>
+
+## The presentation
+
+<iframe src="https://bcervantesalvarez.github.io/Presentations/MissingData/" title="Missing Data and the MICE Approach" loading="lazy" allow="fullscreen"
+        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
+
+[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/MissingData/)
+
+## Context
+
+Covers MCAR, MAR, and MNAR with concrete examples, then shows the failure modes of the naive options (listwise deletion, mean imputation, last-observation-carried-forward). The back half applies Multiple Imputation by Chained Equations via the `mice` package, with worked examples of convergence diagnostics, imputation-quality checks, and how to propagate uncertainty through to the final estimate.

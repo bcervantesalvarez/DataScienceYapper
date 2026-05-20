@@ -69,6 +69,72 @@ src/content/talks/<slug>.mdx
 Frontmatter contract in `src/content/config.ts`. If the build fails
 with a Zod error, the message names the missing/wrong field.
 
+Every public-facing entry should open with an `<Overview>` block —
+plain-language, ~80 words, 8th-grade reading level — then the
+technical body below.
+
+```mdx
+---
+title: 'Project Title'
+description: 'One-line summary that appears under the card title.'
+date: 2026-04-01
+tag: 'Dashboard'
+image: '/images/project-cover.jpg'
+status: active            # or 'archived'
+external: 'https://...'   # optional, projects only — opens live app
+---
+
+import Overview from "@components/Overview.astro";
+
+<Overview>
+  Plain-language summary here. Avoid jargon. Aim for ~80 words and an
+  8th-grade reading level so a non-specialist can grok the project.
+</Overview>
+
+## Technical details
+
+Full content, code samples, embedded iframes, etc.
+```
+
+## Tag taxonomy
+
+Use one of these — keeps the listings consistent. Add new ones only when
+you actually mean it.
+
+| Tag                | Use for                                                       |
+| ------------------ | -------------------------------------------------------------- |
+| Dashboard          | R Shiny / Quarto dashboards, interactive web tools             |
+| Statistics         | Classical statistical analysis, regression, hypothesis testing |
+| Statistics Lab     | Teaching material, webR labs, interactive R curricula          |
+| ML                 | Predictive modeling, classification, forecasting, deep learning |
+| Survival analysis  | Time-to-event modeling                                         |
+| Data viz           | Visualization-craft posts, Plotly walkthroughs, table design   |
+| Data engineering   | ETL pipelines, schema design, DB work                          |
+| Quarto             | Publishing, workshops, portfolio infrastructure                |
+| Teaching           | Non-Stats-Lab teaching content                                 |
+
+## Porting from Quarto
+
+When you have a `.qmd` you want to bring over, run the port helper:
+
+```bash
+npm run port -- path/to/your-post/index.qmd
+# Optional explicit collection + slug:
+npm run port -- path/to/post.qmd projects custom-slug
+```
+
+The script (`scripts/qmd-to-mdx.ts`) reads the qmd, normalizes the
+frontmatter to our schema, strips Quarto-only syntax (`{r}` chunks,
+`:::` fence divs, `{=html}` blocks), and writes the result to
+`src/content/<collection>/<slug>.mdx`.
+
+After running, hand-polish:
+
+- Add an `<Overview>` block at the top.
+- Check the tag against the taxonomy above.
+- Confirm the voice matches the rest of the site (first person,
+  confident, no "this project demonstrates my ability to…").
+
 ## Tone of voice
 
 - First person. Brian runs Epsilon Labs solo; "I" is more honest than "we".

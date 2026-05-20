@@ -1,16 +1,18 @@
 ---
 title: 'Pinot Province Prediction'
-description: "NLP-flavored Random Forest that infers a Pinot Noir's province of origin from a critic's tasting notes."
+description: 'NLP-flavored Random Forest that infers a Pinot Noir''s province of origin from a critic''s tasting notes.'
 date: 2023-03-01
 tag: 'ML'
 image: '/images/pinot.jpeg'
-status: archived
+status: 'archived'
 ---
 
-An NLP-flavored Random Forest model that predicts the province of origin for
-Pinot Noir wines from critic tasting notes. Text is tokenized, stemmed, and
-pivoted into a sparse feature matrix; the resulting classifier achieves a Kappa
-of 0.82.
+import Overview from "@components/Overview.astro";
 
-The use case is a sommelier-style tool: drop in a few sentences of tasting copy
-and get back a probability over likely origins.
+<Overview>
+  A text classifier that reads tasting notes for Pinot Noir and predicts the wine's province of origin. The use case is a sommelier-style tool: drop in a few sentences of tasting copy, get back a probability over likely origins.
+</Overview>
+
+## Notes from the archive
+
+Tokenization, stemming, and a pivot into a sparse feature matrix on the front end; a Random Forest classifier on the back end. Reached kappa 0.82 on held-out data. The interesting finding was not the score but which descriptors (specific fruits, oak notes) carried the most predictive weight, hinting at consistent regional vocabulary in the critic corpus.

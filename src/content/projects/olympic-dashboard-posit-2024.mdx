@@ -1,16 +1,18 @@
 ---
-title: 'Lightning-Fast 100m Dashboard'
-description: "Quarto dashboard for the men's 100m at the Olympics — built for Posit::conf 2024, no Shiny required."
+title: 'Olympic 100m Dashboard'
+description: 'A Quarto dashboard for the men''s 100m — built for Posit::conf 2024 to show that pure Quarto (no Shiny) is enough for polished analytics.'
 date: 2024-08-21
 tag: 'Data viz'
 image: '/images/olympics-logo.svg'
-status: archived
+status: 'archived'
 ---
 
-A Quarto dashboard built for Posit::conf 2024 that visualizes Olympic 100m
-results alongside broader medal data. The point of the piece: Quarto's dashboard
-format on its own — no Shiny server, no runtime compute — is enough to deliver
-polished, multi-panel analytics built on `plotly` and `gt`.
+import Overview from "@components/Overview.astro";
 
-Useful as a reference for anyone who wants the look and feel of a dashboard
-without the deployment overhead of a reactive backend.
+<Overview>
+  A small dashboard built for Posit::conf 2024 that pulled together Olympic 100m results and broader medal data. The point: pure Quarto dashboards — no Shiny server, no reactive backend — can deliver polished multi-panel analytics.
+</Overview>
+
+## Notes from the archive
+
+Multi-panel Quarto dashboard with `plotly` charts and `gt` tables. Useful as a reference for anyone who wants the look and feel of a dashboard without the deployment overhead of a reactive Shiny app. Built in a weekend as a demonstration piece.

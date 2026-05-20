@@ -4,14 +4,15 @@ description: 'Quantifying how smoking and BMI drive up insurance premiums by age
 date: 2022-07-14
 tag: 'Statistics'
 image: '/images/insurance.jpeg'
-status: archived
+status: 'archived'
 ---
 
-A Python notebook quantifying how smoking and BMI drive up health-insurance
-premiums by age and gender. The headline: male smokers pay roughly 408% more
-than non-smokers, female smokers about 350% more, with additional surcharges
-once BMI crosses 30.
+import Overview from "@components/Overview.astro";
 
-Useful as a worked example of how to structure a small statistical investigation
-end-to-end — exploratory plots, group-wise comparisons, regression, and the
-actual sentence at the end that says what the data show.
+<Overview>
+  A Python notebook quantifying how smoking and BMI drive up health-insurance premiums by age and gender. The headline: male smokers pay roughly 408% more than non-smokers; female smokers about 350% more. BMI above 30 adds further surcharges.
+</Overview>
+
+## Notes from the archive
+
+A worked example of structuring a small statistical investigation end-to-end — exploratory plots, group-wise comparisons, regression, and the one-sentence conclusion that summarises what the data actually show.

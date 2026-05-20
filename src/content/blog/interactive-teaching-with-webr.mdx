@@ -1,18 +1,87 @@
 ---
-title: 'Interactive Learning with WebR'
-description: 'Bringing R execution directly into the browser for classroom labs — no install, instant feedback.'
+title: 'Interactive Teaching with webR'
+description: 'Run live R in the browser, no install required — and rebuild your data-wrangling lab around immediate feedback.'
 date: 2024-08-12
-tag: 'Teaching'
+tag: 'Statistics Lab'
 image: '/images/webr.png'
-status: active
+status: 'active'
 ---
 
-A walkthrough of using WebR to put R execution directly in the browser for
-classroom labs. The argument is simple: when students can't install software,
-or they're on a Chromebook, or a lab machine is locked down, the friction of
-"open RStudio and run this" stops being negligible.
+import Overview from "@components/Overview.astro";
 
-The post demonstrates a tidy-data wrangling lab built around WebR, where each
-exercise re-runs live in the browser and students see results in milliseconds.
-Cross-platform, zero-install, and the instructor doesn't spend the first
-thirty minutes troubleshooting R installs.
+<Overview>
+  Teaching R used to start with a 30-minute fight to install it. webR puts R inside the browser, so students hit a webpage and they are already running code. This post walks through how I rebuilt a data-wrangling lab around that idea — fewer headaches, faster feedback, more time on the actual statistics.
+</Overview>
+
+## The case for webR
+
+Most R instructors lose the first session of every term to environment problems. Some
+students arrive with a Chromebook that cannot install RStudio, some have an old Mac
+that fights the tidyverse, some cannot get past a corporate IT policy. **webR is the R
+runtime compiled to WebAssembly** — it executes R code in the browser, no local install
+required. A student opens a tab and they are already in a working R session.
+
+That changes the shape of a stats lab:
+
+1. **Cross-platform by construction.** Every modern browser is a target. Chromebook,
+   iPad, Linux desktop, Windows laptop — they all see the same R session.
+2. **Immediate feedback.** A student types `mean(x)` and sees the result in milliseconds.
+3. **Lower setup tax for the instructor.** No updating an install guide every term.
+
+## What the lab looks like
+
+The webR Quarto extension lets me embed runnable code chunks directly in lecture
+material. Below is the kind of block students see — they can edit it, run it, and the
+output renders inline.
+
+```r
+library(tidyverse)
+
+# Each student starts with the same dataset, loaded once when the page boots
+countries <- read_csv("countries.csv", show_col_types = FALSE)
+
+countries |>
+  filter(continent == "Europe") |>
+  group_by(region) |>
+  summarise(
+    mean_gdp_per_capita = mean(gdp_per_capita, na.rm = TRUE),
+    n = n()
+  ) |>
+  arrange(desc(mean_gdp_per_capita))
+```
+
+The lab walks through the standard tidyverse verbs — `filter`, `select`, `mutate`,
+`summarise`, `group_by` — but every step is something students execute themselves. The
+"watch me demo, then you try" pattern goes away.
+
+## Setup
+
+A Quarto document with the webR filter enabled and the packages you want preloaded:
+
+```yaml
+filters:
+  - webr
+webr:
+  packages: [tidyverse, lubridate]
+```
+
+Mark any block with the `webr-r` engine and it becomes a live code editor in the
+rendered HTML. First page load triggers a one-time webR download and the requested
+packages; from there the experience is indistinguishable from a local R session for
+most teaching workloads.
+
+## Trade-offs to know
+
+- **Cold start.** First page load is slow because WebAssembly and the packages must
+  download. Add a small banner so students know what's happening.
+- **Not for big data.** webR holds state in the browser tab. Anything that fits
+  comfortably in 100 MB works; a 5 GB dataset does not.
+- **Some packages are not available yet.** Most of the tidyverse works. Niche packages
+  may not.
+
+## Where this fits
+
+For an intro stats course, a graduate methods seminar, or a workshop with mixed
+hardware, webR is the lowest-friction option I know of. The exercise prompt and the
+runtime live in the same document, and that alignment alone changes how students
+engage with the lab.
