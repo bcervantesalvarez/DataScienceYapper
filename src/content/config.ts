@@ -4,20 +4,22 @@
 // broken card or rendering blank metadata.
 import { defineCollection, z } from 'astro:content';
 
-const baseFrontmatter = ({ image }: { image: () => z.ZodType }) =>
-  z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    image: image().optional(),
-    tag: z.string().optional(),
-    status: z.enum(['active', 'archived']).default('active'),
-    draft: z.boolean().default(false),
-  });
+// All images live under public/images/ and are referenced by string path
+// (e.g. "/images/wine.jpeg"). Using a string field keeps the schema
+// simple and lets us use plain <img src={data.image}/>.
+const baseFrontmatter = z.object({
+  title: z.string(),
+  description: z.string(),
+  date: z.coerce.date(),
+  image: z.string().optional(),
+  tag: z.string().optional(),
+  status: z.enum(['active', 'archived']).default('active'),
+  draft: z.boolean().default(false),
+});
 
 const projects = defineCollection({
   type: 'content',
-  schema: ({ image }) => baseFrontmatter({ image }).extend({
+  schema: baseFrontmatter.extend({
     /* Allow an external link (e.g. shinyapps.io) instead of a content body */
     external: z.string().url().optional(),
   }),
@@ -25,14 +27,14 @@ const projects = defineCollection({
 
 const blog = defineCollection({
   type: 'content',
-  schema: ({ image }) => baseFrontmatter({ image }).extend({
+  schema: baseFrontmatter.extend({
     readingTime: z.number().optional(),
   }),
 });
 
 const talks = defineCollection({
   type: 'content',
-  schema: ({ image }) => baseFrontmatter({ image }).extend({
+  schema: baseFrontmatter.extend({
     venue: z.string().optional(),
     slidesUrl: z.string().url().optional(),
   }),

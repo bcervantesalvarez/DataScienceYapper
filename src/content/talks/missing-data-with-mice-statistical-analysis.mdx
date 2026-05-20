@@ -1,0 +1,18 @@
+---
+title: 'Missing Data & the MICE Approach'
+description: 'Why missingness matters, the three flavors (MCAR, MAR, MNAR), and how to apply Multiple Imputation by Chained Equations.'
+date: 2024-12-03
+tag: 'Statistics'
+image: '/images/missing.png'
+status: active
+---
+
+A practical session on handling missing data without pretending it doesn't exist.
+Covers the three flavors of missingness — MCAR, MAR, and MNAR — and where each
+naive approach (drop the row, mean-impute, fill forward) silently distorts your
+downstream estimates.
+
+The back half of the talk applies Multiple Imputation by Chained Equations via
+the `mice` R package, with worked examples that show how to inspect convergence,
+diagnose imputation quality, and propagate uncertainty through to the final
+analysis.

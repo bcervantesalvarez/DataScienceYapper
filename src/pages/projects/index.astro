@@ -36,7 +36,7 @@ const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf(
               title={p.data.title}
               description={p.data.description}
               tag={p.data.tag}
-              image={p.data.image?.src}
+              image={p.data.image}
               imageAlt={p.data.title}
             />
           ))}

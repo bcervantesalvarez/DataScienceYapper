@@ -1,0 +1,16 @@
+---
+title: 'Symptom Severity Classification'
+description: 'Random Forest classifier that turns symptom flags into mild / moderate / severe ratings, with rule extraction for clinicians.'
+date: 2023-06-26
+tag: 'ML'
+image: '/images/severity.jpeg'
+status: archived
+---
+
+A Python Random Forest model that classifies rare-disease patients into mild,
+moderate, and severe categories from symptom flags. The non-obvious requirement:
+the output had to be a handful of human-readable rules (e.g. `cramps + spasms ⇒
+severe`) that physicians could sanity-check, not a black-box probability score.
+
+Evaluated with confusion matrix, ROC AUC, precision-recall, and Cohen's kappa
+to make sure the simplified rules didn't trade away too much performance.
