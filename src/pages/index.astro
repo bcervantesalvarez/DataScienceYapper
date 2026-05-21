@@ -11,9 +11,9 @@ const featuredProjects = [
     href: '/projects/united-kingdom-car-accident-shiny-app',
     title: 'UK Traffic Accident Trends',
     description: 'An interactive dashboard for exploring incident patterns — filters, dynamic views, defaults that surface signal first.',
-    tag: 'Interactive analytics',
+    tag: 'Dashboard',
     image: '/images/ukcaraccident.webp',
-    imageAlt: 'UK Car Accident Shiny App',
+    imageAlt: 'UK Car Accident dashboard',
   },
   {
     href: '/projects/wine-multivariate-statistical-analysis',
@@ -27,20 +27,43 @@ const featuredProjects = [
     href: '/projects/yelp-business-reviews-shiny-app',
     title: 'Yelp Business Reviews',
     description: 'A spatial review explorer with map-linked filters, density layers, and per-business summaries.',
-    tag: 'Geospatial analytics',
+    tag: 'Geospatial dashboard',
     image: '/images/yelpburst.svg',
-    imageAlt: 'Yelp Business Reviews Shiny App',
+    imageAlt: 'Yelp Business Reviews dashboard',
   },
 ];
 
 const featuredPost = {
   href: '/blog/interactive-teaching-with-webr',
   title: 'Interactive Teaching with webR',
-  description: 'Browser-native, no-install R lessons built with Quarto and webR so students run code inline and learn by doing.',
-  tag: 'Teaching · webR',
+  description: 'Browser-native, no-install R lessons so students run code inline and learn by doing.',
+  tag: 'Statistics Lab',
   image: '/images/webr.png',
   imageAlt: 'Interactive Teaching with webR',
 };
+
+// AI cards live on the landing as a visible "AI-native" signal.
+// Each card has its own accent so the row reads as three distinct tools.
+const aiStack = [
+  {
+    name: 'ChatGPT',
+    role: 'Reasoning, drafting, code review at speed.',
+    accent: '#10A37F',
+    icon: 'openai',
+  },
+  {
+    name: 'Claude',
+    role: 'Long-context analysis, careful writing, hard problems.',
+    accent: '#D97757',
+    icon: 'anthropic',
+  },
+  {
+    name: 'Gemini',
+    role: 'Multimodal exploration, large doc ingestion, fast iteration.',
+    accent: '#4285F4',
+    icon: 'gemini',
+  },
+];
 ---
 <BaseLayout
   title="Epsilon Labs"
@@ -91,7 +114,7 @@ const featuredPost = {
       </div>
     </section>
 
-    <!-- Services preview -->
+    <!-- What I do (services preview) -->
     <Section
       eyebrow="What I do"
       title="Four practice areas."
@@ -109,14 +132,88 @@ const featuredPost = {
           <p class="text-body m-0">Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit.</p>
         </div>
         <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Interactive analytics</h3>
-          <p class="text-body m-0">R Shiny, Quarto, and lightweight web tools that turn an analysis into a self-service decision aid.</p>
+          <h3 class="text-lg font-bold text-ink m-0 mb-2">Interactive dashboards</h3>
+          <p class="text-body m-0">Self-service decision tools your team can poke at without me in the room.</p>
         </div>
         <div>
           <h3 class="text-lg font-bold text-ink m-0 mb-2">Reproducible reporting</h3>
-          <p class="text-body m-0">R, Python, and SQL pipelines that document assumptions, version cleanly, and rerun reliably.</p>
+          <p class="text-body m-0">Pipelines that document their assumptions, version cleanly, and produce the same numbers next quarter.</p>
         </div>
       </div>
+    </Section>
+
+    <!-- AI-native stack -->
+    <Section
+      eyebrow="AI-native"
+      title="Models I work with daily."
+      id="ai"
+    >
+      <p class="text-lede text-body max-w-[60ch] m-0 mb-12">
+        Frontier models are not optional anymore. I use them every
+        day — for code, for drafts, for analysis pairing — and I know
+        how to tell when they're confident versus when they're guessing.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {aiStack.map((m) => (
+          <article
+            class="group ai-card relative overflow-hidden bg-surface border border-rule rounded-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong"
+            style={`--accent: ${m.accent};`}
+          >
+            <span
+              class="ai-card-glow pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              aria-hidden="true"
+            ></span>
+
+            <div class="relative">
+              <div class="w-14 h-14 mb-5 rounded-xl flex items-center justify-center"
+                   style={`background: linear-gradient(135deg, ${m.accent}1F, ${m.accent}05);`}>
+                {m.icon === 'openai' && (
+                  <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
+                       stroke={m.accent} stroke-width="1.6" stroke-linejoin="round"
+                       aria-hidden="true">
+                    <path d="M21.06 9.83a5.4 5.4 0 0 0-.46-4.43A5.46 5.46 0 0 0 14.5 2.7a5.4 5.4 0 0 0-9.13 1.94 5.43 5.43 0 0 0-3.63 2.62 5.46 5.46 0 0 0 .67 6.4 5.4 5.4 0 0 0 .46 4.43 5.46 5.46 0 0 0 6.1 2.7 5.4 5.4 0 0 0 9.13-1.94 5.43 5.43 0 0 0 3.63-2.62 5.46 5.46 0 0 0-.67-6.4Z"/>
+                  </svg>
+                )}
+                {m.icon === 'anthropic' && (
+                  <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+                    <g fill={m.accent}>
+                      <path d="M12 2 L13.5 9.6 L21 11 L13.5 12.4 L12 20 L10.5 12.4 L3 11 L10.5 9.6 Z"/>
+                      <circle cx="12" cy="11" r="1.8"/>
+                    </g>
+                  </svg>
+                )}
+                {m.icon === 'gemini' && (
+                  <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="gemini-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%"   stop-color="#4285F4"/>
+                        <stop offset="55%"  stop-color="#9B72CB"/>
+                        <stop offset="100%" stop-color="#D96570"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M12 2 C12.5 7 13.5 8.5 18.5 9.2 C20 9.4 20 11 18.5 11.4 C13.5 12.6 12.5 14.1 12 19 C11.5 14.1 10.5 12.6 5.5 11.4 C4 11 4 9.4 5.5 9.2 C10.5 8.5 11.5 7 12 2 Z"
+                          fill="url(#gemini-grad)"/>
+                  </svg>
+                )}
+              </div>
+
+              <h3 class="font-serif text-2xl font-semibold text-ink m-0 mb-2 leading-tight">
+                {m.name}
+              </h3>
+              <p class="text-sm text-body m-0 leading-relaxed">
+                {m.role}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="text-sm text-muted max-w-[60ch] mt-10 m-0">
+        I treat models as collaborators, not oracles. I write the prompts,
+        run the evals, and validate the output against ground truth before
+        anything ships.
+      </p>
     </Section>
 
     <!-- Selected work -->
@@ -155,7 +252,7 @@ const featuredPost = {
         </div>
         <div>
           <h3 class="text-lg font-bold text-ink m-0 mb-2">Reproducible</h3>
-          <p class="text-body m-0">Auditable R, Python, and SQL with documented assumptions and reruns that produce the same numbers next quarter.</p>
+          <p class="text-body m-0">Documented assumptions and reruns that produce the same numbers next quarter — or tell you precisely why they can't.</p>
         </div>
         <div>
           <h3 class="text-lg font-bold text-ink m-0 mb-2">Production-minded</h3>
@@ -167,15 +264,24 @@ const featuredPost = {
     <!-- Contact -->
     <Section>
       <div class="bg-surface-soft border border-rule rounded-2xl px-8 py-12 lg:px-12 lg:py-14 text-center" id="contact">
-        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">Let's talk</p>
-        <h2 class="font-serif font-semibold text-ink text-4xl md:text-5xl tracking-tight leading-[1.08] m-0 mb-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">Hire me</p>
+        <h2 class="font-serif font-semibold text-ink text-4xl md:text-5xl tracking-tight leading-[1.08] m-0 mb-5">
           Have a question worth answering carefully?
         </h2>
-        <p class="text-body max-w-[52ch] mx-auto m-0 mb-8">
+        <p class="text-body max-w-[58ch] mx-auto m-0 mb-4">
           Send the question, the data you have, and when you need the answer.
-          I'll reply within two business days with next steps — or a referral if
-          I'm not the right fit.
+          I'll reply within two business days with next steps — or a referral
+          if I'm not the right fit.
         </p>
+
+        <!-- Credibility line: graduate training in statistics + data science -->
+        <p class="text-sm text-muted max-w-[58ch] mx-auto m-0 mb-8">
+          Backed by graduate training in
+          <strong class="text-ink">Statistics</strong> (M.S., Oregon State)
+          and <strong class="text-ink">Data Science</strong> (M.S., Willamette) —
+          the foundations live underneath every model and every report.
+        </p>
+
         <div class="flex flex-wrap justify-center gap-3">
           <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
           <Button href="/services" variant="ghost">See services</Button>
@@ -195,3 +301,24 @@ const featuredPost = {
 
   </div>
 </BaseLayout>
+
+<style>
+  /* AI card: subtle gradient halo glow on hover, keyed off --accent */
+  .ai-card-glow {
+    background: radial-gradient(
+      120% 90% at 50% 0%,
+      color-mix(in srgb, var(--accent) 22%, transparent),
+      transparent 65%
+    );
+  }
+  .ai-card {
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 100%
+    );
+  }
+  .ai-card:hover {
+    box-shadow: 0 24px 60px -28px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+</style>
