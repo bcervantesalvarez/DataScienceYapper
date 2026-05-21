@@ -36,63 +36,82 @@
   </div>
 </dialog>
 
-<!-- Pagefind UI CSS (only present after a production build) -->
-<link rel="stylesheet" href="/pagefind/pagefind-ui.css" onerror="this.onerror=null" />
+<!-- Pagefind UI CSS is appended dynamically on first open, so dev mode
+     (where /pagefind/ doesn't exist yet) doesn't 404 on every page load. -->
 
-<script>
+<script is:inline>
   // Lazy-load the Pagefind UI bundle when the modal is first opened.
-  let inited = false;
-  let pagefindUI = null;
+  // Marked is:inline so Vite skips its import analyzer on the dynamic
+  // import — `/pagefind/` only exists after `npm run build` runs
+  // pagefind against `dist/`, so a build-time resolution would fail.
+  (function () {
+    let inited = false;
+    let pagefindUI = null;
 
-  async function initPagefind() {
-    if (inited) return;
-    inited = true;
-    try {
-      // @ts-ignore — the bundle is generated at build time by pagefind
-      const mod = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
-      const PagefindUI = (mod && (mod.PagefindUI || mod.default?.PagefindUI)) || window.PagefindUI;
-      if (!PagefindUI) throw new Error('PagefindUI not found in /pagefind/pagefind-ui.js');
-      pagefindUI = new PagefindUI({
-        element: '#search-target',
-        resetStyles: false,
-        showImages: false,
-        showSubResults: true,
-        excerptLength: 18,
+    function ensureCss() {
+      if (document.querySelector('link[data-pagefind-css]')) return;
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/pagefind/pagefind-ui.css';
+      link.setAttribute('data-pagefind-css', '');
+      link.onerror = () => link.remove();
+      document.head.appendChild(link);
+    }
+
+    async function initPagefind() {
+      if (inited) return;
+      inited = true;
+      ensureCss();
+      try {
+        // Compose the URL at runtime so Vite's static analyzer can't
+        // see a literal — /* @vite-ignore */ alone is not enough when
+        // Astro bundles a module script.
+        const url = '/' + 'pagefind/pagefind-ui.js';
+        const mod = await import(url);
+        const PagefindUI =
+          (mod && (mod.PagefindUI || (mod.default && mod.default.PagefindUI))) ||
+          window.PagefindUI;
+        if (!PagefindUI) throw new Error('PagefindUI not found in /pagefind/pagefind-ui.js');
+        pagefindUI = new PagefindUI({
+          element: '#search-target',
+          resetStyles: false,
+          showImages: false,
+          showSubResults: true,
+          excerptLength: 18,
+        });
+      } catch (e) {
+        const fb = document.getElementById('search-fallback');
+        if (fb) fb.classList.remove('hidden');
+        console.warn('Pagefind UI not available (run `npm run build` to generate /pagefind/):', e);
+      }
+    }
+
+    function openSearch() {
+      const dlg = document.getElementById('search-dialog');
+      if (!dlg) return;
+      dlg.showModal();
+      initPagefind().then(() => {
+        const input = document.querySelector('#search-target input');
+        if (input) input.focus();
       });
-    } catch (e) {
-      document.getElementById('search-fallback')?.classList.remove('hidden');
-      console.warn('Pagefind UI not available (run `npm run build` to generate /pagefind/):', e);
     }
-  }
 
-  function openSearch() {
-    const dlg = document.getElementById('search-dialog');
-    if (!dlg) return;
-    dlg.showModal();
-    initPagefind().then(() => {
-      // Focus the input pagefind injects
-      const input = document.querySelector('#search-target input');
-      input?.focus();
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t instanceof Element && t.closest('[data-search-open]')) {
+        e.preventDefault();
+        openSearch();
+      }
     });
-  }
 
-  // Open via the trigger button(s) anywhere on the page
-  document.addEventListener('click', (e) => {
-    const t = e.target;
-    if (t instanceof Element && t.closest('[data-search-open]')) {
-      e.preventDefault();
-      openSearch();
-    }
-  });
-
-  // Cmd/Ctrl + K opens search
-  document.addEventListener('keydown', (e) => {
-    const meta = e.metaKey || e.ctrlKey;
-    if (meta && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      openSearch();
-    }
-  });
+    document.addEventListener('keydown', (e) => {
+      const meta = e.metaKey || e.ctrlKey;
+      if (meta && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+    });
+  })();
 </script>
 
 <style is:global>
