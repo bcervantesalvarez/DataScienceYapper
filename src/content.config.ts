@@ -1,12 +1,14 @@
-// src/content/config.ts
-// Typed content collections. Frontmatter is validated at build time —
-// a missing or malformed field fails the build instead of producing a
-// broken card or rendering blank metadata.
+// src/content.config.ts
+// Astro v6+ content collections with the new glob loader API.
+// Frontmatter is validated at build time via Zod schemas — a missing
+// or malformed field fails the build instead of producing a broken
+// card or rendering blank metadata.
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
-// All images live under public/images/ and are referenced by string path
-// (e.g. "/images/wine.jpeg"). Using a string field keeps the schema
-// simple and lets us use plain <img src={data.image}/>.
+// All images live under public/images/ and are referenced by string
+// path (e.g. "/images/wine.jpeg"). Using a string field keeps the
+// schema simple and lets us use plain <img src={data.image}/>.
 const baseFrontmatter = z.object({
   title: z.string(),
   description: z.string(),
@@ -18,7 +20,7 @@ const baseFrontmatter = z.object({
 });
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: baseFrontmatter.extend({
     /* Allow an external link (e.g. shinyapps.io) instead of a content body */
     external: z.string().url().optional(),
@@ -26,14 +28,14 @@ const projects = defineCollection({
 });
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: baseFrontmatter.extend({
     readingTime: z.number().optional(),
   }),
 });
 
 const talks = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/talks' }),
   schema: baseFrontmatter.extend({
     venue: z.string().optional(),
     slidesUrl: z.string().url().optional(),

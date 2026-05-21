@@ -42,7 +42,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US',
                 <tr class="border-b border-rule last:border-b-0 hover:bg-surface-soft transition-colors">
                   <td class="px-5 py-4 text-sm text-muted whitespace-nowrap">{fmt(t.data.date)}</td>
                   <td class="px-5 py-4">
-                    <a href={`/talks/${t.slug}`} class="text-ink font-semibold hover:text-accent no-underline">
+                    <a href={`/talks/${t.id}`} class="text-ink font-semibold hover:text-accent no-underline">
                       {t.data.title}
                     </a>
                     <div class="text-sm text-muted mt-1">{t.data.description}</div>

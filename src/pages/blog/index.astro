@@ -30,7 +30,7 @@ const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map(p => (
             <Card
-              href={`/blog/${p.slug}`}
+              href={`/blog/${p.id}`}
               title={p.data.title}
               description={p.data.description}
               tag={p.data.tag}
