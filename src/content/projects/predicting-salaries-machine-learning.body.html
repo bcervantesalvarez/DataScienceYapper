@@ -1,4 +1,4 @@
-<p><img src="../../..\assets/images/income.jpeg" class="img-fluid"></p>
+<p><img src="/images/income.jpeg" class="img-fluid"></p>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
 <p>In this project, our goal was to predict whether individuals earn more than $50K using machine learning techniques. We engaged in a thorough data science process, from data preprocessing and feature engineering to selecting principal components through PCA and optimizing hyperparameters for our model. Our collaborative efforts led to a high-performing model with a Kappa score of 0.9543, enhancing our data science expertise and setting the stage for future projects.</p>
@@ -25,7 +25,7 @@
 <section id="load-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-data">Load The Data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">income <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/openml_1590.csv"</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">"?"</span>)) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">income <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"/data/openml_1590.csv"</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">"?"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb2-2">  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb2-3">  <span class="fu">mutate</span>(<span class="at">income_above_50K =</span> <span class="fu">ifelse</span>(class <span class="sc">==</span> <span class="st">"&gt;50K"</span>,<span class="dv">1</span>,<span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb2-4">  <span class="fu">select</span>(<span class="sc">-</span>class) <span class="sc">%&gt;%</span></span>

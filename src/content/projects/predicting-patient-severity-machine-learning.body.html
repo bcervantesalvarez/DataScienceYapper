@@ -1,4 +1,4 @@
-<p><img src="../../..\assets/images/severity.jpeg" class="img-fluid"></p>
+<p><img src="/images/severity.jpeg" class="img-fluid"></p>
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
 <p>This paper presents a machine learning study that aims to predict severity levels in patients by utilizing a random forest approach based on symptom analysis. The objective of the study was to develop accurate rules for classifying patients into three severity levels: Mild, Moderate, and Severe. The dataset consisted of patient symptoms, which were used in conjunction with a random forest model for the classification task. The results indicated that patients with 1 to 3 symptoms, including depression, were classified as Mild, while those with at least 3 symptoms, including depression and cramps, were classified as Moderate. Patients with 4 symptoms, including cramps and spasms, were classified as Severe. The study conducted comprehensive evaluations using metrics such as the confusion matrix, ROC AUC, precision vs recall, and kappa to assess the performance of the random forest model. The results highlighted the promising performance of the model in accurately predicting severity levels among patients. The findings from this study provide robust evidence that can contribute to personalized healthcare and effective treatment planning.</p>
@@ -37,7 +37,7 @@
 <span id="cb1-25">)</span>
 <span id="cb1-26"></span>
 <span id="cb1-27"><span class="co"># Load the dataset</span></span>
-<span id="cb1-28">ds <span class="op">=</span> pd.read_csv(<span class="st">"../../../assets/datasets/severityLevels.csv"</span>)  </span>
+<span id="cb1-28">ds <span class="op">=</span> pd.read_csv(<span class="st">"/data/severitylevels.csv"</span>)  </span>
 <span id="cb1-29">ds.head(<span class="dv">10</span>)  <span class="co"># Display the first 10 rows of the dataset</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>

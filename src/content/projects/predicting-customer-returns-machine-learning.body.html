@@ -1,4 +1,4 @@
-<p><img src="../../..\assets/images/return.jpeg" class="img-fluid"></p>
+<p><img src="/images/return.jpeg" class="img-fluid"></p>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
 <p>This analysis aimed to predict customer product returns, leveraging detailed product characteristics and customer demographics. The objective was to proactively identify returns, enabling strategic interventions to enhance profitability and customer satisfaction.</p>
@@ -18,15 +18,15 @@
 <p>We then generated the following plots to visualize return behavior in more depth:</p>
 <ol type="1">
 <li><p><strong>Returned Orders by Department</strong><br>
-<img src="../../..\assets/images/ReturnedOrdersByDept.png" class="img-fluid"></p></li>
+<img src="/images/returnedordersbydept.png" class="img-fluid"></p></li>
 <li><p><strong>Returned Orders by Product Size</strong><br>
-<img src="../../..\assets/images/ReturnedOrdersBySize.png" class="img-fluid"></p></li>
+<img src="/images/returnedordersbysize.png" class="img-fluid"></p></li>
 <li><p><strong>Returned Orders by State and Region</strong><br>
-<img src="../../..\assets/images/ReturnedOrdersByStateRegion.png" class="img-fluid"></p></li>
+<img src="/images/returnedordersbystateregion.png" class="img-fluid"></p></li>
 <li><p><strong>State Contribution to Total Returns</strong> (Lollipop Chart)<br>
-<img src="../../..\assets/images/StateContribution.png" class="img-fluid"></p></li>
+<img src="/images/statecontribution.png" class="img-fluid"></p></li>
 <li><p><strong>Standardized Returns by State</strong> (Per 100k Population)<br>
-<img src="../../..\assets/images/StandardizedReturnsByState.png" class="img-fluid"></p></li>
+<img src="/images/standardizedreturnsbystate.png" class="img-fluid"></p></li>
 </ol>
 </section>
 <section id="strategic-feature-engineering" class="level2">
@@ -165,8 +165,8 @@ Yes           205   4495</code></pre>
 <h2 class="anchored" data-anchor-id="b.-data-loading-and-merging">B. Data Loading and Merging</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co"># A.2 -- Read CSVs, Merge Region &amp; Population</span></span>
-<span id="cb3-2">train <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/customerReturnTrain.csv"</span>) </span>
-<span id="cb3-3">test  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/customerReturnTest.csv"</span>) </span>
+<span id="cb3-2">train <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/customerreturntrain.csv"</span>) </span>
+<span id="cb3-3">test  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/customerreturntest.csv"</span>) </span>
 <span id="cb3-4"></span>
 <span id="cb3-5">state_regions <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb3-6">  <span class="sc">~</span>CustomerState,    <span class="sc">~</span>Region,</span>

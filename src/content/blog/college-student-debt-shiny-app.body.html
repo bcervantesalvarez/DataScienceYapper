@@ -1,4 +1,4 @@
-<p><img src="../../..\assets/images/uni.jpeg" class="img-fluid"></p>
+<p><img src="/images/uni.jpeg" class="img-fluid"></p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>In collaboration with <a href="https://www.linkedin.com/in/corey-cassell/">Corey Cassell</a>, our team developed an interactive tool tailored to support students in making informed decisions about their educational journey. This tool offers crucial financial insights, including salary and tuition estimators, as well as a debt calculator, empowering users to navigate their educational choices confidently. By exploring potential salaries, estimating tuition costs, and visualizing projected student debts, individuals can gain valuable perspectives on the financial aspects of their chosen career paths. Recognizing the significance of financial considerations in higher education, our tool comprises four essential components: salary estimator, tuition estimator, debt estimator, and debt calculator. Together, these components provide a comprehensive platform for prospective students to assess potential earnings, anticipate tuition expenses, calculate degree-related debt, and visualize future financial commitments aligned with their chosen majors.</p>
@@ -27,10 +27,10 @@
 <span id="cb1-11"><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-12"></span>
 <span id="cb1-13"><span class="co"># Reading necessary files from GitHub</span></span>
-<span id="cb1-14">allAgesDf <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/all-ages.csv"</span>)</span>
-<span id="cb1-15">tuition_cost <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/tuition_income.csv"</span>)</span>
-<span id="cb1-16">tuition <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/tuition_cost.csv"</span>)</span>
-<span id="cb1-17">ds4 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/salary_and_stats.csv"</span>)</span>
+<span id="cb1-14">allAgesDf <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/all-ages.csv"</span>)</span>
+<span id="cb1-15">tuition_cost <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/tuition_income.csv"</span>)</span>
+<span id="cb1-16">tuition <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/tuition_cost.csv"</span>)</span>
+<span id="cb1-17">ds4 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/data/salary_and_stats.csv"</span>)</span>
 <span id="cb1-18"></span>
 <span id="cb1-19"><span class="co"># Wrangling Salary Potential</span></span>
 <span id="cb1-20"><span class="co"># This section prepares data related to salary estimates for various majors.</span></span>

@@ -1,4 +1,4 @@
-<p><img src="../../..\assets/images/pinot.jpeg" class="img-fluid"></p>
+<p><img src="/images/pinot.jpeg" class="img-fluid"></p>
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
 <p>The purpose of this project was to develop a predictive model for identifying the province of origin for wines based on descriptions provided by critics. To achieve this goal, a random forest model was built and evaluated for its performance, achieving a kappa score of 0.82. This project aimed to provide a useful tool for wine connoisseurs and industry professionals in identifying the origin of wines based on their sensory characteristics.</p>
@@ -16,7 +16,7 @@
 <section id="feature-engineering" class="level2">
 <h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">wine <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">"../../../assets/datasets/pinot.rds"</span>) </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">wine <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">"/data/pinot.rds"</span>) </span>
 <span id="cb2-2"></span>
 <span id="cb2-3">wine_words <span class="ot">&lt;-</span> <span class="cf">function</span>(df, j, <span class="at">stem =</span> T){ </span>
 <span id="cb2-4">  <span class="fu">data</span>(stop_words)</span>

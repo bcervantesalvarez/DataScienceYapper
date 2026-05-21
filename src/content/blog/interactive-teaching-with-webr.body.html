@@ -101,7 +101,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (
 
 
 <div style="text-align: center; padding-top: 10px; padding-bottom: 10px;">
-<p><img src="../../../assets/images/webR.png" style="height: 400px;"></p>
+<p><img src="/images/webr.png" style="height: 400px;"></p>
 </div>
 <section id="the-case-for-webr" class="level1">
 <h1>The Case for <code>webR</code></h1>
@@ -137,7 +137,7 @@ currentDocumentLocation.appendChild(initializedElement);
 // Initialize a Monaco Editor Instance
 qwebrCreateMonacoEditorInstance(
   `# Sample code block for demonstration
-url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/refs/heads/main/assets/datasets/countries.csv"
+url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/refs/heads/main/data/countries.csv"
 download.file(url, "countries.csv")
 countriesDs <- read_csv("countries.csv", show_col_types = FALSE)`, 
   1);
@@ -248,7 +248,7 @@ currentDocumentLocation.appendChild(initializedElement);
 // Initialize a Monaco Editor Instance
 qwebrCreateMonacoEditorInstance(
   `# Specify the data URL using HTTPS
-url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/main/assets/datasets/countries.csv"
+url <- "https://raw.githubusercontent.com/bcervantesalvarez/Portfolio/main/data/countries.csv"
 
 # Download the data files from the HTTPS URL and save it as
 # countries.csv
