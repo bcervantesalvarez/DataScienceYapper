@@ -3,6 +3,7 @@
 // Site shell: <html>, <head>, navbar, footer. Every page should use this.
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
+import ScrollTop from '@components/ScrollTop.astro';
 import '@styles/global.css';
 
 interface Props {
@@ -73,5 +74,56 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <slot />
   </main>
   <Footer />
+  <ScrollTop />
+
+  <!-- Iframe enhancements:
+       (1) Ensure every iframe allows fullscreen (presentations + apps
+           that arrived inside imported Quarto HTML bodies have no such
+           attribute by default).
+       (2) Inject a small "Fullscreen" button overlay on every iframe
+           inside .article-body so visitors don't have to know about
+           revealjs's F key. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('iframe').forEach((f) => {
+        const cur = f.getAttribute('allow') || '';
+        if (!cur.includes('fullscreen')) {
+          f.setAttribute('allow', cur ? `${cur}; fullscreen` : 'fullscreen');
+        }
+        f.setAttribute('allowfullscreen', '');
+      });
+
+      document.querySelectorAll('.article-body iframe').forEach((f) => {
+        // Wrap each iframe in a positioned container so we can place a
+        // fullscreen-toggle button on top without disturbing layout.
+        if (f.parentElement && f.parentElement.classList.contains('iframe-shell')) return;
+
+        const shell = document.createElement('div');
+        shell.className = 'iframe-shell relative my-6';
+        f.parentElement?.insertBefore(shell, f);
+        shell.appendChild(f);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Open presentation in fullscreen');
+        btn.className =
+          'iframe-fs absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-ink text-bg shadow-md hover:bg-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
+        btn.innerHTML =
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><span>Fullscreen</span>';
+        btn.addEventListener('click', () => {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+            return;
+          }
+          // Request on the iframe itself so revealjs sees the resize and
+          // recomputes slide scale.
+          (f.requestFullscreen?.bind(f) ||
+            f.webkitRequestFullscreen?.bind(f) ||
+            (() => {}))();
+        });
+        shell.appendChild(btn);
+      });
+    });
+  </script>
 </body>
 </html>

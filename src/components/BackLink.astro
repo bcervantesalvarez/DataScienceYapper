@@ -1,0 +1,22 @@
+---
+// src/components/BackLink.astro
+// "Back to <listing>" link that goes at the top of a detail page.
+// Keeps the visitor oriented when they've drilled in from a listing.
+interface Props {
+  href: string;
+  label: string;
+}
+const { href, label } = Astro.props;
+---
+<a
+  href={href}
+  class="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-ink no-underline transition-colors mb-8 group"
+>
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+       class="transition-transform group-hover:-translate-x-0.5">
+    <line x1="19" y1="12" x2="5" y2="12" />
+    <polyline points="12 19 5 12 12 5" />
+  </svg>
+  {label}
+</a>

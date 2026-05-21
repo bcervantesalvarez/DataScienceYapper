@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import BackLink from '@components/BackLink.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('projects');
@@ -10,9 +11,12 @@ export async function getStaticPaths() {
 type Props = { entry: CollectionEntry<'projects'> };
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const backHref = entry.data.status === 'archived' ? '/archive' : '/projects';
+const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All projects';
 ---
 <BaseLayout title={entry.data.title} description={entry.data.description}>
   <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
+    <BackLink href={backHref} label={backLabel} />
     {entry.data.tag && (
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">
         {entry.data.tag}
