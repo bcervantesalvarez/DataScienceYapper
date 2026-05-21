@@ -4,22 +4,29 @@
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
 import ScrollTop from '@components/ScrollTop.astro';
+import SearchModal from '@components/SearchModal.astro';
 import '@styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  // Path under /og/ for a build-time generated card, e.g. "blog/my-post".
+  // When omitted, the shared /og/default.png is used.
+  ogPath?: string;
+  // Escape hatch for explicit static images (e.g. legacy assets).
   ogImage?: string;
 }
 
 const {
   title = 'Epsilon Labs',
   description = 'Statistical consulting, predictive modeling, and decision-grade analytics by Brian Cervantes Alvarez.',
-  ogImage = '/images/preview.png',
+  ogPath,
+  ogImage,
 } = Astro.props;
 
 const fullTitle = title === 'Epsilon Labs' ? title : `${title} · Epsilon Labs`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -42,7 +49,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:image" content={new URL(resolvedOg, Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Type -->
@@ -132,6 +139,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </main>
   <Footer />
   <ScrollTop />
+  <SearchModal />
 
   <!-- Iframe enhancements:
        (1) Ensure every iframe allows fullscreen (presentations + apps

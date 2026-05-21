@@ -1,0 +1,118 @@
+---
+// src/components/SearchModal.astro
+// Site-wide search modal backed by Pagefind.
+// In dev mode `/pagefind/` does not exist, so the modal will say
+// "indexing pending". After `npm run build` (which runs pagefind),
+// it's fully functional.
+---
+<dialog
+  id="search-dialog"
+  class="search-dialog bg-bg text-body backdrop:bg-ink/40 backdrop:backdrop-blur-sm rounded-2xl border border-rule shadow-2xl max-w-2xl w-[92vw] p-0 m-auto top-[14vh]"
+>
+  <div class="flex items-center justify-between px-5 py-3 border-b border-rule">
+    <h2 class="text-sm font-semibold uppercase tracking-[0.14em] text-muted m-0">
+      Search
+    </h2>
+    <button
+      type="button"
+      aria-label="Close search"
+      onclick="document.getElementById('search-dialog').close()"
+      class="text-muted hover:text-ink p-1 rounded transition-colors"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="p-5">
+    <div id="search-target" class="search-target"></div>
+    <p id="search-fallback" class="text-sm text-muted m-0 hidden">
+      Search isn't indexed yet. Run <code class="text-xs">npm run build</code> to
+      generate the index, then refresh.
+    </p>
+  </div>
+</dialog>
+
+<!-- Pagefind UI CSS (only present after a production build) -->
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" onerror="this.onerror=null" />
+
+<script>
+  // Lazy-load the Pagefind UI bundle when the modal is first opened.
+  let inited = false;
+  let pagefindUI = null;
+
+  async function initPagefind() {
+    if (inited) return;
+    inited = true;
+    try {
+      // @ts-ignore — the bundle is generated at build time by pagefind
+      const mod = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
+      const PagefindUI = (mod && (mod.PagefindUI || mod.default?.PagefindUI)) || window.PagefindUI;
+      if (!PagefindUI) throw new Error('PagefindUI not found in /pagefind/pagefind-ui.js');
+      pagefindUI = new PagefindUI({
+        element: '#search-target',
+        resetStyles: false,
+        showImages: false,
+        showSubResults: true,
+        excerptLength: 18,
+      });
+    } catch (e) {
+      document.getElementById('search-fallback')?.classList.remove('hidden');
+      console.warn('Pagefind UI not available (run `npm run build` to generate /pagefind/):', e);
+    }
+  }
+
+  function openSearch() {
+    const dlg = document.getElementById('search-dialog');
+    if (!dlg) return;
+    dlg.showModal();
+    initPagefind().then(() => {
+      // Focus the input pagefind injects
+      const input = document.querySelector('#search-target input');
+      input?.focus();
+    });
+  }
+
+  // Open via the trigger button(s) anywhere on the page
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t instanceof Element && t.closest('[data-search-open]')) {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  // Cmd/Ctrl + K opens search
+  document.addEventListener('keydown', (e) => {
+    const meta = e.metaKey || e.ctrlKey;
+    if (meta && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+</script>
+
+<style is:global>
+  /* Tune the Pagefind UI defaults to match the editorial palette. */
+  .pagefind-ui {
+    --pagefind-ui-scale: 0.95;
+    --pagefind-ui-primary: rgb(var(--color-ink));
+    --pagefind-ui-text: rgb(var(--color-body));
+    --pagefind-ui-background: rgb(var(--color-bg));
+    --pagefind-ui-border: rgb(var(--color-rule));
+    --pagefind-ui-tag: rgb(var(--color-surface-soft));
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 10px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+  .pagefind-ui__search-input {
+    background: rgb(var(--color-surface)) !important;
+  }
+  .pagefind-ui__result-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+</style>

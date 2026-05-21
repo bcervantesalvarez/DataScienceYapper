@@ -16,7 +16,11 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US',
 const backHref = entry.data.status === 'archived' ? '/archive' : '/blog';
 const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All posts';
 ---
-<BaseLayout title={entry.data.title} description={entry.data.description}>
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogPath={`blog/${entry.id}`}
+>
   <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>
