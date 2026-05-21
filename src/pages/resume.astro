@@ -1,0 +1,212 @@
+---
+// src/pages/resume.astro — Web-native resume.
+// One-page scannable layout. Keep this in sync as roles change; the
+// static PDF in public/documents/resume/bca-resume.pdf is a snapshot
+// of this content for download.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/Button.astro';
+
+const today = new Date().toLocaleDateString('en-US',
+  { month: 'long', year: 'numeric' });
+
+const experience = [
+  {
+    role: 'Business Intelligence Analyst',
+    org: 'Oregon Department of Education',
+    start: 'Dec 2025', end: 'Present',
+    location: 'Salem, OR',
+    bullets: [
+      'Designing dashboards and longitudinal reports that surface student-outcome trends across Oregon districts, used by program leads to prioritize interventions.',
+      'Modernizing the analytics layer over the agency\'s educational data systems — moving ad-hoc queries into versioned, auditable pipelines that produce the same numbers quarter over quarter.',
+      'Partnering with subject-matter experts to translate policy questions into statistically defensible analyses, with documented assumptions and limits.',
+    ],
+  },
+  {
+    role: 'Principal · Statistical Consulting',
+    org: 'Epsilon Labs (independent)',
+    start: '2024', end: 'Present',
+    location: 'Remote',
+    bullets: [
+      'Statistical consulting for teams that need scoped, defensible analytics — experimental design, predictive modeling, and interactive dashboards.',
+      'Engagements delivered on fixed-fee project or short-retainer terms, every one starting with a scoping call and a written proposal.',
+    ],
+  },
+  {
+    role: 'Graduate Researcher & Teaching Assistant',
+    org: 'Oregon State University · Department of Statistics',
+    start: '2022', end: '2024',
+    location: 'Corvallis, OR',
+    bullets: [
+      'Modernized the department\'s data-visualization curriculum with Quarto, webR, and reproducible Shiny-based labs.',
+      'Taught undergraduate sections on regression, experimental design, and applied statistics; built lecture and lab materials still in use.',
+      'Research focus: Bayesian methods, missing-data imputation, and applied multivariate analysis.',
+    ],
+  },
+  {
+    role: 'Data Science Graduate Student',
+    org: 'Willamette University · MSDS',
+    start: '2021', end: '2022',
+    location: 'Salem, OR',
+    bullets: [
+      'Capstone team projects spanning predictive modeling, ETL, and interactive dashboards on real datasets (retail, census, healthcare).',
+      'Earned the M.S. in Data Science with coursework in machine learning, reproducible analytics, and applied computing.',
+    ],
+  },
+];
+
+const credentials = [
+  { degree: 'M.S. Statistics', school: 'Oregon State University', year: '2024' },
+  { degree: 'M.S. Data Science', school: 'Willamette University', year: '2022' },
+  { degree: 'B.S. Mathematics', school: 'Linfield University', year: '2020' },
+];
+
+const capabilities = [
+  'Experimental design · A/B testing · power analysis',
+  'Regression · GLMs · mixed-effects · Bayesian inference',
+  'Classification · forecasting · time-to-event modeling',
+  'Predictive ML · validation · explainability',
+  'Interactive dashboards · self-service decision aids',
+  'Reproducible pipelines · versioned · auditable',
+  'Statistical training · workshops · curriculum design',
+  'AI-native workflows · prompt engineering · model evaluation',
+];
+---
+<BaseLayout
+  title="Resume"
+  description="Brian Cervantes Alvarez — Business Intelligence Analyst at the Oregon Department of Education; principal at Epsilon Labs."
+>
+  <article class="max-w-narrow mx-auto px-6 pt-16 pb-20">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-3">Resume</p>
+      <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.04] m-0 mb-4">
+        Brian Cervantes Alvarez
+      </h1>
+      <p class="text-lede text-body m-0 mb-1">
+        Statistician · Business Intelligence Analyst · Principal, Epsilon Labs
+      </p>
+      <p class="text-sm text-muted m-0">
+        Salem, OR · Updated {today}
+      </p>
+
+      <div class="flex flex-wrap gap-3 mt-6">
+        <Button href="mailto:briancervantesalvarez@gmail.com">Email</Button>
+        <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
+        <Button href="https://github.com/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">GitHub</Button>
+        <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">PDF version</Button>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-3">Summary</h2>
+      <p class="text-body m-0 mb-3">
+        Statistician and data scientist with graduate training in both fields
+        (M.S. Statistics, Oregon State; M.S. Data Science, Willamette) and
+        applied experience across education, retail, and healthcare data.
+      </p>
+      <p class="text-body m-0">
+        Currently a Business Intelligence Analyst at the Oregon Department of
+        Education, where I build dashboards and audited analytics over the
+        state's educational data systems. Independent consulting via Epsilon
+        Labs covers experimental design, predictive modeling, and decision-
+        ready analytics for teams that need a scoped, defensible answer.
+      </p>
+    </section>
+
+    <!-- Experience -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-6">Experience</h2>
+      <ol class="list-none m-0 p-0 flex flex-col gap-8">
+        {experience.map(job => (
+          <li class="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-2 md:gap-8 border-t border-rule pt-6 first:border-t-0 first:pt-0">
+            <div class="text-sm text-muted">
+              <div class="font-semibold text-ink">{job.start}–{job.end}</div>
+              <div>{job.location}</div>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-ink m-0 mb-1">{job.role}</h3>
+              <p class="text-sm font-semibold text-accent m-0 mb-3">{job.org}</p>
+              <ul class="list-disc pl-5 m-0 space-y-2">
+                {job.bullets.map(b => <li class="text-body">{b}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-6">Education</h2>
+      <ul class="list-none m-0 p-0 flex flex-col gap-3">
+        {credentials.map(c => (
+          <li class="flex justify-between items-baseline border-b border-rule pb-3 last:border-b-0">
+            <div>
+              <div class="font-semibold text-ink">{c.degree}</div>
+              <div class="text-sm text-muted">{c.school}</div>
+            </div>
+            <div class="text-sm text-muted shrink-0 ml-4">{c.year}</div>
+          </li>
+        ))}
+      </ul>
+      <p class="text-sm text-muted m-0 mt-4">
+        Full programs and coursework on the
+        <a href="/about" class="text-accent hover:text-ink">about page</a>.
+      </p>
+    </section>
+
+    <!-- Capabilities -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-6">Capabilities</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 list-disc pl-5 m-0">
+        {capabilities.map(c => <li class="text-body">{c}</li>)}
+      </ul>
+    </section>
+
+    <!-- Selected work -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-6">Selected work</h2>
+      <ul class="list-none m-0 p-0 flex flex-col gap-3 text-body">
+        <li>
+          <a href="/projects/united-kingdom-car-accident-shiny-app" class="font-semibold text-ink hover:text-accent">UK Accident Time-Series Dashboard</a> · interactive Shiny app over historical UK road-accident data.
+        </li>
+        <li>
+          <a href="/projects/wine-multivariate-statistical-analysis" class="font-semibold text-ink hover:text-accent">Wine Chemistry — Multivariate Analysis</a> · MANOVA + classification on red vs. white at 99% accuracy.
+        </li>
+        <li>
+          <a href="/projects/yelp-business-reviews-shiny-app" class="font-semibold text-ink hover:text-accent">Yelp Reviews Spatial Dashboard</a> · kriged surfaces and interactive variogram tuning for review data.
+        </li>
+        <li>
+          <a href="/blog/interactive-teaching-with-webr" class="font-semibold text-ink hover:text-accent">Interactive Teaching with webR</a> · browser-native R labs for cross-platform classrooms.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Speaking -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl text-ink m-0 mb-4">Speaking</h2>
+      <p class="text-body m-0">
+        Recent talks on
+        <a href="/talks/loan-application-statistical-analysis" class="text-accent hover:text-ink">logistic regression</a>,
+        <a href="/talks/missing-data-with-mice-statistical-analysis" class="text-accent hover:text-ink">MICE imputation</a>,
+        <a href="/talks/water-parasites-survival-analysis" class="text-accent hover:text-ink">survival analysis</a>,
+        <a href="/talks/building-professional-portfolio-via-quarto" class="text-accent hover:text-ink">portfolio infrastructure</a>,
+        and
+        <a href="/talks/teaching-with-webr" class="text-accent hover:text-ink">webR in the classroom</a>.
+        Full list on the <a href="/talks" class="text-accent hover:text-ink">talks page</a>.
+      </p>
+    </section>
+
+    <!-- Footer note -->
+    <footer class="border-t border-rule pt-6 text-sm text-muted">
+      <p class="m-0">
+        References available on request.
+        Epsilon Labs is operated independently of the principal's role at the
+        Oregon Department of Education.
+      </p>
+    </footer>
+
+  </article>
+</BaseLayout>

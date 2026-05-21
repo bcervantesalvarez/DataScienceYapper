@@ -2,6 +2,54 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
+import SchoolBanner from '@components/SchoolBanner.astro';
+
+// Education banners. Colors taken from each school's brand palette.
+// Ordered most-recent first so it reads top-to-bottom as a timeline.
+const schools = [
+  {
+    school: 'Oregon State University',
+    degree: 'M.S. Statistics',
+    years: '2022 – 2024',
+    href: 'https://stat.oregonstate.edu/',
+    hrefLabel: 'Department of Statistics',
+    color: '#DC4405',  // Beaver Orange
+    accent: '#FFFFFF',
+    align: 'left' as const,
+    description:
+      'Bayesian methods, experimental design, and applied multivariate modeling. ' +
+      'Taught undergraduate sections and modernized the department\'s data-' +
+      'visualization curriculum with Quarto, webR, and reproducible Shiny labs.',
+  },
+  {
+    school: 'Willamette University',
+    degree: 'M.S. Data Science',
+    years: '2021 – 2022',
+    href: 'https://willamette.edu/academics/computing/data-science/',
+    hrefLabel: 'Data Science program',
+    color: '#A6093D',  // Willamette Cardinal
+    accent: '#E1A03F', // Old Gold
+    align: 'right' as const,
+    description:
+      'Machine learning, predictive modeling, and reproducible analytics ' +
+      'workflows. Team capstones on real datasets across retail, census, and ' +
+      'healthcare gave the program its applied edge.',
+  },
+  {
+    school: 'Linfield University',
+    degree: 'B.S. Mathematics',
+    years: '2016 – 2020',
+    href: 'https://www.linfield.edu/',
+    hrefLabel: 'Visit Linfield',
+    color: '#4B0082',  // Linfield Wildcat purple
+    accent: '#FFFFFF',
+    align: 'left' as const,
+    description:
+      'Calculus, linear algebra, probability, and the analytical foundations ' +
+      'everything else sits on. First exposure to statistical computing and ' +
+      'the habits of careful proof.',
+  },
+];
 ---
 <BaseLayout title="About">
   <div class="ed">
@@ -23,6 +71,7 @@ import Button from '@components/Button.astro';
             <div class="flex flex-wrap gap-3">
               <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
               <Button href="https://linkedin.com/in/bcervantesalvarez" target="_blank" rel="noreferrer" variant="ghost">LinkedIn</Button>
+              <Button href="/resume" variant="ghost">Resume</Button>
               <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">CV (PDF)</Button>
             </div>
           </div>
@@ -30,7 +79,7 @@ import Button from '@components/Button.astro';
             src="/images/profile.jpg"
             alt="Brian Cervantes Alvarez"
             loading="eager"
-            class="justify-self-center lg:justify-self-end w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover border border-rule-strong"
+            class="justify-self-center lg:justify-self-end w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover [object-position:50%_25%] border border-rule-strong"
           />
         </div>
       </div>
@@ -53,21 +102,15 @@ import Button from '@components/Button.astro';
       </div>
     </Section>
 
-    <Section eyebrow="Training" title="Where I trained.">
-      <ul class="list-none m-0 p-0 max-w-narrow">
-        <li class="py-6 border-t border-rule first:border-t-0 first:pt-0 grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
-          <div class="font-bold text-ink text-base">M.S. Statistics</div>
-          <div class="text-body">Oregon State University — Bayesian methods, experimental design, and applied modeling. Taught undergraduate sections and developed data-visualization curriculum.</div>
-        </li>
-        <li class="py-6 border-t border-rule grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
-          <div class="font-bold text-ink text-base">M.S. Data Science</div>
-          <div class="text-body">Willamette University — Machine learning, predictive modeling, and reproducible analytics workflows.</div>
-        </li>
-        <li class="py-6 border-t border-rule grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-2 sm:gap-8">
-          <div class="font-bold text-ink text-base">B.S. Mathematics</div>
-          <div class="text-body">Linfield University — Calculus, linear algebra, statistics, and the analytical foundations everything else sits on.</div>
-        </li>
-      </ul>
+    <!-- Where I trained — alternating school banners -->
+    <Section eyebrow="Where I trained" title="Three degrees, one statistical career.">
+      <div class="flex flex-col gap-6">
+        {schools.map(s => <SchoolBanner {...s} />)}
+      </div>
+      <p class="text-sm text-muted mt-8 m-0 max-w-prose">
+        The full coursework list, advisors, and teaching record is on
+        the <a href="/resume" class="text-accent hover:text-ink">resume</a>.
+      </p>
     </Section>
 
     <Section eyebrow="Independence" title="A note on conflicts.">

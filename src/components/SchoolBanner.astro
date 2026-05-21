@@ -1,0 +1,137 @@
+---
+// src/components/SchoolBanner.astro
+// Bold full-width education card: school-color band + content.
+// Alternates left/right via `align` so a column of banners reads
+// like the OSU-prospectives banner system.
+//
+// Each banner is themed via two hex props (primary + accent) so the
+// component stays neutral and the colors live with the data.
+interface Props {
+  school: string;
+  degree: string;
+  years: string;
+  href: string;          // department or program URL
+  hrefLabel?: string;
+  /** Hex like "#DC4405". Drives the band background. */
+  color: string;
+  /** Hex used for the highlight rule + button. */
+  accent: string;
+  /** "left" puts the color band on the left, content right. */
+  align?: 'left' | 'right';
+  /** Bullets / paragraph text. Plain string. */
+  description: string;
+}
+
+const {
+  school, degree, years, href,
+  hrefLabel = 'Visit department',
+  color, accent,
+  align = 'left',
+  description,
+} = Astro.props;
+---
+<article
+  class:list={[
+    'school-banner group relative overflow-hidden rounded-2xl border border-rule bg-surface',
+    'grid grid-cols-1 md:grid-cols-2',
+    'transition-all duration-300',
+  ]}
+  style={`--school-color: ${color}; --school-accent: ${accent};`}
+>
+  <!-- Color band -->
+  <div
+    class:list={[
+      'school-band relative flex flex-col justify-between p-8 md:p-10 min-h-[220px] text-white',
+      align === 'right' ? 'md:order-2' : 'md:order-1',
+    ]}
+  >
+    <div>
+      <p class="text-xs font-bold uppercase tracking-[0.18em] opacity-80 m-0 mb-3">
+        {degree}
+      </p>
+      <h3 class="font-serif text-3xl md:text-4xl font-semibold leading-[1.1] m-0">
+        {school}
+      </h3>
+    </div>
+    <p class="text-sm font-medium opacity-90 m-0 mt-4">{years}</p>
+  </div>
+
+  <!-- Body -->
+  <div
+    class:list={[
+      'p-8 md:p-10 flex flex-col justify-between gap-6',
+      align === 'right' ? 'md:order-1' : 'md:order-2',
+    ]}
+  >
+    <p class="text-body m-0 text-base leading-relaxed">{description}</p>
+
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      class="school-cta inline-flex items-center gap-2 self-start font-semibold text-sm uppercase tracking-[0.08em] no-underline"
+    >
+      <span>{hrefLabel}</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+           class="transition-transform group-hover:translate-x-0.5">
+        <line x1="7" y1="17" x2="17" y2="7" />
+        <polyline points="7 7 17 7 17 17" />
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style>
+  .school-banner {
+    box-shadow: 0 1px 0 var(--color-rule);
+  }
+  .school-banner:hover {
+    border-color: var(--school-color);
+    box-shadow:
+      0 1px 0 var(--school-color),
+      0 24px 40px -28px color-mix(in srgb, var(--school-color) 50%, transparent);
+    transform: translateY(-2px);
+  }
+
+  /* Color band — solid school color, plus a soft diagonal sheen on hover */
+  .school-band {
+    background-color: var(--school-color);
+    background-image:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--school-color) 100%, transparent) 0%,
+        color-mix(in srgb, var(--school-color) 80%, #000 5%) 100%
+      );
+    isolation: isolate;
+  }
+  .school-band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 40%,
+      color-mix(in srgb, var(--school-accent) 18%, transparent) 50%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .school-banner:hover .school-band::after {
+    transform: translateX(100%);
+  }
+
+  /* CTA picks up the school accent */
+  .school-cta {
+    color: var(--school-color);
+    border-bottom: 2px solid color-mix(in srgb, var(--school-color) 30%, transparent);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .school-cta:hover {
+    color: var(--school-accent);
+    border-bottom-color: var(--school-accent);
+  }
+</style>
