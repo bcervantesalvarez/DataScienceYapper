@@ -390,3 +390,63 @@
     margin: 1.25rem 0;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────
+   Iframe "presentation mode" overlay.
+
+   When BaseLayout's iframe enhancer toggles `.present` on a shell, we
+   lift the shell to a fixed full-viewport overlay so the iframe is
+   resized via normal DOM reflow. Revealjs picks up the resize and
+   scales the deck to fit the real screen — which the native iframe
+   fullscreen API can't reliably do across origins.
+   ────────────────────────────────────────────────────────────────── */
+.iframe-shell {
+  --present-bg: #0b0d12;
+}
+.iframe-shell.present {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  margin: 0 !important;
+  background: var(--present-bg);
+  display: flex;
+}
+.iframe-shell.present > iframe,
+.iframe-shell.present > div > iframe {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  background: var(--present-bg) !important;
+  display: block;
+  flex: 1 1 auto;
+}
+.iframe-shell.present .iframe-fs {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10000;
+}
+html.iframe-presenting,
+html.iframe-presenting body {
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   KaTeX colour harmonization: KaTeX uses inline CSS variables that
+   default fine on light, but in dark mode we want the math to inherit
+   the body ink colour instead of black.
+   ────────────────────────────────────────────────────────────────── */
+.article-body .katex,
+.article-body .katex-display {
+  color: rgb(var(--color-ink));
+}
+.article-body .katex-display {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

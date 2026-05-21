@@ -60,14 +60,21 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500..800&display=swap"
   />
 
-  <!-- KaTeX (only renders any inline `<span class="math">` that survived
-       the qmd → MDX port; otherwise inert). -->
+  <!-- KaTeX: render math left over from the Quarto export. The bodies
+       carry raw LaTeX inside <span class="math inline|display"> nodes;
+       we render those in place after DOMContentLoaded. -->
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
     integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
     crossorigin="anonymous"
   />
+  <script
+    is:inline
+    defer
+    src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    crossorigin="anonymous"
+  ></script>
 
   <!-- JSON-LD: Person + Organization. Search engines surface these
        in the knowledge panel + as rich results. -->
@@ -141,13 +148,47 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <ScrollTop />
   <SearchModal />
 
-  <!-- Iframe enhancements:
-       (1) Ensure every iframe allows fullscreen (presentations + apps
-           that arrived inside imported Quarto HTML bodies have no such
-           attribute by default).
-       (2) Inject a small "Fullscreen" button overlay on every iframe
-           inside .article-body so visitors don't have to know about
-           revealjs's F key. -->
+  <!-- KaTeX: render math left over from the Quarto export -->
+  <script>
+    function renderArticleMath() {
+      // @ts-ignore — katex is loaded via the CDN <script> in <head>
+      const k = window.katex;
+      if (!k) return false;
+      document.querySelectorAll('.article-body .math').forEach((el) => {
+        if (el.hasAttribute('data-katex-rendered')) return;
+        const tex = (el.textContent || '').trim();
+        if (!tex) return;
+        const displayMode = el.classList.contains('display');
+        try {
+          k.render(tex, el, { throwOnError: false, displayMode, strict: 'ignore' });
+          el.setAttribute('data-katex-rendered', '');
+        } catch (e) {
+          console.warn('KaTeX render failed:', tex, e);
+        }
+      });
+      return true;
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        // The katex script has `defer`, so it may not be ready yet.
+        if (!renderArticleMath()) {
+          const retry = setInterval(() => {
+            if (renderArticleMath()) clearInterval(retry);
+          }, 50);
+          setTimeout(() => clearInterval(retry), 5000);
+        }
+      });
+    } else {
+      renderArticleMath();
+    }
+  </script>
+
+  <!-- Iframe presentation mode:
+       Native iframe fullscreen often fails to trigger revealjs's resize
+       handler on cross-origin embeds, leaving slides at the small
+       embedded scale. Instead, we toggle a `.present` class that lifts
+       the iframe into a fixed full-viewport overlay; revealjs picks up
+       the natural resize and scales correctly. Esc exits. -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('iframe').forEach((f) => {
@@ -158,10 +199,16 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
         f.setAttribute('allowfullscreen', '');
       });
 
+      let active = null;
+      const exit = () => {
+        if (!active) return;
+        document.documentElement.classList.remove('iframe-presenting');
+        active.classList.remove('present');
+        active = null;
+      };
+
       document.querySelectorAll('.article-body iframe').forEach((f) => {
-        // Wrap each iframe in a positioned container so we can place a
-        // fullscreen-toggle button on top without disturbing layout.
-        if (f.parentElement && f.parentElement.classList.contains('iframe-shell')) return;
+        if (f.parentElement?.classList.contains('iframe-shell')) return;
 
         const shell = document.createElement('div');
         shell.className = 'iframe-shell relative my-6';
@@ -170,23 +217,41 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
 
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.setAttribute('aria-label', 'Open presentation in fullscreen');
+        btn.setAttribute('aria-label', 'Open presentation full screen');
         btn.className =
-          'iframe-fs absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-ink text-bg shadow-md hover:bg-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
+          'iframe-fs absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-ink text-bg shadow-md hover:bg-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
         btn.innerHTML =
-          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><span>Fullscreen</span>';
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><span class="fs-label">Full screen</span>';
+        const setLabel = (text) => {
+          const lbl = btn.querySelector('.fs-label');
+          if (lbl) lbl.textContent = text;
+        };
         btn.addEventListener('click', () => {
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
+          if (shell.classList.contains('present')) {
+            setLabel('Full screen');
+            exit();
             return;
           }
-          // Request on the iframe itself so revealjs sees the resize and
-          // recomputes slide scale.
-          (f.requestFullscreen?.bind(f) ||
-            f.webkitRequestFullscreen?.bind(f) ||
-            (() => {}))();
+          exit();
+          shell.classList.add('present');
+          document.documentElement.classList.add('iframe-presenting');
+          active = shell;
+          setLabel('Exit');
+          // Nudge the iframe to recompute layout once the new size lands.
+          requestAnimationFrame(() => {
+            window.dispatchEvent(new Event('resize'));
+          });
         });
         shell.appendChild(btn);
+
+        shell.addEventListener('present:exit', () => setLabel('Full screen'));
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && active) {
+          active.dispatchEvent(new Event('present:exit'));
+          exit();
+        }
       });
     });
   </script>
