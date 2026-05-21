@@ -1,0 +1,354 @@
+<p><img src="../../..\assets/images/AmazonLogo.jpeg" class="img-fluid"></p>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>This project focuses on the development of a Shiny application to analyze Amazon products in India. Using a dataset sourced from Kaggle, the application aims to create an informative dashboard showcasing categories with the highest average ratings and reviews. Despite encountering challenges with product categorization, the project prioritizes efficiency and design improvements.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The objective of this project is to create a Shiny application that explores the Amazon products dataset from India. The dataset, obtained from Kaggle, presented challenges during development, particularly regarding product categories. However, the project’s primary focus was on creating a concise and informative dashboard displaying categories with the highest average ratings and reviews.</p>
+<p>Compared to previous Shiny app development experiences, this project demonstrated improved efficiency, taking significantly less time to complete. Furthermore, advanced CSS theming was implemented to enhance the overall design of the application. While additional features and visualizations could be incorporated, the decision was made to leave them for future exploration.</p>
+</section>
+<section id="questions" class="level2">
+<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<ul>
+<li><p>What is the average <strong>rating</strong> for each category and subcategory?</p></li>
+<li><p>What is the average <strong>review</strong> for each category and subcategory?</p></li>
+</ul>
+</section>
+<section id="further-improvement-questions" class="level2">
+<h2 class="anchored" data-anchor-id="further-improvement-questions">Further Improvement Questions</h2>
+<ul>
+<li>Is there a correlation between the number of ratings and the product rating?</li>
+<li>What is the average discount percentage for each main category and subcategory?</li>
+<li>What is the price range for each main category and subcategory?</li>
+<li>Which products have the highest ratings and how do they compare in terms of price and number of ratings?</li>
+</ul>
+</section>
+<section id="conclusion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This project served as a rewarding experience, providing opportunities to enhance data analysis and Shiny app development skills. The Shiny application developed enables users to analyze Amazon products in India and offers insights into categories with the highest average ratings and reviews. Despite encountering challenges related to product categorization, the project prioritized efficiency and introduced improvements in design. Future exploration of additional features and visualizations remains open for further development and enhancement.</p>
+<div class="column-screen">
+<iframe src="https://bcervantesalvarez.shinyapps.io/AmazonProductApp/" title="UKAccidentTimeSeries" width="100%" height="800">
+</iframe>
+</div>
+<p><a href="https://bcervantesalvarez.shinyapps.io/AmazonProductApp/">Fullscreen</a></p>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<section id="load-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu">library</span>(shiny)</span>
+<span id="cb1-2"><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><span class="fu">library</span>(readr)</span>
+<span id="cb1-4"><span class="fu">library</span>(stringr)</span>
+<span id="cb1-5"><span class="fu">library</span>(plotly)</span>
+<span id="cb1-6"><span class="fu">library</span>(DT)</span>
+<span id="cb1-7"><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="part-1-data-wrangling-multiple-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-data-wrangling-multiple-datasets">Part 1: Data Wrangling Multiple Datasets</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co"># ORIGINAL DATA WRANGLING </span></span>
+<span id="cb2-2"></span>
+<span id="cb2-3">datasets <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"~/Documents/ShinyApps/AmazonProducts/AmazonProductApp"</span>, <span class="at">pattern =</span> <span class="st">"csv"</span>))</span>
+<span id="cb2-4"><span class="fu">colnames</span>(datasets) <span class="ot">&lt;-</span> <span class="st">"Datasets"</span></span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="co"># Combine all the datasets</span></span>
+<span id="cb2-7"><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">length</span>(<span class="fu">nrow</span>(datasets))){</span>
+<span id="cb2-8"> combinedDs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(datasets[[i]])</span>
+<span id="cb2-9">}</span>
+<span id="cb2-10"></span>
+<span id="cb2-11">amazonProducts <span class="ot">&lt;-</span> combinedDs <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"> <span class="fu">mutate</span>(<span class="at">Name =</span> name,</span>
+<span id="cb2-13">       <span class="at">MainCategory =</span> <span class="fu">factor</span>(<span class="fu">str_to_title</span>((<span class="fu">sort</span>(main_category)))),</span>
+<span id="cb2-14">       <span class="at">SubCategory =</span> <span class="fu">factor</span>(<span class="fu">sort</span>(sub_category)),</span>
+<span id="cb2-15">       <span class="at">ProductImage =</span> image,</span>
+<span id="cb2-16">       <span class="at">ProductRating =</span> <span class="fu">as.numeric</span>(ratings),</span>
+<span id="cb2-17">       <span class="at">NumberOfRatings =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">,"</span>,<span class="st">""</span>,no_of_ratings)),</span>
+<span id="cb2-18">       <span class="at">DiscountPrice =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"[</span><span class="sc">\\</span><span class="st">₹,]"</span>, <span class="st">""</span>, discount_price)) <span class="sc">/</span> <span class="fl">81.85</span>, <span class="dv">2</span>), <span class="co"># convert from Rupee to USD</span></span>
+<span id="cb2-19">       <span class="at">Price =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"[</span><span class="sc">\\</span><span class="st">₹,]"</span>, <span class="st">""</span>, actual_price)) <span class="sc">/</span> <span class="fl">81.85</span>, <span class="dv">2</span>),           <span class="co"># convert from Rupee to USD</span></span>
+<span id="cb2-20">       <span class="at">ProductLink =</span> link) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(name, </span>
+<span id="cb2-22">           main_category, </span>
+<span id="cb2-23">           sub_category, </span>
+<span id="cb2-24">           image, </span>
+<span id="cb2-25">           ratings, </span>
+<span id="cb2-26">           no_of_ratings, </span>
+<span id="cb2-27">           discount_price, </span>
+<span id="cb2-28">           actual_price,</span>
+<span id="cb2-29">           link)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-30"> <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-31"> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(SubCategory, <span class="st">"^All "</span>))</span>
+<span id="cb2-32"></span>
+<span id="cb2-33"><span class="co"># amazonProducts %&gt;%</span></span>
+<span id="cb2-34"><span class="co"># write_csv("amazonProducts.csv")</span></span></code></pre></div>
+</details>
+</div>
+<section id="reload-data" class="level3">
+<h3 class="anchored" data-anchor-id="reload-data">Reload Data</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">products <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../Assets/Datasets/amazonProducts.csv"</span>)</span></code></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="part-2-data-wrangling-for-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-data-wrangling-for-visualization">Part 2: Data Wrangling For Visualization</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">products <span class="ot">&lt;-</span> products <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">DiscountPrice =</span> <span class="fu">round</span>(DiscountPrice82<span class="fl">.04</span>,<span class="dv">2</span>), <span class="at">Price =</span> <span class="fu">round</span>(Price82<span class="fl">.04</span>,<span class="dv">2</span>))</span>
+<span id="cb4-2"></span>
+<span id="cb4-3"><span class="co">#For Plot 1</span></span>
+<span id="cb4-4">ratings <span class="ot">&lt;-</span> products <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(ProductImage, Name, ProductLink)) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(MainCategory,SubCategory) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">AverageRating =</span> <span class="fu">mean</span>(ProductRating)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb4-5"></span>
+<span id="cb4-6">reviews <span class="ot">&lt;-</span> products <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(ProductImage, Name, ProductLink)) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(MainCategory,SubCategory) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">AverageReview =</span> <span class="fu">mean</span>(NumberOfRatings)) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb4-7"></span>
+<span id="cb4-8"><span class="co">#For Plot 2 </span></span>
+<span id="cb4-9">top10Products <span class="ot">&lt;-</span> products <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ProductRating <span class="sc">&gt;</span> <span class="fl">4.5</span>, NumberOfRatings <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(SubCategory) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(ProductRating)) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(ProductImage, Name, ProductLink))</span>
+<span id="cb4-10"></span>
+<span id="cb4-11"><span class="co">#unique(products$MainCategory)</span></span></code></pre></div>
+</details>
+</div>
+<section id="color-theming" class="level3">
+<h3 class="anchored" data-anchor-id="color-theming">Color Theming</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co">#Plot 1 </span></span>
+<span id="cb5-2">num_colors <span class="ot">&lt;-</span> <span class="dv">21</span> </span>
+<span id="cb5-3">colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#f2f2f2"</span>, <span class="st">"#ff9900"</span>) </span>
+<span id="cb5-4">pal1 <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(colors)(num_colors)</span>
+<span id="cb5-5"></span>
+<span id="cb5-6"><span class="fu">print</span>(pal1)</span>
+<span id="cb5-7"></span>
+<span id="cb5-8"><span class="co">#Plot 2 </span></span>
+<span id="cb5-9">num_colors <span class="ot">&lt;-</span> <span class="dv">21</span> </span>
+<span id="cb5-10">colors <span class="ot">&lt;-</span> colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#f2f2f2"</span>,<span class="st">"#00a8e1"</span>) </span>
+<span id="cb5-11">pal2 <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(colors)(num_colors)</span></code></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="part-1-shiny-ui" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-shiny-ui">Part 1: Shiny UI</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co"># Define UI for application </span></span>
+<span id="cb6-2">ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb6-3">  </span>
+<span id="cb6-4">  <span class="co">#Background CSS</span></span>
+<span id="cb6-5">  tags<span class="sc">$</span><span class="fu">head</span>(tags<span class="sc">$</span><span class="fu">style</span>(<span class="fu">HTML</span>(<span class="st">'</span></span>
+<span id="cb6-6"><span class="st">  @import url(https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap);</span></span>
+<span id="cb6-7"><span class="st">    body {</span></span>
+<span id="cb6-8"><span class="st">      font-family: Montserrat, sans-serif;</span></span>
+<span id="cb6-9"><span class="st">      background-color: #FF9900;</span></span>
+<span id="cb6-10"><span class="st">    }</span></span>
+<span id="cb6-11"><span class="st">    .dataTables_wrapper {</span></span>
+<span id="cb6-12"><span class="st">      background-color: #fff;</span></span>
+<span id="cb6-13"><span class="st">    }</span></span>
+<span id="cb6-14"><span class="st">    .sidebar {</span></span>
+<span id="cb6-15"><span class="st">      background-color: #fff;</span></span>
+<span id="cb6-16"><span class="st">      width: 3/12;</span></span>
+<span id="cb6-17"><span class="st">      height: 2/12;</span></span>
+<span id="cb6-18"><span class="st">    }</span></span>
+<span id="cb6-19"><span class="st">    .nav-tabs &gt; li &gt; a {</span></span>
+<span id="cb6-20"><span class="st">      color: black;</span></span>
+<span id="cb6-21"><span class="st">      background-color: #00a8e1;</span></span>
+<span id="cb6-22"><span class="st">      border-color: #00a8e1;</span></span>
+<span id="cb6-23"><span class="st">    }'</span>))),</span>
+<span id="cb6-24">  </span>
+<span id="cb6-25">  <span class="co"># Application title</span></span>
+<span id="cb6-26">  <span class="fu">titlePanel</span>(<span class="st">"Amazon Inc. Product Dashboard (EN.)"</span>),</span>
+<span id="cb6-27">  </span>
+<span id="cb6-28">  <span class="co"># Sidebar</span></span>
+<span id="cb6-29">  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb6-30">    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb6-31">      <span class="fu">selectInput</span>(<span class="st">"MainCategoryChoice"</span>, </span>
+<span id="cb6-32">                  <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select Category:"</span>), </span>
+<span id="cb6-33">                  <span class="at">choices =</span> <span class="fu">unique</span>(products<span class="sc">$</span>MainCategory), </span>
+<span id="cb6-34">                  <span class="at">selected =</span> <span class="st">"Accessories"</span>),</span>
+<span id="cb6-35">      </span>
+<span id="cb6-36">      <span class="fu">uiOutput</span>(<span class="st">"SubCategoryChoice"</span>)</span>
+<span id="cb6-37">    ),</span>
+<span id="cb6-38">    </span>
+<span id="cb6-39">    <span class="co"># Tabs</span></span>
+<span id="cb6-40">    <span class="fu">mainPanel</span>(</span>
+<span id="cb6-41">      <span class="fu">tabsetPanel</span>(</span>
+<span id="cb6-42">        <span class="fu">tabPanel</span>(<span class="st">"Plot"</span>, </span>
+<span id="cb6-43">                 <span class="fu">plotlyOutput</span>(<span class="st">"RatingsPlot"</span>),</span>
+<span id="cb6-44">                 <span class="fu">plotlyOutput</span>(<span class="st">"ReviewsPlot"</span>)),</span>
+<span id="cb6-45">        <span class="fu">tabPanel</span>(<span class="st">"Data"</span>, <span class="fu">dataTableOutput</span>(<span class="st">"myDataTable"</span>))</span>
+<span id="cb6-46">      )</span>
+<span id="cb6-47">    )</span>
+<span id="cb6-48">  )</span>
+<span id="cb6-49">)</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="part-2-shiny-server" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-shiny-server">Part 2: Shiny Server</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co"># Define server logic required to draw Dashboard</span></span>
+<span id="cb7-2">server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb7-3">  </span>
+<span id="cb7-4">  <span class="co"># Subcategory choices</span></span>
+<span id="cb7-5">  output<span class="sc">$</span>SubCategoryChoice <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb7-6">    subcategories <span class="ot">&lt;-</span> <span class="fu">unique</span>(products<span class="sc">$</span>SubCategory[products<span class="sc">$</span>MainCategory <span class="sc">==</span> input<span class="sc">$</span>MainCategoryChoice])</span>
+<span id="cb7-7">    <span class="fu">checkboxGroupInput</span>(<span class="st">"SubCategoryChoice"</span>, </span>
+<span id="cb7-8">                       <span class="at">label =</span> <span class="fu">h3</span>(<span class="st">"Select Subcategories:"</span>), </span>
+<span id="cb7-9">                       <span class="at">choices =</span> subcategories, </span>
+<span id="cb7-10">                       <span class="at">selected =</span> subcategories)</span>
+<span id="cb7-11">  })</span>
+<span id="cb7-12">  </span>
+<span id="cb7-13">  <span class="co"># Plot 1: Product Rating</span></span>
+<span id="cb7-14">  output<span class="sc">$</span>RatingsPlot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb7-15">    ratings <span class="sc">%&gt;%</span></span>
+<span id="cb7-16">      <span class="fu">filter</span>(MainCategory <span class="sc">==</span> input<span class="sc">$</span>MainCategoryChoice,</span>
+<span id="cb7-17">             SubCategory <span class="sc">%in%</span> input<span class="sc">$</span>SubCategoryChoice) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-18">      <span class="fu">mutate</span>(<span class="at">SubCategory_ordered =</span> <span class="fu">factor</span>(SubCategory, </span>
+<span id="cb7-19">                                          <span class="at">levels =</span> <span class="fu">unique</span>(SubCategory[<span class="fu">order</span>(AverageRating)]))) <span class="sc">%&gt;%</span></span>
+<span id="cb7-20">      <span class="fu">plot_ly</span>(<span class="at">x =</span> <span class="sc">~</span>SubCategory_ordered, </span>
+<span id="cb7-21">              <span class="at">y =</span> <span class="sc">~</span><span class="fu">round</span>(AverageRating,<span class="dv">2</span>),</span>
+<span id="cb7-22">              <span class="at">type =</span> <span class="st">'bar'</span>,</span>
+<span id="cb7-23">              <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="sc">~</span>pal1[SubCategory_ordered])) <span class="sc">%&gt;%</span></span>
+<span id="cb7-24">      <span class="fu">add_annotations</span>(<span class="at">x =</span> <span class="sc">~</span>SubCategory_ordered,</span>
+<span id="cb7-25">                      <span class="at">y =</span> <span class="sc">~</span><span class="fu">round</span>(AverageRating,<span class="dv">2</span>),</span>
+<span id="cb7-26">                      <span class="at">text =</span> <span class="sc">~</span><span class="fu">paste0</span>(<span class="fu">round</span>(AverageRating,<span class="dv">2</span>)),</span>
+<span id="cb7-27">                      <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'black'</span>, </span>
+<span id="cb7-28">                                  <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb7-29">                      <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-30">                      <span class="at">yshift =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-31">      <span class="fu">layout</span>(<span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Average Product Rating For "</span>,input<span class="sc">$</span>MainCategoryChoice),</span>
+<span id="cb7-32">             <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">""</span>, <span class="at">tickangle =</span> <span class="dv">45</span>),</span>
+<span id="cb7-33">             <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">""</span>),</span>
+<span id="cb7-34">             <span class="at">showlegend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-35">             <span class="at">margin =</span> <span class="fu">list</span>(<span class="at">t =</span> <span class="dv">50</span>,</span>
+<span id="cb7-36">                           <span class="at">l =</span> <span class="dv">50</span>,</span>
+<span id="cb7-37">                           <span class="at">r =</span> <span class="dv">50</span>,</span>
+<span id="cb7-38">                           <span class="at">b =</span> <span class="dv">50</span>)) </span>
+<span id="cb7-39">  })</span>
+<span id="cb7-40">  </span>
+<span id="cb7-41">  <span class="co"># Plot 2: Product Reviews</span></span>
+<span id="cb7-42">  output<span class="sc">$</span>ReviewsPlot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb7-43">    reviews <span class="sc">%&gt;%</span></span>
+<span id="cb7-44">      <span class="fu">filter</span>(MainCategory <span class="sc">==</span> input<span class="sc">$</span>MainCategoryChoice,</span>
+<span id="cb7-45">             SubCategory <span class="sc">%in%</span> input<span class="sc">$</span>SubCategoryChoice) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-46">      <span class="fu">mutate</span>(<span class="at">SubCategory_ordered =</span> <span class="fu">factor</span>(SubCategory, </span>
+<span id="cb7-47">                                          <span class="at">levels =</span> <span class="fu">unique</span>(SubCategory[<span class="fu">order</span>(AverageReview)]))) <span class="sc">%&gt;%</span></span>
+<span id="cb7-48">      <span class="fu">plot_ly</span>(<span class="at">x =</span> <span class="sc">~</span>SubCategory_ordered, </span>
+<span id="cb7-49">              <span class="at">y =</span> <span class="sc">~</span><span class="fu">round</span>(AverageReview),</span>
+<span id="cb7-50">              <span class="at">type =</span> <span class="st">'bar'</span>,</span>
+<span id="cb7-51">              <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="sc">~</span>pal2[SubCategory_ordered])) <span class="sc">%&gt;%</span></span>
+<span id="cb7-52">      <span class="fu">add_annotations</span>(<span class="at">x =</span> <span class="sc">~</span>SubCategory_ordered,</span>
+<span id="cb7-53">                      <span class="at">y =</span> <span class="sc">~</span><span class="fu">round</span>(AverageReview),</span>
+<span id="cb7-54">                      <span class="at">text =</span> <span class="sc">~</span><span class="fu">paste0</span>(<span class="fu">round</span>(AverageReview)),</span>
+<span id="cb7-55">                      <span class="at">font =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'black'</span>, </span>
+<span id="cb7-56">                                  <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb7-57">                      <span class="at">showarrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-58">                      <span class="at">yshift =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-59">      <span class="fu">layout</span>(<span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Average Number of Reviews For "</span>,input<span class="sc">$</span>MainCategoryChoice),</span>
+<span id="cb7-60">             <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">""</span>, <span class="at">tickangle =</span> <span class="dv">45</span>),</span>
+<span id="cb7-61">             <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">""</span>),</span>
+<span id="cb7-62">             <span class="at">showlegend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-63">             <span class="at">margin =</span> <span class="fu">list</span>(<span class="at">t =</span> <span class="dv">50</span>,</span>
+<span id="cb7-64">                           <span class="at">l =</span> <span class="dv">50</span>,</span>
+<span id="cb7-65">                           <span class="at">r =</span><span class="dv">50</span>,</span>
+<span id="cb7-66">                           <span class="at">b =</span> <span class="dv">50</span>)) </span>
+<span id="cb7-67">  })</span>
+<span id="cb7-68">  </span>
+<span id="cb7-69">  output<span class="sc">$</span>myDataTable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDataTable</span>({</span>
+<span id="cb7-70">    products <span class="sc">%&gt;%</span></span>
+<span id="cb7-71">      <span class="fu">filter</span>(MainCategory <span class="sc">==</span> input<span class="sc">$</span>MainCategoryChoice,</span>
+<span id="cb7-72">             SubCategory <span class="sc">%in%</span> input<span class="sc">$</span>SubCategoryChoice) <span class="sc">%&gt;%</span></span>
+<span id="cb7-73">      <span class="fu">mutate</span>(<span class="at">ProductImage =</span> <span class="fu">sprintf</span>(<span class="st">'&lt;img src="%s" width="75px"/&gt;'</span>, ProductImage)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-74">      DT<span class="sc">::</span><span class="fu">datatable</span>(., <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb7-75">        <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
+<span id="cb7-76">        <span class="at">lengthMenu =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">25</span>),</span>
+<span id="cb7-77">        <span class="at">scrollY =</span> <span class="st">"600px"</span>,</span>
+<span id="cb7-78">        <span class="at">scrollX =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-79">      )) <span class="sc">%&gt;%</span></span>
+<span id="cb7-80">      DT<span class="sc">::</span><span class="fu">formatStyle</span>(<span class="at">columns =</span> <span class="fu">colnames</span>(products), </span>
+<span id="cb7-81">                      <span class="at">backgroundColor =</span> <span class="fu">styleEqual</span>(<span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"white"</span>), <span class="fu">c</span>(<span class="st">"rgb(51, 102, 0)"</span>, <span class="st">"rgb(255, 255, 255)"</span>)))</span>
+<span id="cb7-82">  })</span>
+<span id="cb7-83">  </span>
+<span id="cb7-84">  </span>
+<span id="cb7-85">}</span>
+<span id="cb7-86"></span>
+<span id="cb7-87"><span class="co"># Run the application </span></span>
+<span id="cb7-88"><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-R-shiny" class="csl-entry" role="listitem">
+Chang, Winston, Joe Cheng, JJ Allaire, Carson Sievert, Barret Schloerke, Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert, and Barbara Borges. 2024. <em>Shiny: Web Application Framework for r</em>. <a href="https://shiny.posit.co/">https://shiny.posit.co/</a>.
+</div>
+<div id="ref-lubridate2011" class="csl-entry" role="listitem">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span class="nocase">lubridate</span>.”</span> <em>Journal of Statistical Software</em> 40 (3): 1–25. <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a>.
+</div>
+<div id="ref-R-tibble" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2023. <em>Tibble: Simple Data Frames</em>. <a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a>.
+</div>
+<div id="ref-plotly2020" class="csl-entry" role="listitem">
+Sievert, Carson. 2020. <em>Interactive Web-Based Data Visualization with r, Plotly, and Shiny</em>. Chapman; Hall/CRC. <a href="https://plotly-r.com">https://plotly-r.com</a>.
+</div>
+<div id="ref-R-plotly" class="csl-entry" role="listitem">
+Sievert, Carson, Chris Parmer, Toby Hocking, Scott Chamberlain, Karthik Ram, Marianne Corvellec, and Pedro Despouy. 2024. <em>Plotly: Create Interactive Web Graphics via Plotly.js</em>. <a href="https://plotly-r.com">https://plotly-r.com</a>.
+</div>
+<div id="ref-R-lubridate" class="csl-entry" role="listitem">
+Spinu, Vitalie, Garrett Grolemund, and Hadley Wickham. 2024. <em>Lubridate: Make Dealing with Dates a Little Easier</em>. <a href="https://lubridate.tidyverse.org">https://lubridate.tidyverse.org</a>.
+</div>
+<div id="ref-ggplot22016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-forcats" class="csl-entry" role="listitem">
+———. 2023a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://forcats.tidyverse.org/">https://forcats.tidyverse.org/</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+———. 2023b. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyverse" class="csl-entry" role="listitem">
+———. 2023c. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://tidyverse.tidyverse.org">https://tidyverse.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-purrr" class="csl-entry" role="listitem">
+Wickham, Hadley, and Lionel Henry. 2025. <em>Purrr: Functional Programming Tools</em>. <a href="https://purrr.tidyverse.org/">https://purrr.tidyverse.org/</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-DT" class="csl-entry" role="listitem">
+Xie, Yihui, Joe Cheng, and Xianying Tan. 2024. <em>DT: A Wrapper of the JavaScript Library DataTables</em>. <a href="https://github.com/rstudio/DT">https://github.com/rstudio/DT</a>.
+</div>
+</div></section></div>

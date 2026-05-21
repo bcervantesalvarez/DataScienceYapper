@@ -9,18 +9,10 @@ venue: 'Department seminar'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./understanding-quarto.body.html?raw";
 
 <Overview>
   Quarto is the modern successor to RMarkdown. This talk introduces what it is, why it earned the upgrade, and how it fits into a data professional's publishing workflow.
 </Overview>
 
-## The presentation
-
-<iframe src="https://bcervantesalvarez.github.io/Presentations/TeachingQuarto/" title="Quarto 101" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/TeachingQuarto/)
-
-## Context
-
-Walks through what makes Quarto a real upgrade — multi-language execution, formal project structure, better defaults — and where it fits compared to RMarkdown. By the end attendees can stand up a Quarto project, render to HTML and PDF, and understand the trade-offs.
+<article class="article-body" set:html={body}></article>

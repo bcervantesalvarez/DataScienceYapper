@@ -9,18 +9,10 @@ venue: 'OSU statistics seminar'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./water-parasites-survival-analysis.body.html?raw";
 
 <Overview>
   Pesticide doses that were once harmless in cool water become measurably lethal as freshwater systems warm. This talk uses survival analysis — the same statistical tool used in medical trials — to quantify how much that shift matters for aquatic organisms.
 </Overview>
 
-## The presentation
-
-<iframe src="/talks/water-parasites/index.html" title="Temperature and Pesticide Toxicity: A Survival Analysis" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open the slides in a new tab ↗](/talks/water-parasites/index.html)
-
-## Context
-
-Co-authored with Willa Van Liew and Hans Lehndorff. Cox proportional-hazards models test whether higher temperatures meaningfully shorten survival times, with attention to interaction effects between exposure level and ambient conditions. The applied point: as freshwater systems warm under climate pressure, doses that were sub-lethal start producing measurable mortality, and survival analysis is the natural tool for quantifying that shift.
+<article class="article-body" set:html={body}></article>

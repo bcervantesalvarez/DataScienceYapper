@@ -9,44 +9,10 @@ external: 'https://bcervantesalvarez.shinyapps.io/YelpReviewsDashboard/'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./yelp-business-reviews-shiny-app.body.html?raw";
 
 <Overview>
   This dashboard pairs Yelp business reviews with map-based analysis. You can filter businesses on a map, compare ratings against features like credit-card acceptance, and explore the question of whether nearby businesses are more similar to each other than far-apart ones. It is built to teach spatial-stats ideas as much as to explore the data.
 </Overview>
 
-## Open the dashboard
-
-<iframe src="https://bcervantesalvarez.shinyapps.io/YelpReviewsDashboard/" title="Yelp Reviews Spatial dashboard" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open in a new tab ↗](https://bcervantesalvarez.shinyapps.io/YelpReviewsDashboard/)
-
-## What it does
-
-Three layers, all interactive:
-
-1. **Map exploration.** Filter businesses on a `leaflet` map by category, rating,
-   credit-card acceptance, and operating hours. The right-hand panel updates live with
-   summary stats for the visible subset.
-2. **Spatial autocorrelation.** Tune the variogram parameters — sill, range, nugget,
-   and the kappa for Matern models — and watch the empirical and fitted variograms
-   redraw in real time.
-3. **Kriged surface.** Once a variogram is fitted, the app produces a kriged surface
-   estimating ratings across the region, with a credibility band so you can see where
-   the prediction is well-supported versus interpolated out of nothing.
-
-## Why it works for teaching
-
-Spatial autocorrelation is much easier to feel than to read about. The dashboard puts
-the knobs directly in the user's hands — change the range, watch the surface get
-smoother; lower the nugget, watch the variance band tighten. For classroom use it
-replaces a 40-minute lecture with about 5 minutes of poking around.
-
-## Implementation notes
-
-- **Stack:** R Shiny + `leaflet` + `gstat` + `sf` for the spatial pipeline.
-- **Variogram fitting** uses weighted least squares on the empirical variogram, with
-  the fit refit whenever the user changes parameters. Sliders are debounced so the
-  fitting doesn't lag the UI.
-- **Cached kriging.** Surfaces are cached against the current filter + variogram
-  parameters so revisiting an earlier state is instant.
+<article class="article-body" set:html={body}></article>

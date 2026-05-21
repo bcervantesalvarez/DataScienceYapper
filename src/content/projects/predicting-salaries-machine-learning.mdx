@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./predicting-salaries-machine-learning.body.html?raw";
 
 <Overview>
   A team ML project to classify whether an individual earns more than $50K from the OpenML census dataset. Reached a kappa of 0.9543 with PCA-driven feature selection followed by a tuned Random Forest.
 </Overview>
 
-## Notes from the archive
-
-Useful mostly as a template for a small, defensible applied-ML project: a clean train/validation split, an explicit feature-selection step, and a single ranked-model output that holds up to a reviewer's questions. Built collaboratively with classmates as a graduate course capstone.
+<article class="article-body" set:html={body}></article>

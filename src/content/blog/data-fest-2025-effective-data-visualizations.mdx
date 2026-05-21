@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./data-fest-2025-effective-data-visualizations.body.html?raw";
 
 <Overview>
   A guide written for ASA DataFest competitors on how to pick the right chart for each data type, weigh static versus interactive visuals, and avoid common pitfalls under tight time constraints.
 </Overview>
 
-## Notes from the archive
-
-The point: pair the analytical question with the appropriate visualization so insights land quickly with the mixed audience that judges a DataFest presentation. Most weekend competitions are won or lost in the last 30 minutes of slide work, not the first 30 minutes of modeling.
+<article class="article-body" set:html={body}></article>

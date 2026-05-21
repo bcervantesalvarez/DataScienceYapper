@@ -1,0 +1,205 @@
+<p><img src="../../..\assets/images/pokemon.jpeg" class="img-fluid"></p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>The main objective of this project was to construct a fully operational Postgresql database in a time frame of fewer than two weeks by employing the Extract, Transform, Load (ETL) methodology. The purpose of this approach was to extract data from various sources, transform it into a format that could be easily integrated into the database, and finally load the transformed data into the database.</p>
+<p>The process involved several intricate steps, including identifying the relevant data sources, cleansing the extracted data to remove inconsistencies, standardizing the data to a uniform format, and applying data validation and verification techniques to ensure accuracy and completeness. Furthermore, it required careful consideration of the database schema, including the design of tables, relationships between tables, and the use of appropriate data types.</p>
+<p>The successful implementation of this project was dependent on the utilization of cutting-edge technologies and tools, such as data integration software, data profiling tools, and scripting languages. The result was a functional database that can efficiently store and manage data, making it readily available for analysis, decision-making, and reporting purposes.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The inquiry of identifying the optimal base stat Pokemon type sparked my interest, prompting me to delve into the realm of data engineering. In order to craft a well-informed response to this question, I began by utilizing the expansive and multifaceted “Pokémon of Kanto, Johto, and Hoenn Region” dataset to establish a structured and organized database.</p>
+</section>
+<section id="unleashing-the-power-of-postgresql-building-a-database" class="level2">
+<h2 class="anchored" data-anchor-id="unleashing-the-power-of-postgresql-building-a-database">Unleashing the Power of PostgreSQL: Building a Database</h2>
+<p>This SQL code creates several tables for storing Pokémon data. The tables include information about Pokémon, their types, abilities, generations, and moves. The code establishes primary keys, foreign key constraints, and defines the data types for each column. These tables form the foundation for a comprehensive Pokémon database, enabling efficient storage and retrieval of Pokémon-related information.</p>
+</section>
+<section id="data-transformation-and-csv-preparation-in-sql-a-step-by-step-guide" class="level2">
+<h2 class="anchored" data-anchor-id="data-transformation-and-csv-preparation-in-sql-a-step-by-step-guide">Data Transformation and CSV Preparation in SQL: A Step-by-Step Guide</h2>
+<p>This section of the SQL file focuses on transforming and preparing a CSV file for analysis. It involves multiple SELECT statements that extract relevant data from different tables and join them together. The extracted data is then inserted into temporary tables, including ‘temp1’, ‘temp2’, and ‘temp3’, with each step refining the data further. Finally, the transformed data in ‘temp3’ is selected and filtered based on specific conditions, ordered, and then exported to a CSV file named ‘scuffed_pokedex.csv’. This process prepares the data for further analysis and exploration in external tools or applications.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"></span>
+<span id="cb1-2"><span class="kw">SELECT</span> </span>
+<span id="cb1-3">    <span class="kw">identifier</span> <span class="kw">AS</span> pokemon_name, </span>
+<span id="cb1-4">    pokemon_types.type_id,</span>
+<span id="cb1-5">    pokemon_abilities.ability_id</span>
+<span id="cb1-6"><span class="kw">INTO</span> temp1</span>
+<span id="cb1-7"><span class="kw">FROM</span> pokemon</span>
+<span id="cb1-8"><span class="kw">LEFT</span> <span class="kw">JOIN</span> pokemon_types</span>
+<span id="cb1-9"><span class="kw">ON</span> pokemon.<span class="kw">id</span> <span class="op">=</span> pokemon_types.pokemon_id</span>
+<span id="cb1-10"><span class="kw">LEFT</span> <span class="kw">JOIN</span> pokemon_abilities</span>
+<span id="cb1-11"><span class="kw">ON</span> pokemon.<span class="kw">id</span>  <span class="op">=</span> pokemon_abilities.pokemon_id;</span>
+<span id="cb1-12"></span>
+<span id="cb1-13"></span>
+<span id="cb1-14"><span class="kw">SELECT</span> </span>
+<span id="cb1-15">    pokemon_name,</span>
+<span id="cb1-16">    <span class="kw">types</span>.<span class="kw">identifier</span> <span class="kw">AS</span> pokemon_type,</span>
+<span id="cb1-17">    abilities.<span class="kw">identifier</span> <span class="kw">AS</span> pokemon_ability,</span>
+<span id="cb1-18">    <span class="kw">types</span>.generation_id <span class="kw">AS</span> gen_id,</span>
+<span id="cb1-19">    <span class="kw">types</span>.<span class="kw">id</span> <span class="kw">AS</span> type_id</span>
+<span id="cb1-20"><span class="kw">INTO</span> temp2</span>
+<span id="cb1-21"><span class="kw">FROM</span> temp1</span>
+<span id="cb1-22"><span class="kw">LEFT</span> <span class="kw">JOIN</span> <span class="kw">types</span></span>
+<span id="cb1-23"><span class="kw">ON</span> temp1.type_id <span class="op">=</span> <span class="kw">types</span>.<span class="kw">id</span></span>
+<span id="cb1-24"><span class="kw">LEFT</span> <span class="kw">JOIN</span> abilities</span>
+<span id="cb1-25"><span class="kw">ON</span> temp1.ability_id <span class="op">=</span> abilities.<span class="kw">id</span>;</span>
+<span id="cb1-26"></span>
+<span id="cb1-27"></span>
+<span id="cb1-28"><span class="kw">DROP</span> <span class="kw">TABLE</span> temp3;</span>
+<span id="cb1-29"><span class="kw">SELECT</span> </span>
+<span id="cb1-30">    pokemon_name,</span>
+<span id="cb1-31">    pokemon_type,</span>
+<span id="cb1-32">    pokemon_ability,</span>
+<span id="cb1-33">    generations.<span class="kw">identifier</span> <span class="kw">AS</span> pokemon_generation,</span>
+<span id="cb1-34">    moves.<span class="kw">identifier</span> <span class="kw">AS</span> pokemon_move,</span>
+<span id="cb1-35">    moves.<span class="fu">power</span> <span class="kw">AS</span> pokemon_power,</span>
+<span id="cb1-36">    moves.accuracy <span class="kw">AS</span> pokemon_accuracy,</span>
+<span id="cb1-37">    moves.pp <span class="kw">AS</span> pokemon_pp</span>
+<span id="cb1-38"><span class="kw">INTO</span> temp3</span>
+<span id="cb1-39"><span class="kw">FROM</span> temp2</span>
+<span id="cb1-40"><span class="kw">LEFT</span> <span class="kw">JOIN</span> generations</span>
+<span id="cb1-41"><span class="kw">ON</span> temp2.gen_id <span class="op">=</span> generations.main_region_id</span>
+<span id="cb1-42"><span class="kw">LEFT</span> <span class="kw">JOIN</span> moves</span>
+<span id="cb1-43"><span class="kw">ON</span> temp2.type_id <span class="op">=</span> moves.type_id;</span>
+<span id="cb1-44"></span>
+<span id="cb1-45"><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb1-46"><span class="kw">FROM</span> temp3</span>
+<span id="cb1-47"><span class="kw">WHERE</span> pokemon_power <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> </span>
+<span id="cb1-48">    <span class="kw">AND</span> pokemon_accuracy <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb1-49"><span class="kw">ORDER</span> <span class="kw">BY</span> pokemon_accuracy, pokemon_power;</span>
+<span id="cb1-50"></span>
+<span id="cb1-51"></span>
+<span id="cb1-52"><span class="kw">COPY</span> temp3</span>
+<span id="cb1-53"><span class="kw">TO</span> <span class="st">'/Users/Shared/Data_503/Datasets/scuffed_pokedex.csv'</span></span>
+<span id="cb1-54"><span class="kw">WITH</span> (FORMAT CSV, <span class="kw">HEADER</span>);</span></code></pre></div>
+</div>
+</section>
+<section id="unveiling-pokémon-insights-analyzing-damage-output-and-accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="unveiling-pokémon-insights-analyzing-damage-output-and-accuracy">Unveiling Pokémon Insights: Analyzing Damage Output and Accuracy</h2>
+<p>Through the power of data analysis and visualization, we have delved into the world of Pokémon to uncover insights about types, damage output, accuracy, and their relationships. Our exploration has shed light on the best Pokémon type for damage output, the most accurate contenders, and the interplay between power and accuracy. By combining the captivating nature of Pokémon with the analytical capabilities of R, we have gained valuable knowledge and set the stage for further investigations in the vast Pokémon universe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><span class="fu">library</span>(RColorBrewer)</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">pokemon <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../Assets/Datasets/scuffed_pokedex.csv"</span>)</span>
+<span id="cb3-2"></span>
+<span id="cb3-3"><span class="fu">names</span>(pokemon)</span>
+<span id="cb3-4"></span>
+<span id="cb3-5">nb.cols <span class="ot">&lt;-</span> <span class="dv">18</span></span>
+<span id="cb3-6">mycolors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"YlOrRd"</span>))(nb.cols)</span>
+<span id="cb3-7"></span>
+<span id="cb3-8">pokemon <span class="sc">%&gt;%</span> </span>
+<span id="cb3-9">  <span class="fu">mutate</span>(<span class="at">pokemon_type =</span> <span class="fu">str_to_title</span>(pokemon_type)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10">  <span class="fu">group_by</span>(pokemon_type) <span class="sc">%&gt;%</span></span>
+<span id="cb3-11">  <span class="fu">summarise</span>(<span class="at">avg_power =</span> <span class="fu">mean</span>(pokemon_power, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-12">            <span class="at">avg_accuracy =</span> <span class="fu">mean</span>(pokemon_accuracy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-13">  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> avg_power, <span class="at">y =</span> <span class="fu">reorder</span>(pokemon_type, avg_power), <span class="at">fill =</span> <span class="fu">reorder</span>(pokemon_type, avg_power)))<span class="sc">+</span></span>
+<span id="cb3-14">  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb3-15">  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average power"</span>,</span>
+<span id="cb3-16">       <span class="at">y =</span> <span class="st">"Pokemon type"</span>,</span>
+<span id="cb3-17">       <span class="at">title =</span> <span class="st">"FIRE! The Best Pokemon Type For Damage Output Is...?"</span>,</span>
+<span id="cb3-18">       <span class="at">subtitle =</span> <span class="st">"Based on an Average of All Moves Per Pokemon Type"</span>,</span>
+<span id="cb3-19">       <span class="at">caption =</span> <span class="st">"Source: Pokédex of Kanto, Johto, and Hoenn Regions @ Kaggle.com"</span>) <span class="sc">+</span></span>
+<span id="cb3-20">  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mycolors) <span class="sc">+</span></span>
+<span id="cb3-21">  <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-22">        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-23">        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-24">        <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey"</span>))</span>
+<span id="cb3-25"></span>
+<span id="cb3-26"></span>
+<span id="cb3-27">nb.cols <span class="ot">&lt;-</span> <span class="dv">18</span></span>
+<span id="cb3-28">mycolors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Blues"</span>))(nb.cols)</span>
+<span id="cb3-29"></span>
+<span id="cb3-30">pokemon <span class="sc">%&gt;%</span> </span>
+<span id="cb3-31">  <span class="fu">mutate</span>(<span class="at">pokemon_type =</span> <span class="fu">str_to_title</span>(pokemon_type)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-32">  <span class="fu">group_by</span>(pokemon_type) <span class="sc">%&gt;%</span></span>
+<span id="cb3-33">  <span class="fu">summarise</span>(<span class="at">avg_power =</span> <span class="fu">mean</span>(pokemon_power, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-34">            <span class="at">avg_accuracy =</span> <span class="fu">mean</span>(pokemon_accuracy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-35">  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> avg_accuracy, <span class="at">y =</span> <span class="fu">reorder</span>(pokemon_type, avg_accuracy), <span class="at">fill =</span> <span class="fu">reorder</span>(pokemon_type, avg_accuracy)))<span class="sc">+</span></span>
+<span id="cb3-36">  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb3-37">  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average accuracy"</span>,</span>
+<span id="cb3-38">       <span class="at">y =</span> <span class="st">"Pokemon type"</span>,</span>
+<span id="cb3-39">       <span class="at">title =</span> <span class="st">"Ouch! Who wins the bullseye competition?"</span>,</span>
+<span id="cb3-40">       <span class="at">subtitle =</span> <span class="st">"Based on an Average of All Moves Per Pokemon Type"</span>,</span>
+<span id="cb3-41">       <span class="at">caption =</span> <span class="st">"Source: Pokédex of Kanto, Johto, and Hoenn Regions @ Kaggle.com"</span>) <span class="sc">+</span></span>
+<span id="cb3-42">  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mycolors) <span class="sc">+</span></span>
+<span id="cb3-43">  <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-44">        <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-45">        <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-46">        <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey"</span>))</span>
+<span id="cb3-47"></span>
+<span id="cb3-48"></span>
+<span id="cb3-49">pokemon <span class="sc">%&gt;%</span> </span>
+<span id="cb3-50">  <span class="fu">group_by</span>(pokemon_type) <span class="sc">%&gt;%</span></span>
+<span id="cb3-51">  <span class="fu">summarise</span>(<span class="at">avg_power =</span> <span class="fu">mean</span>(pokemon_power, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-52">            <span class="at">avg_accuarcy =</span> <span class="fu">mean</span>(pokemon_accuracy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-53">  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> avg_power, <span class="at">y =</span> avg_accuarcy, <span class="at">color =</span> pokemon_type)) <span class="sc">+</span></span>
+<span id="cb3-54">  <span class="fu">geom_point</span>()</span>
+<span id="cb3-55"></span>
+<span id="cb3-56"></span>
+<span id="cb3-57">stats <span class="ot">&lt;-</span> pokemon <span class="sc">%&gt;%</span> </span>
+<span id="cb3-58">  <span class="fu">group_by</span>(pokemon_type) <span class="sc">%&gt;%</span></span>
+<span id="cb3-59">  <span class="fu">summarise</span>(<span class="at">avg_power =</span> <span class="fu">mean</span>(pokemon_power, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-60">            <span class="at">avg_accuarcy =</span> <span class="fu">mean</span>(pokemon_accuracy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-61">            </span>
+<span id="cb3-62">model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> stats, avg_accuracy <span class="sc">~</span> avg_power)</span>
+<span id="cb3-63"><span class="fu">plot</span>(model)</span></code></pre></div>
+</div>
+</section>
+<section id="presentation" class="level2">
+<h2 class="anchored" data-anchor-id="presentation">Presentation</h2>
+<p><img src="../../..\assets/images/pokedex_presentation.jpg" class="img-fluid"></p>
+</section>
+<section id="data-references" class="level2">
+
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Data References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-lubridate2011" class="csl-entry" role="listitem">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span class="nocase">lubridate</span>.”</span> <em>Journal of Statistical Software</em> 40 (3): 1–25. <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a>.
+</div>
+<div id="ref-R-tibble" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2023. <em>Tibble: Simple Data Frames</em>. <a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a>.
+</div>
+<div id="ref-R-RColorBrewer" class="csl-entry" role="listitem">
+Neuwirth, Erich. 2022. <em>RColorBrewer: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.
+</div>
+<div id="ref-R-lubridate" class="csl-entry" role="listitem">
+Spinu, Vitalie, Garrett Grolemund, and Hadley Wickham. 2024. <em>Lubridate: Make Dealing with Dates a Little Easier</em>. <a href="https://lubridate.tidyverse.org">https://lubridate.tidyverse.org</a>.
+</div>
+<div id="ref-ggplot22016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-forcats" class="csl-entry" role="listitem">
+———. 2023a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://forcats.tidyverse.org/">https://forcats.tidyverse.org/</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+———. 2023b. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyverse" class="csl-entry" role="listitem">
+———. 2023c. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://tidyverse.tidyverse.org">https://tidyverse.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-purrr" class="csl-entry" role="listitem">
+Wickham, Hadley, and Lionel Henry. 2025. <em>Purrr: Functional Programming Tools</em>. <a href="https://purrr.tidyverse.org/">https://purrr.tidyverse.org/</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
+</div></section></div>

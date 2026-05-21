@@ -9,18 +9,10 @@ venue: 'Graduate seminar'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./missing-data-with-mice-statistical-analysis.body.html?raw";
 
 <Overview>
   Real datasets have holes. How you fill those holes silently determines what conclusion you reach. This talk explains the three flavors of missingness and walks through a real imputation in R.
 </Overview>
 
-## The presentation
-
-<iframe src="https://bcervantesalvarez.github.io/Presentations/MissingData/" title="Missing Data and the MICE Approach" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/MissingData/)
-
-## Context
-
-Covers MCAR, MAR, and MNAR with concrete examples, then shows the failure modes of the naive options (listwise deletion, mean imputation, last-observation-carried-forward). The back half applies Multiple Imputation by Chained Equations via the `mice` package, with worked examples of convergence diagnostics, imputation-quality checks, and how to propagate uncertainty through to the final estimate.
+<article class="article-body" set:html={body}></article>

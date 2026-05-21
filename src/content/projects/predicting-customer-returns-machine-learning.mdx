@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./predicting-customer-returns-machine-learning.body.html?raw";
 
 <Overview>
   A machine-learning project to predict whether a customer would return a product. The headline result: AUC moved from a 0.625 baseline to 0.98 (97.8% accuracy, kappa 0.95) almost entirely through better features, not a fancier model.
 </Overview>
 
-## Notes from the archive
-
-Most of the lift came from feature engineering — regional demographics, customer age, price range, seasonality, and population-standardized return rates — layered onto the original transaction-level data. The final estimator was a tuned Random Forest with cross-validated thresholds. The lesson reinforced the usual one: when the baseline is bad, look at the features before reaching for a different algorithm.
+<article class="article-body" set:html={body}></article>

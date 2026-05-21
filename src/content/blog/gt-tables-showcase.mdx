@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./gt-tables-showcase.body.html?raw";
 
 <Overview>
   A showcase of advanced tabular display in R using `DT`, `gt`, and `gtExtras` over a Pinot Noir dataset. The argument: thoughtful design — color, typography, layout — is the difference between a forgettable Excel grid and a table that communicates.
 </Overview>
 
-## Notes from the archive
-
-The case study asks whether higher-priced Pinots earn higher ratings. The answer is "kind of, with caveats" — but the focus is on the presentation craft, not the wine conclusion.
+<article class="article-body" set:html={body}></article>

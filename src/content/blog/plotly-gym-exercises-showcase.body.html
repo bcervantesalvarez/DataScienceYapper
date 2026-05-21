@@ -1,0 +1,170 @@
+<p><img src="../../..\assets/images/gymRat.jpeg" class="img-fluid"></p>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>This study examines the role of stretching in muscle building and its implications for fitness enthusiasts. While stretching offers benefits in terms of flexibility and injury prevention, it falls short as a primary method for muscle growth. The focus of stretching on range of motion rather than muscle mass and strength limits its effectiveness. In isolation, stretching lacks the necessary resistance to stimulate muscle growth. Moreover, my analysis using R reveals that stretching ranks the lowest in terms of workout ratings. The findings highlight the importance of incorporating weight and resistance training as the primary approaches for muscle development.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Stretching enhances flexibility and prevents injuries, but its effectiveness in building muscle mass and strength is debated. This study explores the role of stretching in muscle building compared to other exercises. Stretching prioritizes flexibility over muscle development due to inadequate resistance and tension. It may not yield significant gains in muscle mass or strength. Excessive stretching can even reduce muscle activation and power output. Analysis of workout ratings using R shows stretching ranks lowest for muscle building. Weight and resistance training are emphasized as primary methods, with stretching as a supplementary activity for flexibility.</p>
+</section>
+<section id="general-setup" class="level2">
+<h2 class="anchored" data-anchor-id="general-setup">General Setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-3"><span class="fu">library</span>(ggtext)</span>
+<span id="cb1-4"><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-5"><span class="fu">library</span>(extrafont)</span>
+<span id="cb1-6"><span class="fu">library</span>(plotly)</span>
+<span id="cb1-7"><span class="fu">library</span>(htmlwidgets)</span>
+<span id="cb1-8"><span class="co"># font_import()</span></span>
+<span id="cb1-9"><span class="fu">loadfonts</span>()</span></code></pre></div>
+</div>
+</section>
+<section id="data-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">gymDs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/megaGymDataset.csv"</span>)</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="co"># head(gymDs, 5)</span></span>
+<span id="cb2-4"><span class="co"># names(gymDs)</span></span>
+<span id="cb2-5"></span>
+<span id="cb2-6">ds <span class="ot">&lt;-</span> gymDs <span class="sc">%&gt;%</span></span>
+<span id="cb2-7">    <span class="fu">mutate</span>(</span>
+<span id="cb2-8">        <span class="at">ID =</span> ...<span class="dv">1</span>,</span>
+<span id="cb2-9">        <span class="at">Level =</span> <span class="fu">factor</span>(Level, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Beginner"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Expert"</span>)),</span>
+<span id="cb2-10">        <span class="at">Type =</span> <span class="fu">as.factor</span>(Type)</span>
+<span id="cb2-11">    ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12">    <span class="fu">select</span>(<span class="sc">-</span>...<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13">    <span class="fu">drop_na</span>()</span></code></pre></div>
+</div>
+</section>
+<section id="unleashing-the-power-of-plotly" class="level2">
+<h2 class="anchored" data-anchor-id="unleashing-the-power-of-plotly">Unleashing the Power of Plotly</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">plotDs <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb3-2">    <span class="fu">group_by</span>(Type, Level) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3">    <span class="fu">summarize</span>(<span class="at">meanRating =</span> <span class="fu">mean</span>(Rating)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4">    <span class="fu">arrange</span>(Type, meanRating) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5">    <span class="fu">ungroup</span>()</span>
+<span id="cb3-6"></span>
+<span id="cb3-7">p <span class="ot">&lt;-</span> plotDs <span class="sc">%&gt;%</span></span>
+<span id="cb3-8">    <span class="fu">highlight_key</span>(., <span class="sc">~</span> <span class="fu">reorder_within</span>(Type, meanRating, Level)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9">    <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb3-10">        <span class="at">x =</span> meanRating,</span>
+<span id="cb3-11">        <span class="at">y =</span> <span class="fu">reorder_within</span>(Type, meanRating, Level),</span>
+<span id="cb3-12">        <span class="at">fill =</span> <span class="fu">fct_reorder</span>(Type, meanRating),</span>
+<span id="cb3-13">        <span class="at">text =</span> <span class="fu">paste0</span>(</span>
+<span id="cb3-14">            <span class="st">"Rating: "</span>, <span class="fu">round</span>(meanRating, <span class="dv">2</span>),</span>
+<span id="cb3-15">            <span class="st">"&lt;br&gt;Type: "</span>, Type</span>
+<span id="cb3-16">        )</span>
+<span id="cb3-17">    )) <span class="sc">+</span></span>
+<span id="cb3-18">    <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb3-19">    <span class="fu">facet_grid</span>(</span>
+<span id="cb3-20">        <span class="at">rows =</span> <span class="fu">vars</span>(Level),</span>
+<span id="cb3-21">        <span class="at">scales =</span> <span class="st">"free_y"</span>,</span>
+<span id="cb3-22">        <span class="at">switch =</span> <span class="st">"y"</span>,</span>
+<span id="cb3-23">        <span class="at">space =</span> <span class="st">"free_y"</span></span>
+<span id="cb3-24">    ) <span class="sc">+</span></span>
+<span id="cb3-25">    <span class="fu">scale_y_reordered</span>() <span class="sc">+</span></span>
+<span id="cb3-26">    <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"PuBuGn"</span>) <span class="sc">+</span></span>
+<span id="cb3-27">    <span class="fu">labs</span>(</span>
+<span id="cb3-28">        <span class="at">title =</span> <span class="st">"Ranking Exercise Type According to Experience Level of Individuals"</span>,</span>
+<span id="cb3-29">        <span class="at">x =</span> <span class="st">"Average Rating of Each Exercise Type"</span>,</span>
+<span id="cb3-30">        <span class="at">fill =</span> <span class="st">"Workout Types"</span></span>
+<span id="cb3-31">    ) <span class="sc">+</span></span>
+<span id="cb3-32">    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-33">    myTheme</span>
+<span id="cb3-34"></span>
+<span id="cb3-35"></span>
+<span id="cb3-36"><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-37">    <span class="fu">config</span>(<span class="at">displayModeBar =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-38">    <span class="fu">highlight</span>(<span class="at">on =</span> <span class="st">"plotly_hover"</span>, <span class="at">off =</span> <span class="st">"plotly_doubleclick"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-39">    <span class="fu">layout</span>(</span>
+<span id="cb3-40">        <span class="at">uniformtext =</span> <span class="fu">list</span>(<span class="at">minsize =</span> <span class="dv">8</span>, <span class="at">mode =</span> <span class="st">"hide"</span>),</span>
+<span id="cb3-41">        <span class="at">margin =</span> <span class="fu">list</span>(<span class="at">b =</span> <span class="dv">70</span>, <span class="at">l =</span> <span class="dv">140</span>, <span class="at">r =</span> <span class="dv">140</span>)</span>
+<span id="cb3-42">    )</span></code></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-a1f5cd7765c5e8d8c12b" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-a1f5cd7765c5e8d8c12b">{"x":{"data":[{"orientation":"v","width":4.790909090909091,"base":0.55000000000000004,"x":[2.3954545454545455],"y":[0.89999999999999991],"text":"Rating: 4.79<br>Type: Stretching","key":["Stretching___Beginner"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(246,239,247,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Stretching","legendgroup":"Stretching","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":5.2333333333333334,"base":0.55000000000000004,"x":[2.6166666666666667],"y":[0.89999999999999991],"text":"Rating: 5.23<br>Type: Stretching","key":["Stretching___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(246,239,247,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Stretching","legendgroup":"Stretching","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":7.4000000000000004,"base":1.55,"x":[3.7000000000000002],"y":[0.90000000000000013],"text":"Rating: 7.4<br>Type: Cardio","key":["Cardio___Beginner"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(208,209,230,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Cardio","legendgroup":"Cardio","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":7.8909090909090915,"base":2.5499999999999998,"x":[3.9454545454545458],"y":[0.90000000000000036],"text":"Rating: 7.89<br>Type: Cardio","key":["Cardio___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(208,209,230,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Cardio","legendgroup":"Cardio","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.0500000000000007,"base":3.5499999999999998,"x":[4.0250000000000004],"y":[0.90000000000000036],"text":"Rating: 8.05<br>Type: Plyometrics","key":["Plyometrics___Beginner"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(166,189,219,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Plyometrics","legendgroup":"Plyometrics","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":7.5350000000000001,"base":1.55,"x":[3.7675000000000001],"y":[0.90000000000000013],"text":"Rating: 7.54<br>Type: Plyometrics","key":["Plyometrics___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(166,189,219,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Plyometrics","legendgroup":"Plyometrics","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.5,"base":1.55,"x":[4.25],"y":[0.90000000000000013],"text":"Rating: 8.5<br>Type: Plyometrics","key":["Plyometrics___Expert"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(166,189,219,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Plyometrics","legendgroup":"Plyometrics","showlegend":false,"xaxis":"x","yaxis":"y3","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":7.5119402985074624,"base":2.5499999999999998,"x":[3.7559701492537312],"y":[0.90000000000000036],"text":"Rating: 7.51<br>Type: Strength","key":["Strength___Beginner"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(103,169,207,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Strength","legendgroup":"Strength","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.0764367816091962,"base":3.5499999999999998,"x":[4.0382183908045981],"y":[0.90000000000000036],"text":"Rating: 8.08<br>Type: Strength","key":["Strength___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(103,169,207,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Strength","legendgroup":"Strength","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.1600000000000001,"base":0.55000000000000004,"x":[4.0800000000000001],"y":[0.89999999999999991],"text":"Rating: 8.16<br>Type: Strength","key":["Strength___Expert"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(103,169,207,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Strength","legendgroup":"Strength","showlegend":false,"xaxis":"x","yaxis":"y3","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.6500000000000004,"base":5.5499999999999998,"x":[4.3250000000000002],"y":[0.90000000000000036],"text":"Rating: 8.65<br>Type: Strongman","key":["Strongman___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(54,144,192,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Strongman","legendgroup":"Strongman","showlegend":true,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.3249999999999993,"base":4.5499999999999998,"x":[4.1624999999999996],"y":[0.90000000000000036],"text":"Rating: 8.32<br>Type: Olympic Weightlifting","key":["Olympic Weightlifting___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(2,129,138,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Olympic Weightlifting","legendgroup":"Olympic Weightlifting","showlegend":true,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":9.3000000000000007,"base":2.5499999999999998,"x":[4.6500000000000004],"y":[0.90000000000000036],"text":"Rating: 9.3<br>Type: Olympic Weightlifting","key":["Olympic Weightlifting___Expert"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(2,129,138,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Olympic Weightlifting","legendgroup":"Olympic Weightlifting","showlegend":false,"xaxis":"x","yaxis":"y3","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":9.3500000000000014,"base":4.5499999999999998,"x":[4.6750000000000007],"y":[0.90000000000000036],"text":"Rating: 9.35<br>Type: Powerlifting","key":["Powerlifting___Beginner"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(1,100,80,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Powerlifting","legendgroup":"Powerlifting","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null},{"orientation":"v","width":8.75,"base":6.5499999999999998,"x":[4.375],"y":[0.90000000000000036],"text":"Rating: 8.75<br>Type: Powerlifting","key":["Powerlifting___Intermediate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(1,100,80,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"set":"SharedData2fed5841","name":"Powerlifting","legendgroup":"Powerlifting","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","_isSimpleKey":true,"_isNestedKey":false,"frame":null}],"layout":{"margin":{"t":74.071470829533624,"r":140,"b":70,"l":140},"font":{"color":"rgba(0,0,0,1)","family":"Futura Medium","size":14.611872146118724},"title":{"text":"Ranking Exercise Type According to Experience Level of Individuals","font":{"color":"rgba(0,0,0,1)","family":"Futura Condensed ExtraBold","size":19.925280199252807},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.46750000000000008,9.8175000000000008],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5"],"tickvals":[0,2.4999999999999996,5,7.5000000000000009],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"Futura Medium","size":11.955168119551681},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y3","title":"","hoverformat":".2f"},"annotations":[{"text":"Average Rating of Each Exercise Type","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"Futura Medium","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-37.428148380580694},{"text":"Beginner","x":1,"y":0.84094368340943682,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"Futura Condensed ExtraBold","size":13.283520132835205},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"middle"},{"text":"Intermediate","x":1,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"Futura Condensed ExtraBold","size":13.283520132835205},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"middle"},{"text":"Expert","x":1,"y":0.15905631659056318,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"Futura Condensed ExtraBold","size":13.283520132835205},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"middle"}],"yaxis":{"domain":[0.68188736681887374,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,5.5999999999999996],"tickmode":"array","ticktext":["Stretching","Cardio","Strength","Plyometrics","Powerlifting"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Stretching","Cardio","Strength","Plyometrics","Powerlifting"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"Futura Medium","size":11.955168119551683},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0.68188736681887374,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","y0":0.68188736681887374,"y1":1,"x0":0,"x1":24.973017849730184,"xanchor":1,"xsizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0.34855403348554037,"y1":0.65144596651445974},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","y0":0.34855403348554037,"y1":0.65144596651445974,"x0":0,"x1":24.973017849730184,"xanchor":1,"xsizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":0.31811263318112637},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","y0":0,"y1":0.31811263318112637,"x0":0,"x1":24.973017849730184,"xanchor":1,"xsizemode":"pixel"}],"yaxis2":{"type":"linear","autorange":false,"range":[0.40000000000000002,7.5999999999999996],"tickmode":"array","ticktext":["Stretching","Plyometrics","Cardio","Strength","Olympic Weightlifting","Strongman","Powerlifting"],"tickvals":[1,2,3,4.0000000000000009,5,6,7],"categoryorder":"array","categoryarray":["Stretching","Plyometrics","Cardio","Strength","Olympic Weightlifting","Strongman","Powerlifting"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"Futura Medium","size":11.955168119551683},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"domain":[0.34855403348554037,0.65144596651445974],"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[0.40000000000000002,3.6000000000000001],"tickmode":"array","ticktext":["Strength","Plyometrics","Olympic Weightlifting"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["Strength","Plyometrics","Olympic Weightlifting"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"Futura Medium","size":11.955168119551683},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"domain":[0,0.31811263318112637],"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"Futura Medium","size":11.68949771689498}},"hovermode":"closest","barmode":"relative","uniformtext":{"minsize":8,"mode":"hide"},"dragmode":"zoom"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"source":"A","attrs":{"d6a91e54109":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"d6a91e54109","visdat":{"d6a91e54109":["function (y) ","x"]},"highlight":{"on":"plotly_hover","off":"plotly_doubleclick","persistent":false,"dynamic":false,"color":null,"selectize":false,"defaultValues":null,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0,"ctGroups":["SharedData2fed5841"]},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>While stretching remains valuable for improving flexibility and reducing the risk of injuries, it should be viewed as a supplementary activity rather than the main strategy for building muscle mass and strength. The incorporation of weight and resistance training, supported by the utilization of interactive plots using R, offers a more effective and comprehensive approach to achieving desired muscle development goals.</p>
+</section>
+<section id="data-references" class="level2">
+
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Data References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-R-extrafont" class="csl-entry" role="listitem">
+Chang, Winston. 2023. <em>Extrafont: Tools for Using Fonts</em>. <a href="https://github.com/wch/extrafont">https://github.com/wch/extrafont</a>.
+</div>
+<div id="ref-lubridate2011" class="csl-entry" role="listitem">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span class="nocase">lubridate</span>.”</span> <em>Journal of Statistical Software</em> 40 (3): 1–25. <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a>.
+</div>
+<div id="ref-R-tibble" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2023. <em>Tibble: Simple Data Frames</em>. <a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a>.
+</div>
+<div id="ref-R-RColorBrewer" class="csl-entry" role="listitem">
+Neuwirth, Erich. 2022. <em>RColorBrewer: ColorBrewer Palettes</em>. <a href="https://CRAN.R-project.org/package=RColorBrewer">https://CRAN.R-project.org/package=RColorBrewer</a>.
+</div>
+<div id="ref-R-tidytext" class="csl-entry" role="listitem">
+Robinson, David, and Julia Silge. 2024. <em>Tidytext: Text Mining Using Dplyr, Ggplot2, and Other Tidy Tools</em>. <a href="https://juliasilge.github.io/tidytext/">https://juliasilge.github.io/tidytext/</a>.
+</div>
+<div id="ref-plotly2020" class="csl-entry" role="listitem">
+Sievert, Carson. 2020. <em>Interactive Web-Based Data Visualization with r, Plotly, and Shiny</em>. Chapman; Hall/CRC. <a href="https://plotly-r.com">https://plotly-r.com</a>.
+</div>
+<div id="ref-R-plotly" class="csl-entry" role="listitem">
+Sievert, Carson, Chris Parmer, Toby Hocking, Scott Chamberlain, Karthik Ram, Marianne Corvellec, and Pedro Despouy. 2024. <em>Plotly: Create Interactive Web Graphics via Plotly.js</em>. <a href="https://plotly-r.com">https://plotly-r.com</a>.
+</div>
+<div id="ref-tidytext2016" class="csl-entry" role="listitem">
+Silge, Julia, and David Robinson. 2016. <span>“Tidytext: Text Mining and Analysis Using Tidy Data Principles in r.”</span> <em>JOSS</em> 1 (3). <a href="https://doi.org/10.21105/joss.00037">https://doi.org/10.21105/joss.00037</a>.
+</div>
+<div id="ref-R-lubridate" class="csl-entry" role="listitem">
+Spinu, Vitalie, Garrett Grolemund, and Hadley Wickham. 2024. <em>Lubridate: Make Dealing with Dates a Little Easier</em>. <a href="https://lubridate.tidyverse.org">https://lubridate.tidyverse.org</a>.
+</div>
+<div id="ref-R-htmlwidgets" class="csl-entry" role="listitem">
+Vaidyanathan, Ramnath, Yihui Xie, JJ Allaire, Joe Cheng, Carson Sievert, and Kenton Russell. 2023. <em>Htmlwidgets: HTML Widgets for r</em>. <a href="https://github.com/ramnathv/htmlwidgets">https://github.com/ramnathv/htmlwidgets</a>.
+</div>
+<div id="ref-ggplot22016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-forcats" class="csl-entry" role="listitem">
+———. 2023a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://forcats.tidyverse.org/">https://forcats.tidyverse.org/</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+———. 2023b. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyverse" class="csl-entry" role="listitem">
+———. 2023c. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://tidyverse.tidyverse.org">https://tidyverse.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-purrr" class="csl-entry" role="listitem">
+Wickham, Hadley, and Lionel Henry. 2025. <em>Purrr: Functional Programming Tools</em>. <a href="https://purrr.tidyverse.org/">https://purrr.tidyverse.org/</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-ggtext" class="csl-entry" role="listitem">
+Wilke, Claus O., and Brenton M. Wiernik. 2022. <em>Ggtext: Improved Text Rendering Support for Ggplot2</em>. <a href="https://wilkelab.org/ggtext/">https://wilkelab.org/ggtext/</a>.
+</div>
+</div></section></div>

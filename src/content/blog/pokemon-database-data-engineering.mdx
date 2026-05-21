@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./pokemon-database-data-engineering.body.html?raw";
 
 <Overview>
   A two-week data-engineering sprint to build a normalized PostgreSQL database from the Kanto, Johto, and Hoenn Pokemon datasets. Full ETL workflow, schema design with primary and foreign keys.
 </Overview>
 
-## Notes from the archive
-
-The analytical excuse for all the schema work — "which type has the strongest base stats?" — became the test query the schema had to support. A useful exercise in choosing the schema that the eventual queries will thank you for.
+<article class="article-body" set:html={body}></article>

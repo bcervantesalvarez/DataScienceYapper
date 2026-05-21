@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./predicting-wine-province-machine-learning.body.html?raw";
 
 <Overview>
   A text classifier that reads tasting notes for Pinot Noir and predicts the wine's province of origin. The use case is a sommelier-style tool: drop in a few sentences of tasting copy, get back a probability over likely origins.
 </Overview>
 
-## Notes from the archive
-
-Tokenization, stemming, and a pivot into a sparse feature matrix on the front end; a Random Forest classifier on the back end. Reached kappa 0.82 on held-out data. The interesting finding was not the score but which descriptors (specific fruits, oak notes) carried the most predictive weight, hinting at consistent regional vocabulary in the critic corpus.
+<article class="article-body" set:html={body}></article>

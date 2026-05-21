@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./amazon-indian-products-shiny-app.body.html?raw";
 
 <Overview>
   A retrospective on building a small dashboard over a Kaggle dataset of Amazon India products. The app surfaces which categories and subcategories carry the highest average ratings and the most reviews.
 </Overview>
 
-## Notes from the archive
-
-The original post reflected on workflow improvements — advanced CSS theming, faster iteration cycles — compared to earlier Shiny projects. Useful mostly as a "look what one iteration buys you" exercise.
+<article class="article-body" set:html={body}></article>

@@ -1,0 +1,630 @@
+<p><img src="../../..\assets/images/income.jpeg" class="img-fluid"></p>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>In this project, our goal was to predict whether individuals earn more than $50K using machine learning techniques. We engaged in a thorough data science process, from data preprocessing and feature engineering to selecting principal components through PCA and optimizing hyperparameters for our model. Our collaborative efforts led to a high-performing model with a Kappa score of 0.9543, enhancing our data science expertise and setting the stage for future projects.</p>
+</section>
+<section id="team-contribution" class="level2">
+<h2 class="anchored" data-anchor-id="team-contribution">Team Contribution</h2>
+<p>Willa played a pivotal role in developing the foundational models and pinpointing the key PCA features. Her outstanding efforts laid the groundwork for our high-quality model that accurately predicts incomes over $50,000. Willa’s expertise not only provided a solid base for our project but also enabled us to fine-tune our models for peak performance. I’m thankful for her invaluable input and dedication, which significantly contributed to the success of our work.</p>
+<p>Explore more of Willa’s data science work on her <a href="https://willavanliew.netlify.app/">website</a>.</p>
+</section>
+<section id="predicting-income-50k" class="level2">
+<h2 class="anchored" data-anchor-id="predicting-income-50k">Predicting Income &gt;50K</h2>
+<section id="load-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="load-libraries">Load Libraries</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co">#knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)</span></span>
+<span id="cb1-2"><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-4"><span class="fu">library</span>(caret)</span>
+<span id="cb1-5"><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-6"><span class="fu">library</span>(fastDummies)</span>
+<span id="cb1-7"><span class="fu">library</span>(randomForest)</span></code></pre></div>
+</div>
+</section>
+<section id="load-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-data">Load The Data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">income <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"../../../assets/datasets/openml_1590.csv"</span>, <span class="at">na =</span> <span class="fu">c</span>(<span class="st">"?"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2">  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-3">  <span class="fu">mutate</span>(<span class="at">income_above_50K =</span> <span class="fu">ifelse</span>(class <span class="sc">==</span> <span class="st">"&gt;50K"</span>,<span class="dv">1</span>,<span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4">  <span class="fu">select</span>(<span class="sc">-</span>class) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5">  <span class="fu">dummy_cols</span>(<span class="at">remove_selected_columns =</span> T)</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="run-random-forest-obtain-importance-features" class="level2">
+<h2 class="anchored" data-anchor-id="run-random-forest-obtain-importance-features">Run Random Forest &amp; Obtain Importance Features</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu">set.seed</span>(<span class="dv">504</span>)</span>
+<span id="cb3-2">raw_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(income<span class="sc">$</span>income_above_50K, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-3">train <span class="ot">&lt;-</span> income[raw_index,]</span>
+<span id="cb3-4">test  <span class="ot">&lt;-</span> income[<span class="sc">-</span>raw_index, ]</span>
+<span id="cb3-5">ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">3</span>)</span>
+<span id="cb3-6"></span>
+<span id="cb3-7">fit <span class="ot">&lt;-</span> <span class="fu">train</span>(income_above_50K <span class="sc">~</span> .,</span>
+<span id="cb3-8">            <span class="at">data =</span> train, </span>
+<span id="cb3-9">            <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb3-10">            <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb3-11">            <span class="at">tuneLength =</span> <span class="dv">3</span>,</span>
+<span id="cb3-12">            <span class="at">trControl =</span> ctrl,</span>
+<span id="cb3-13">            <span class="at">metric =</span> <span class="st">"kappa"</span>)</span>
+<span id="cb3-14">fit</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest 
+
+36178 samples
+  104 predictor
+
+No pre-processing
+Resampling: Cross-Validated (3 fold) 
+Summary of sample sizes: 24118, 24119, 24119 
+Resampling results across tuning parameters:
+
+  mtry  RMSE       Rsquared   MAE      
+    2   0.3476024  0.4097953  0.2772094
+   53   0.3179101  0.4613186  0.1913666
+  104   0.3202068  0.4549034  0.1912386
+
+RMSE was used to select the optimal model using the smallest value.
+The final value used for the model was mtry = 53.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu">print</span>(<span class="fu">varImp</span>(fit), <span class="dv">10</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rf variable importance
+
+  only 10 most important variables shown (out of 104)
+
+                                    Overall
+`marital-status_Married-civ-spouse` 100.000
+fnlwgt                               88.391
+`capital-gain`                       72.132
+age                                  65.934
+`education-num`                      65.048
+`hours-per-week`                     38.148
+relationship_Husband                 23.865
+`capital-loss`                       22.797
+`occupation_Exec-managerial`          8.631
+`occupation_Prof-specialty`           5.868</code></pre>
+</div>
+</div>
+</section>
+<section id="pca" class="level2">
+<h2 class="anchored" data-anchor-id="pca">PCA</h2>
+<section id="chose-top-8-features" class="level3">
+<h3 class="anchored" data-anchor-id="chose-top-8-features">Chose Top 8 Features</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">inc <span class="ot">&lt;-</span> income <span class="sc">%&gt;%</span></span>
+<span id="cb7-2">  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(fnlwgt,</span>
+<span id="cb7-3">            <span class="st">`</span><span class="at">marital-status_Married-civ-spouse</span><span class="st">`</span>,</span>
+<span id="cb7-4">            age,</span>
+<span id="cb7-5">            <span class="st">`</span><span class="at">capital-gain</span><span class="st">`</span>,</span>
+<span id="cb7-6">            <span class="st">`</span><span class="at">education-num</span><span class="st">`</span>,</span>
+<span id="cb7-7">            <span class="st">`</span><span class="at">hours-per-week</span><span class="st">`</span>,</span>
+<span id="cb7-8">            relationship_Husband,</span>
+<span id="cb7-9">            <span class="st">`</span><span class="at">capital-loss</span><span class="st">`</span>))</span>
+<span id="cb7-10"></span>
+<span id="cb7-11"><span class="co">#Remained unchanged</span></span>
+<span id="cb7-12">pr_income <span class="ot">=</span> <span class="fu">prcomp</span>(<span class="at">x =</span> inc, <span class="at">scale=</span>T, <span class="at">center =</span> T)</span>
+<span id="cb7-13"><span class="fu">screeplot</span>(pr_income, <span class="at">type=</span><span class="st">"lines"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="/figures/predicting-salaries-machine-learning/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu">rownames_to_column</span>(<span class="fu">as.data.frame</span>(pr_income<span class="sc">$</span>rotation)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2">  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3">  <span class="fu">filter</span>(<span class="fu">abs</span>(PC1) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC2) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC3) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC4) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC5) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC6) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC7) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC8) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC9) <span class="sc">&gt;=</span> <span class="fl">0.35</span> <span class="sc">|</span> <span class="fu">abs</span>(PC10) <span class="sc">&gt;=</span> <span class="fl">0.35</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       rowname         PC1         PC2          PC3         PC4
+1            workclass_Private -0.17526595 -0.13547253  0.304797799  0.02401763
+2   workclass_Self-emp-not-inc  0.14801244  0.01168218 -0.067006960  0.07757365
+3       education_Some-college -0.06530044  0.06007649  0.046053650 -0.12180499
+4   relationship_Not-in-family -0.11626278  0.09345537 -0.009681895  0.02508551
+5            relationship_Wife -0.07643452  0.10243694 -0.155839801  0.10495583
+6                   race_Black -0.20749199 -0.06347990 -0.071867670 -0.26136856
+7                   sex_Female -0.43938132  0.23499209 -0.149918556  0.12969011
+8                     sex_Male  0.43938132 -0.23499209  0.149918556 -0.12969011
+9 native-country_United-States  0.08714546  0.46368406  0.199639060 -0.22938060
+          PC5          PC6         PC7         PC8         PC9        PC10
+1 -0.20886710  0.441798469 -0.22645965 -0.03914163 -0.04681505  0.00291428
+2  0.14138682 -0.254839748  0.35058106  0.05445338 -0.03103841 -0.33625026
+3 -0.07546707 -0.063088752  0.11632314  0.19569918  0.43973405  0.15884684
+4 -0.12317719 -0.049422098 -0.03404059 -0.57428375  0.20605726 -0.14712496
+5 -0.06292606  0.110184232  0.03508095  0.39257178 -0.25791740  0.12888672
+6  0.37153500 -0.037152844 -0.32702635  0.10727161  0.06843460 -0.15897839
+7 -0.10696874  0.005407197  0.07370032  0.08521373 -0.09415713 -0.03364547
+8  0.10696874 -0.005407197 -0.07370032 -0.08521373  0.09415713  0.03364547
+9  0.15037231  0.067618017 -0.02636173 -0.01036183 -0.06064057 -0.09505529</code></pre>
+</div>
+</div>
+</section>
+<section id="chose-first-10-pca-features" class="level3">
+<h3 class="anchored" data-anchor-id="chose-first-10-pca-features">Chose First 10 PCA Features</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co"># IMPORTANT: Since I used 8 features, I updated the prc dataframe to include</span></span>
+<span id="cb10-2"><span class="co"># the features + PCA 1-10</span></span>
+<span id="cb10-3">prc <span class="ot">&lt;-</span> </span>
+<span id="cb10-4">  <span class="fu">bind_cols</span>(<span class="fu">select</span>(income, </span>
+<span id="cb10-5">                   <span class="fu">c</span>(fnlwgt, </span>
+<span id="cb10-6">                    <span class="st">`</span><span class="at">marital-status_Married-civ-spouse</span><span class="st">`</span>, </span>
+<span id="cb10-7">                    age, </span>
+<span id="cb10-8">                    <span class="st">`</span><span class="at">capital-gain</span><span class="st">`</span>, </span>
+<span id="cb10-9">                    age, </span>
+<span id="cb10-10">                    <span class="st">`</span><span class="at">hours-per-week</span><span class="st">`</span>, </span>
+<span id="cb10-11">                    relationship_Husband,</span>
+<span id="cb10-12">                    <span class="st">`</span><span class="at">capital-loss</span><span class="st">`</span>,</span>
+<span id="cb10-13">                    income_above_50K)</span>
+<span id="cb10-14">                   ), </span>
+<span id="cb10-15">            <span class="fu">as.data.frame</span>(pr_income<span class="sc">$</span>x)</span>
+<span id="cb10-16">            ) <span class="sc">%&gt;%</span></span>
+<span id="cb10-17">  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-18">  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-19">  <span class="fu">rename</span>(<span class="st">"NonBlack_Men"</span> <span class="ot">=</span> PC1,</span>
+<span id="cb10-20">         <span class="st">"US_Women"</span> <span class="ot">=</span> PC2,</span>
+<span id="cb10-21">         <span class="st">"PrivateSec_Men"</span> <span class="ot">=</span> PC3,</span>
+<span id="cb10-22">         <span class="st">"NonUS_NonBlack"</span> <span class="ot">=</span> PC4,</span>
+<span id="cb10-23">         <span class="st">"NonPrivateSec_Black"</span> <span class="ot">=</span> PC5,</span>
+<span id="cb10-24">         <span class="st">"PrivateSec"</span> <span class="ot">=</span> PC6,</span>
+<span id="cb10-25">         <span class="st">"NonBlack_SelfEmploy"</span> <span class="ot">=</span> PC7,</span>
+<span id="cb10-26">         <span class="st">"Wives"</span> <span class="ot">=</span> PC8,</span>
+<span id="cb10-27">         <span class="st">"NonFamily_SomeCollege"</span> <span class="ot">=</span> PC9,</span>
+<span id="cb10-28">         <span class="st">"NotSelfEmployes_NonBlack"</span> <span class="ot">=</span> PC10)</span>
+<span id="cb10-29"></span>
+<span id="cb10-30"><span class="fu">head</span>(prc)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 18
+  fnlwgt marital-status_Married-civ-spou…¹   age `capital-gain` `hours-per-week`
+   &lt;dbl&gt;                             &lt;int&gt; &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;
+1 226802                                 0    25              0               40
+2  89814                                 1    38              0               50
+3 336951                                 1    28              0               40
+4 160323                                 1    44           7688               40
+5 198693                                 0    34              0               30
+6 104626                                 1    63           3103               32
+# ℹ abbreviated name: ¹​`marital-status_Married-civ-spouse`
+# ℹ 13 more variables: relationship_Husband &lt;int&gt;, `capital-loss` &lt;dbl&gt;,
+#   income_above_50K &lt;dbl&gt;, NonBlack_Men &lt;dbl&gt;, US_Women &lt;dbl&gt;,
+#   PrivateSec_Men &lt;dbl&gt;, NonUS_NonBlack &lt;dbl&gt;, NonPrivateSec_Black &lt;dbl&gt;,
+#   PrivateSec &lt;dbl&gt;, NonBlack_SelfEmploy &lt;dbl&gt;, Wives &lt;dbl&gt;,
+#   NonFamily_SomeCollege &lt;dbl&gt;, NotSelfEmployes_NonBlack &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="gradient-boosting-machine" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-boosting-machine">Gradient Boosting Machine</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co">#IMPORTANT: I took a while and messed around with the hyperparameters</span></span>
+<span id="cb12-2"><span class="co"># Went From 0.2 Kappa to 0.6 Kappa BEFORE updating the features.</span></span>
+<span id="cb12-3"><span class="co"># After updating to the top 8 features + PCA 1-5, it jumped to </span></span>
+<span id="cb12-4"><span class="co"># 0.88 Kappa. Then I added PCA 1-10 and it jumped to 0.95 for the Kappa!</span></span>
+<span id="cb12-5"><span class="fu">set.seed</span>(<span class="dv">504</span>)</span>
+<span id="cb12-6">raw_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(prc<span class="sc">$</span>income_above_50K, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-7">train <span class="ot">&lt;-</span> prc[raw_index,]</span>
+<span id="cb12-8">test  <span class="ot">&lt;-</span> prc[<span class="sc">-</span>raw_index, ]</span>
+<span id="cb12-9">ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb12-10">weights <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(income<span class="sc">$</span>income_above_50K <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">75</span>, <span class="dv">25</span>)</span>
+<span id="cb12-11"></span>
+<span id="cb12-12">hyperparameters <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">interaction.depth =</span> <span class="dv">9</span>, </span>
+<span id="cb12-13">                    <span class="at">n.trees =</span> <span class="dv">300</span>, </span>
+<span id="cb12-14">                    <span class="at">shrinkage =</span> <span class="fl">0.1</span>, </span>
+<span id="cb12-15">                    <span class="at">n.minobsinnode =</span> <span class="dv">4</span>)</span>
+<span id="cb12-16">fit <span class="ot">&lt;-</span> <span class="fu">train</span>(<span class="fu">factor</span>(income_above_50K) <span class="sc">~</span> .,</span>
+<span id="cb12-17">            <span class="at">data =</span> train, </span>
+<span id="cb12-18">            <span class="at">method =</span> <span class="st">"gbm"</span>,</span>
+<span id="cb12-19">            <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-20">            <span class="at">tuneGrid =</span> hyperparameters,</span>
+<span id="cb12-21">            <span class="at">trControl =</span> ctrl,</span>
+<span id="cb12-22">            <span class="at">metric =</span> <span class="st">"kappa"</span>)</span>
+<span id="cb12-23">fit</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Stochastic Gradient Boosting 
+
+36178 samples
+   17 predictor
+    2 classes: '0', '1' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 28943, 28943, 28942, 28942, 28942 
+Resampling results:
+
+  Accuracy   Kappa    
+  0.9830284  0.9540703
+
+Tuning parameter 'n.trees' was held constant at a value of 300
+Tuning
+
+Tuning parameter 'shrinkage' was held constant at a value of 0.1
+
+Tuning parameter 'n.minobsinnode' was held constant at a value of 4</code></pre>
+</div>
+</div>
+<section id="confusion-matrix-for-gbm" class="level3">
+<h3 class="anchored" data-anchor-id="confusion-matrix-for-gbm">Confusion Matrix For GBM</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(fit, test), <span class="fu">factor</span>(test<span class="sc">$</span>income_above_50K))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction    0    1
+         0 6797  108
+         1   43 2096
+                                          
+               Accuracy : 0.9833          
+                 95% CI : (0.9804, 0.9858)
+    No Information Rate : 0.7563          
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+                                          
+                  Kappa : 0.9542          
+                                          
+ Mcnemar's Test P-Value : 1.906e-07       
+                                          
+            Sensitivity : 0.9937          
+            Specificity : 0.9510          
+         Pos Pred Value : 0.9844          
+         Neg Pred Value : 0.9799          
+             Prevalence : 0.7563          
+         Detection Rate : 0.7515          
+   Detection Prevalence : 0.7635          
+      Balanced Accuracy : 0.9724          
+                                          
+       'Positive' Class : 0               
+                                          </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="logistical-model" class="level2">
+<h2 class="anchored" data-anchor-id="logistical-model">Logistical Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co">#I messed around with using a logistical model</span></span>
+<span id="cb16-2"><span class="co">#It turns out that it's pretty good too! Not as great as the GBM</span></span>
+<span id="cb16-3"><span class="co">#But a great and easy model to explain!</span></span>
+<span id="cb16-4"></span>
+<span id="cb16-5"><span class="fu">set.seed</span>(<span class="dv">504</span>)</span>
+<span id="cb16-6">raw_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(prc<span class="sc">$</span>income_above_50K, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-7">train <span class="ot">&lt;-</span> prc[raw_index,]</span>
+<span id="cb16-8">test  <span class="ot">&lt;-</span> prc[<span class="sc">-</span>raw_index, ]</span>
+<span id="cb16-9">ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"repeatedcv"</span>, <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">3</span>, <span class="at">verboseIter =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-10">hyperparameters <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">alpha =</span> <span class="dv">1</span>, </span>
+<span id="cb16-11">                               <span class="at">lambda =</span> <span class="fl">0.001</span>)</span>
+<span id="cb16-12"></span>
+<span id="cb16-13">fit <span class="ot">&lt;-</span> <span class="fu">train</span>(<span class="fu">factor</span>(income_above_50K)  <span class="sc">~</span> .,</span>
+<span id="cb16-14">            <span class="at">data =</span> train, </span>
+<span id="cb16-15">            <span class="at">method =</span> <span class="st">"glmnet"</span>,</span>
+<span id="cb16-16">            <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb16-17">            <span class="at">tuneGrid =</span> hyperparameters,</span>
+<span id="cb16-18">            <span class="at">trControl =</span> ctrl,</span>
+<span id="cb16-19">            <span class="at">metric =</span> <span class="st">"kappa"</span>,</span>
+<span id="cb16-20">            <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-21">fit</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>glmnet 
+
+36178 samples
+   17 predictor
+    2 classes: '0', '1' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold, repeated 3 times) 
+Summary of sample sizes: 32560, 32561, 32561, 32561, 32559, 32559, ... 
+Resampling results:
+
+  Accuracy   Kappa   
+  0.9610166  0.895033
+
+Tuning parameter 'alpha' was held constant at a value of 1
+Tuning
+ parameter 'lambda' was held constant at a value of 0.001</code></pre>
+</div>
+</div>
+<section id="confusion-matrix-for-logistical-regression" class="level3">
+<h3 class="anchored" data-anchor-id="confusion-matrix-for-logistical-regression">Confusion Matrix For Logistical Regression</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(fit, test), <span class="fu">factor</span>(test<span class="sc">$</span>income_above_50K))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction    0    1
+         0 6679  197
+         1  161 2007
+                                          
+               Accuracy : 0.9604          
+                 95% CI : (0.9562, 0.9643)
+    No Information Rate : 0.7563          
+    P-Value [Acc &gt; NIR] : &lt; 2e-16         
+                                          
+                  Kappa : 0.892           
+                                          
+ Mcnemar's Test P-Value : 0.06434         
+                                          
+            Sensitivity : 0.9765          
+            Specificity : 0.9106          
+         Pos Pred Value : 0.9713          
+         Neg Pred Value : 0.9257          
+             Prevalence : 0.7563          
+         Detection Rate : 0.7385          
+   Detection Prevalence : 0.7603          
+      Balanced Accuracy : 0.9435          
+                                          
+       'Positive' Class : 0               
+                                          </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="kmeans-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="kmeans-clustering">KMeans Clustering</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">kclust <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">na.omit</span>(prc), <span class="at">centers =</span> <span class="dv">4</span>)</span>
+<span id="cb20-2">kclust<span class="sc">$</span>centers</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    fnlwgt marital-status_Married-civ-spouse      age capital-gain
+1  86931.3                         0.4798800 39.36223     1178.652
+2 307822.2                         0.4480979 37.29197      993.978
+3 486698.8                         0.4317060 35.22655     1093.921
+4 188848.4                         0.4654970 38.77250     1090.494
+  hours-per-week relationship_Husband capital-loss income_above_50K
+1       41.21239            0.4228618     85.99175        0.2453963
+2       40.99760            0.4015361     87.95284        0.2414497
+3       40.18760            0.3812397     69.68404        0.2144816
+4       40.78357            0.4129092     92.41845        0.2551951
+  NonBlack_Men    US_Women PrivateSec_Men NonUS_NonBlack NonPrivateSec_Black
+1   0.06956303  0.10628238  -0.0890912042    -0.03258891        -0.008490584
+2  -0.04531689 -0.15055893   0.0006150531    -0.02235042         0.014458490
+3  -0.20329023 -0.44646489   0.1964744251     0.04160186         0.115358306
+4  -0.01331648  0.02500494   0.0462143267     0.02882888        -0.010110363
+   PrivateSec NonBlack_SelfEmploy        Wives NonFamily_SomeCollege
+1  0.03384552          0.17173996 -0.029902238           -0.02188199
+2 -0.07527701         -0.12068976 -0.008023897            0.09248884
+3 -0.26626813         -0.36982627  0.123605508            0.13942943
+4  0.03021208         -0.04107775  0.013720687           -0.03450577
+  NotSelfEmployes_NonBlack
+1              -0.03597294
+2               0.01302787
+3              -0.02812971
+4               0.02304227</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1">kclusts <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-2">  <span class="fu">mutate</span>(</span>
+<span id="cb22-3">    <span class="at">kclust =</span> <span class="fu">map</span>(k, <span class="sc">~</span><span class="fu">kmeans</span>(prc, .x)),</span>
+<span id="cb22-4">    <span class="at">glanced =</span> <span class="fu">map</span>(kclust, glance),</span>
+<span id="cb22-5">    <span class="at">augmented =</span> <span class="fu">map</span>(kclust, augment, prc)</span>
+<span id="cb22-6">  )</span>
+<span id="cb22-7"></span>
+<span id="cb22-8">clusterings <span class="ot">&lt;-</span> kclusts <span class="sc">%&gt;%</span></span>
+<span id="cb22-9">  <span class="fu">unnest</span>(glanced, <span class="at">.drop =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-10"></span>
+<span id="cb22-11"><span class="fu">ggplot</span>(clusterings, <span class="fu">aes</span>(k, tot.withinss)) <span class="sc">+</span></span>
+<span id="cb22-12">  <span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="/figures/predicting-salaries-machine-learning/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="augumenting-the-gbm-model-with-kmeans-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="augumenting-the-gbm-model-with-kmeans-clustering">Augumenting The GBM Model with KMeans Clustering</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1">prc2 <span class="ot">&lt;-</span> <span class="fu">augment</span>(kclust, prc)</span>
+<span id="cb23-2"></span>
+<span id="cb23-3"><span class="fu">set.seed</span>(<span class="dv">504</span>)</span>
+<span id="cb23-4">raw_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(prc2<span class="sc">$</span>income_above_50K, <span class="at">p =</span> <span class="fl">0.8</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-5"></span>
+<span id="cb23-6">train <span class="ot">&lt;-</span> prc2[raw_index,]</span>
+<span id="cb23-7">test  <span class="ot">&lt;-</span> prc2[<span class="sc">-</span>raw_index, ]</span>
+<span id="cb23-8">ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb23-9"></span>
+<span id="cb23-10">hyperparameters <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb23-11">  <span class="at">n.trees =</span> <span class="dv">500</span>,</span>
+<span id="cb23-12">  <span class="at">interaction.depth =</span> <span class="dv">5</span>,</span>
+<span id="cb23-13">  <span class="at">shrinkage =</span> <span class="fl">0.1</span>,</span>
+<span id="cb23-14">  <span class="at">n.minobsinnode =</span> <span class="dv">10</span></span>
+<span id="cb23-15">)</span>
+<span id="cb23-16"></span>
+<span id="cb23-17"></span>
+<span id="cb23-18"></span>
+<span id="cb23-19">fit <span class="ot">&lt;-</span> <span class="fu">train</span>(<span class="fu">factor</span>(income_above_50K)  <span class="sc">~</span> .,</span>
+<span id="cb23-20">            <span class="at">data =</span> train, </span>
+<span id="cb23-21">            <span class="at">method =</span> <span class="st">"gbm"</span>,</span>
+<span id="cb23-22">            <span class="at">trControl =</span> ctrl,</span>
+<span id="cb23-23">            <span class="at">tuneGrid =</span> hyperparameters,</span>
+<span id="cb23-24">            <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-25">fit</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Stochastic Gradient Boosting 
+
+36178 samples
+   18 predictor
+    2 classes: '0', '1' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 28943, 28943, 28942, 28942, 28942 
+Resampling results:
+
+  Accuracy   Kappa    
+  0.9836089  0.9556414
+
+Tuning parameter 'n.trees' was held constant at a value of 500
+Tuning
+
+Tuning parameter 'shrinkage' was held constant at a value of 0.1
+
+Tuning parameter 'n.minobsinnode' was held constant at a value of 10</code></pre>
+</div>
+</div>
+<section id="confusion-matrix-for-kmeans-gbm" class="level3">
+<h3 class="anchored" data-anchor-id="confusion-matrix-for-kmeans-gbm">Confusion Matrix For KMeans + GBM</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="co">#We should be getting a Kappa of 0.9543!</span></span>
+<span id="cb25-2"><span class="co">#Sensitivity = 0.9930, Specificity = 0.9533</span></span>
+<span id="cb25-3"><span class="co">#Excellent Numbers!</span></span>
+<span id="cb25-4"><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(fit, test), <span class="fu">factor</span>(test<span class="sc">$</span>income_above_50K))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction    0    1
+         0 6798  110
+         1   42 2094
+                                          
+               Accuracy : 0.9832          
+                 95% CI : (0.9803, 0.9857)
+    No Information Rate : 0.7563          
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+                                          
+                  Kappa : 0.9539          
+                                          
+ Mcnemar's Test P-Value : 5.498e-08       
+                                          
+            Sensitivity : 0.9939          
+            Specificity : 0.9501          
+         Pos Pred Value : 0.9841          
+         Neg Pred Value : 0.9803          
+             Prevalence : 0.7563          
+         Detection Rate : 0.7517          
+   Detection Prevalence : 0.7638          
+      Balanced Accuracy : 0.9720          
+                                          
+       'Positive' Class : 0               
+                                          </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Our analysis began with a random forest model to pinpoint critical factors, focusing on the top 8 features for in-depth examination. We then applied principal component analysis for further insight. The culmination of our work was a gradient boosting machine model, finely tuned for peak performance, which boasted a remarkable accuracy rate of 98.3% and a Kappa score of 95.4%. To validate our model’s reliability and guard against overfitting, we compared it with a basic logistic regression model, which showed a Kappa score of 89.5% and an accuracy of 96.1%. Enhancements were made by integrating Kmeans clustering, an unsupervised learning technique, pushing the Kappa score slightly higher to 95.4% and accuracy to 98.3%. Our methodology, combining feature selection and PCA, proved highly effective, offering a solid foundation for future projects with potential for even finer adjustments.</p>
+</section>
+<section id="data-references" class="level2">
+
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Data References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-R-infer" class="csl-entry" role="listitem">
+Bray, Andrew, Chester Ismay, Evgeni Chasnovski, Simon Couch, Ben Baumer, and Mine Cetinkaya-Rundel. 2024. <em>Infer: Tidy Statistical Inference</em>. <a href="https://github.com/tidymodels/infer">https://github.com/tidymodels/infer</a>.
+</div>
+<div id="ref-R-randomForest" class="csl-entry" role="listitem">
+Breiman, Leo, Adele Cutler, Andy Liaw, and Matthew Wiener. 2022. <em>randomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em>. <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/">https://www.stat.berkeley.edu/~breiman/RandomForests/</a>.
+</div>
+<div id="ref-infer2021" class="csl-entry" role="listitem">
+Couch, Simon P., Andrew P. Bray, Chester Ismay, Evgeni Chasnovski, Benjamin S. Baumer, and Mine Çetinkaya-Rundel. 2021. <span>“<span class="nocase">infer</span>: An <span>R</span> Package for Tidyverse-Friendly Statistical Inference.”</span> <em>Journal of Open Source Software</em> 6 (65): 3661. <a href="https://doi.org/10.21105/joss.03661">https://doi.org/10.21105/joss.03661</a>.
+</div>
+<div id="ref-R-rsample" class="csl-entry" role="listitem">
+Frick, Hannah, Fanny Chow, Max Kuhn, Michael Mahoney, Julia Silge, and Hadley Wickham. 2024. <em>Rsample: General Resampling Infrastructure</em>. <a href="https://rsample.tidymodels.org">https://rsample.tidymodels.org</a>.
+</div>
+<div id="ref-lubridate2011" class="csl-entry" role="listitem">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span class="nocase">lubridate</span>.”</span> <em>Journal of Statistical Software</em> 40 (3): 1–25. <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a>.
+</div>
+<div id="ref-R-fastDummies" class="csl-entry" role="listitem">
+Kaplan, Jacob. 2025. <em>fastDummies: Fast Creation of Dummy (Binary) Columns and Rows from Categorical Variables</em>. <a href="https://github.com/jacobkap/fastDummies">https://github.com/jacobkap/fastDummies</a>.
+</div>
+<div id="ref-R-caret" class="csl-entry" role="listitem">
+Kuhn, Max. 2023. <em>Caret: Classification and Regression Training</em>. <a href="https://github.com/topepo/caret/">https://github.com/topepo/caret/</a>.
+</div>
+<div id="ref-R-modeldata" class="csl-entry" role="listitem">
+———. 2024a. <em>Modeldata: Data Sets Useful for Modeling Examples</em>. <a href="https://modeldata.tidymodels.org">https://modeldata.tidymodels.org</a>.
+</div>
+<div id="ref-R-tune" class="csl-entry" role="listitem">
+———. 2024b. <em>Tune: Tidy Tuning Tools</em>. <a href="https://tune.tidymodels.org/">https://tune.tidymodels.org/</a>.
+</div>
+<div id="ref-R-workflowsets" class="csl-entry" role="listitem">
+Kuhn, Max, and Simon Couch. 2024. <em>Workflowsets: Create a Collection of Tidymodels Workflows</em>. <a href="https://github.com/tidymodels/workflowsets">https://github.com/tidymodels/workflowsets</a>.
+</div>
+<div id="ref-R-dials" class="csl-entry" role="listitem">
+Kuhn, Max, and Hannah Frick. 2024. <em>Dials: Tools for Creating Tuning Parameter Values</em>. <a href="https://dials.tidymodels.org">https://dials.tidymodels.org</a>.
+</div>
+<div id="ref-R-parsnip" class="csl-entry" role="listitem">
+Kuhn, Max, and Davis Vaughan. 2024. <em>Parsnip: A Common API to Modeling and Analysis Functions</em>. <a href="https://github.com/tidymodels/parsnip">https://github.com/tidymodels/parsnip</a>.
+</div>
+<div id="ref-R-yardstick" class="csl-entry" role="listitem">
+Kuhn, Max, Davis Vaughan, and Emil Hvitfeldt. 2024. <em>Yardstick: Tidy Characterizations of Model Performance</em>. <a href="https://github.com/tidymodels/yardstick">https://github.com/tidymodels/yardstick</a>.
+</div>
+<div id="ref-tidymodels2020" class="csl-entry" role="listitem">
+Kuhn, Max, and Hadley Wickham. 2020. <em>Tidymodels: A Collection of Packages for Modeling and Machine Learning Using Tidyverse Principles.</em> <a href="https://www.tidymodels.org">https://www.tidymodels.org</a>.
+</div>
+<div id="ref-R-tidymodels" class="csl-entry" role="listitem">
+———. 2024. <em>Tidymodels: Easily Install and Load the Tidymodels Packages</em>. <a href="https://tidymodels.tidymodels.org">https://tidymodels.tidymodels.org</a>.
+</div>
+<div id="ref-R-recipes" class="csl-entry" role="listitem">
+Kuhn, Max, Hadley Wickham, and Emil Hvitfeldt. 2024. <em>Recipes: Preprocessing and Feature Engineering Steps for Modeling</em>. <a href="https://github.com/tidymodels/recipes">https://github.com/tidymodels/recipes</a>.
+</div>
+<div id="ref-caret2008" class="csl-entry" role="listitem">
+Kuhn, and Max. 2008. <span>“Building Predictive Models in r Using the Caret Package.”</span> <em>Journal of Statistical Software</em> 28 (5): 1–26. <a href="https://doi.org/10.18637/jss.v028.i05">https://doi.org/10.18637/jss.v028.i05</a>.
+</div>
+<div id="ref-randomForest2002" class="csl-entry" role="listitem">
+Liaw, Andy, and Matthew Wiener. 2002. <span>“Classification and Regression by randomForest.”</span> <em>R News</em> 2 (3): 18–22. <a href="https://CRAN.R-project.org/doc/Rnews/">https://CRAN.R-project.org/doc/Rnews/</a>.
+</div>
+<div id="ref-R-tibble" class="csl-entry" role="listitem">
+Müller, Kirill, and Hadley Wickham. 2023. <em>Tibble: Simple Data Frames</em>. <a href="https://tibble.tidyverse.org/">https://tibble.tidyverse.org/</a>.
+</div>
+<div id="ref-R-broom" class="csl-entry" role="listitem">
+Robinson, David, Alex Hayes, and Simon Couch. 2024. <em>Broom: Convert Statistical Objects into Tidy Tibbles</em>. <a href="https://broom.tidymodels.org/">https://broom.tidymodels.org/</a>.
+</div>
+<div id="ref-R-tidytext" class="csl-entry" role="listitem">
+Robinson, David, and Julia Silge. 2024. <em>Tidytext: Text Mining Using Dplyr, Ggplot2, and Other Tidy Tools</em>. <a href="https://juliasilge.github.io/tidytext/">https://juliasilge.github.io/tidytext/</a>.
+</div>
+<div id="ref-lattice2008" class="csl-entry" role="listitem">
+Sarkar, Deepayan. 2008. <em>Lattice: Multivariate Data Visualization with r</em>. New York: Springer. <a href="http://lmdvr.r-forge.r-project.org">http://lmdvr.r-forge.r-project.org</a>.
+</div>
+<div id="ref-R-lattice" class="csl-entry" role="listitem">
+———. 2024. <em>Lattice: Trellis Graphics for r</em>. <a href="https://lattice.r-forge.r-project.org/">https://lattice.r-forge.r-project.org/</a>.
+</div>
+<div id="ref-tidytext2016" class="csl-entry" role="listitem">
+Silge, Julia, and David Robinson. 2016. <span>“Tidytext: Text Mining and Analysis Using Tidy Data Principles in r.”</span> <em>JOSS</em> 1 (3). <a href="https://doi.org/10.21105/joss.00037">https://doi.org/10.21105/joss.00037</a>.
+</div>
+<div id="ref-R-lubridate" class="csl-entry" role="listitem">
+Spinu, Vitalie, Garrett Grolemund, and Hadley Wickham. 2024. <em>Lubridate: Make Dealing with Dates a Little Easier</em>. <a href="https://lubridate.tidyverse.org">https://lubridate.tidyverse.org</a>.
+</div>
+<div id="ref-R-workflows" class="csl-entry" role="listitem">
+Vaughan, Davis, and Simon Couch. 2024. <em>Workflows: Modeling Workflows</em>. <a href="https://github.com/tidymodels/workflows">https://github.com/tidymodels/workflows</a>.
+</div>
+<div id="ref-ggplot22016" class="csl-entry" role="listitem">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-forcats" class="csl-entry" role="listitem">
+———. 2023a. <em>Forcats: Tools for Working with Categorical Variables (Factors)</em>. <a href="https://forcats.tidyverse.org/">https://forcats.tidyverse.org/</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+———. 2023b. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyverse" class="csl-entry" role="listitem">
+———. 2023c. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://tidyverse.tidyverse.org">https://tidyverse.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-purrr" class="csl-entry" role="listitem">
+Wickham, Hadley, and Lionel Henry. 2025. <em>Purrr: Functional Programming Tools</em>. <a href="https://purrr.tidyverse.org/">https://purrr.tidyverse.org/</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-scales" class="csl-entry" role="listitem">
+Wickham, Hadley, Thomas Lin Pedersen, and Dana Seidel. 2023. <em>Scales: Scale Functions for Visualization</em>. <a href="https://scales.r-lib.org">https://scales.r-lib.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
+</div></section></div>

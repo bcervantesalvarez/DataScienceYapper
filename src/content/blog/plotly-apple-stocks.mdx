@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./plotly-apple-stocks.body.html?raw";
 
 <Overview>
   An interactive Plotly walkthrough of Apple's stock-price history from 1981 to the present. The chart highlights the post-2010 acceleration that traces the iPhone era.
 </Overview>
 
-## Notes from the archive
-
-A craft post — how to take a time-series visualization from "the defaults" to something that looks like it belongs in a finished report. Custom ggplot and Plotly theming throughout.
+<article class="article-body" set:html={body}></article>

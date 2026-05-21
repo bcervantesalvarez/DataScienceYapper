@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./college-student-debt-shiny-app.body.html?raw";
 
 <Overview>
   A dashboard built with Corey Cassell to help prospective college students reason about the financial side of their major choice. Four tools — salary, tuition, debt, and a debt calculator — each tied to underlying datasets on majors, tuition, and earnings.
 </Overview>
 
-## Notes from the archive
-
-The goal was a quick gut-check on the ROI of a major choice, not a replacement for a financial advisor. Data behind each tool came from publicly available college-scorecard and BLS sources.
+<article class="article-body" set:html={body}></article>

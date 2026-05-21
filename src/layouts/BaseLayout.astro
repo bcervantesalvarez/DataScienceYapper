@@ -46,6 +46,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500..800&display=swap"
   />
 
+  <!-- KaTeX (only renders any inline `<span class="math">` that survived
+       the qmd → MDX port; otherwise inert). -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+    crossorigin="anonymous"
+  />
+
   <!-- Set theme before paint to avoid flash -->
   <script is:inline>
     (function () {

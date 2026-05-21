@@ -9,18 +9,10 @@ venue: 'Workshop'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./building-professional-portfolio-via-quarto.body.html?raw";
 
 <Overview>
   A working portfolio is the single highest-leverage piece of personal infrastructure a data professional can own. This talk makes the case and walks through the setup: Quarto for authoring, GitHub Pages for hosting, a custom domain on top.
 </Overview>
 
-## The presentation
-
-<iframe src="https://bcervantesalvarez.github.io/Presentations/BuildAQuartoPortfolio/" title="Building a Professional Portfolio with Quarto + GitHub Pages" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/BuildAQuartoPortfolio/)
-
-## Context
-
-A portfolio earns three things at once: visibility, credibility, and a forcing function to keep your work tidy. The talk covers project structure, deploying with GitHub Actions, and how to organize projects, blog posts, and talks so the site scales as your body of work grows.
+<article class="article-body" set:html={body}></article>

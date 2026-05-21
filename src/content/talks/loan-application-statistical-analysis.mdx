@@ -9,18 +9,10 @@ venue: 'Graduate seminar'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./loan-application-statistical-analysis.body.html?raw";
 
 <Overview>
   Banks use models to decide who gets a loan. This talk takes a public dataset of 32,581 applications and works through a logistic regression to predict approval — then uses the result to teach what to do when a coefficient comes back with the wrong sign.
 </Overview>
 
-## The presentation
-
-<iframe src="https://bcervantesalvarez.github.io/Presentations/LoanApproval/" title="Loan Approval: A Logistic Regression Walkthrough" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open the slides in a new tab ↗](https://bcervantesalvarez.github.io/Presentations/LoanApproval/)
-
-## Context
-
-Income, home ownership, and loan amount are the headline predictors. The unexpected finding — credit score's coefficient runs counter to intuition in the fitted model — becomes the pedagogical anchor for a discussion of specification error, omitted-variable bias, and why a counterintuitive sign is a prompt to inspect the model rather than ship it.
+<article class="article-body" set:html={body}></article>

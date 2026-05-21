@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./quarto-github-pages-preworkshop.body.html?raw";
 
 <Overview>
   A preparatory checklist for attendees of a Quarto + GitHub Pages workshop. Walks through Git installation on Windows, Mac, and Linux; GitHub account and personal access token; RStudio integration.
 </Overview>
 
-## Notes from the archive
-
-The point of writing this out: the first 90 minutes of a workshop disappears into "my install does not work" if attendees have not prepared. This moves that work to the day before so the session itself can stay on topic.
+<article class="article-body" set:html={body}></article>

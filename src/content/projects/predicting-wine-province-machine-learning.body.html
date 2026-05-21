@@ -1,0 +1,221 @@
+<p><img src="../../..\assets/images/pinot.jpeg" class="img-fluid"></p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>The purpose of this project was to develop a predictive model for identifying the province of origin for wines based on descriptions provided by critics. To achieve this goal, a random forest model was built and evaluated for its performance, achieving a kappa score of 0.82. This project aimed to provide a useful tool for wine connoisseurs and industry professionals in identifying the origin of wines based on their sensory characteristics.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu">library</span>(caret)</span>
+<span id="cb1-3"><span class="fu">library</span>(rpart)</span>
+<span id="cb1-4"><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-5"><span class="fu">library</span>(SnowballC)</span></code></pre></div>
+</div>
+</section>
+<section id="feature-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">wine <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">"../../../assets/datasets/pinot.rds"</span>) </span>
+<span id="cb2-2"></span>
+<span id="cb2-3">wine_words <span class="ot">&lt;-</span> <span class="cf">function</span>(df, j, <span class="at">stem =</span> T){ </span>
+<span id="cb2-4">  <span class="fu">data</span>(stop_words)</span>
+<span id="cb2-5">  words <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb2-6">    <span class="fu">unnest_tokens</span>(word, description) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7">    <span class="fu">anti_join</span>(stop_words) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8">    <span class="fu">filter</span>(<span class="fu">str_detect</span>(<span class="at">string =</span> word, <span class="at">pattern =</span> <span class="st">"[a-z+]"</span>)) <span class="sc">%&gt;%</span> <span class="co"># get rid weird non alphas </span></span>
+<span id="cb2-9">    <span class="fu">filter</span>(<span class="fu">str_length</span>(word) <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="co"># get rid of strings shorter than 3 characters </span></span>
+<span id="cb2-10">    <span class="fu">filter</span>(<span class="sc">!</span>(word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"wine"</span>,<span class="st">"pinot"</span>, <span class="st">"vineyard"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11">    <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12">    <span class="fu">mutate</span>(<span class="at">total=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13">    <span class="fu">ungroup</span>()</span>
+<span id="cb2-14">  </span>
+<span id="cb2-15">  <span class="cf">if</span>(stem){</span>
+<span id="cb2-16">    words <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span> </span>
+<span id="cb2-17">      <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">wordStem</span>(word))</span>
+<span id="cb2-18">  }</span>
+<span id="cb2-19">  </span>
+<span id="cb2-20">  words <span class="ot">&lt;-</span> words <span class="sc">%&gt;%</span> </span>
+<span id="cb2-21">    <span class="fu">count</span>(id, word) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-22">    <span class="fu">group_by</span>(id) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-23">    <span class="fu">mutate</span>(<span class="at">exists =</span> (n<span class="sc">&gt;</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-24">    ungroup <span class="sc">%&gt;%</span> </span>
+<span id="cb2-25">    <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-26">    <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-27">    <span class="fu">filter</span>(total <span class="sc">&gt;</span> j) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-28">    <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> id,</span>
+<span id="cb2-29">                <span class="at">names_from =</span> word,</span>
+<span id="cb2-30">                <span class="at">values_from =</span> exists,</span>
+<span id="cb2-31">                <span class="at">values_fill =</span> <span class="fu">list</span>(<span class="at">exists=</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-32">    <span class="fu">right_join</span>(<span class="fu">select</span>(df,id,province)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-33">    <span class="fu">select</span>(<span class="sc">-</span>id) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-34">    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>province, <span class="sc">~</span><span class="fu">replace_na</span>(.x, F)))</span>
+<span id="cb2-35">}</span>
+<span id="cb2-36"></span>
+<span id="cb2-37">wino <span class="ot">&lt;-</span> <span class="fu">wine_words</span>(wine, <span class="at">j =</span> <span class="dv">190</span>, <span class="at">stem =</span> T)</span></code></pre></div>
+</div>
+</section>
+<section id="specification" class="level2">
+<h2 class="anchored" data-anchor-id="specification">Specification</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu">set.seed</span>(<span class="dv">504</span>) </span>
+<span id="cb3-2"></span>
+<span id="cb3-3">ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">3</span>)</span>
+<span id="cb3-4"></span>
+<span id="cb3-5"></span>
+<span id="cb3-6">wine_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(wino<span class="sc">$</span>province, <span class="at">p =</span> <span class="fl">0.80</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-7">train <span class="ot">&lt;-</span> wino[ wine_index, ]</span>
+<span id="cb3-8">test <span class="ot">&lt;-</span> wino[<span class="sc">-</span>wine_index, ]</span>
+<span id="cb3-9"></span>
+<span id="cb3-10">fit <span class="ot">&lt;-</span> <span class="fu">train</span>(province <span class="sc">~</span> .,</span>
+<span id="cb3-11">             <span class="at">data =</span> train, </span>
+<span id="cb3-12">             <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb3-13">             <span class="at">ntree =</span> <span class="dv">100</span>,</span>
+<span id="cb3-14">             <span class="at">tuneLength =</span> <span class="dv">15</span>,</span>
+<span id="cb3-15">             <span class="at">nodesize =</span> <span class="dv">10</span>,</span>
+<span id="cb3-16">             <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-17">             <span class="at">trControl =</span> ctrl,</span>
+<span id="cb3-18">             <span class="at">metric =</span> <span class="st">"Kappa"</span>)</span></code></pre></div>
+</div>
+</section>
+<section id="model-performance" class="level2">
+<h2 class="anchored" data-anchor-id="model-performance">Model Performance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(fit, test),<span class="fu">factor</span>(test<span class="sc">$</span>province))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+                   Reference
+Prediction          Burgundy California Casablanca_Valley Marlborough New_York
+  Burgundy               216          5                 0           0        1
+  California              13        758                14          23       19
+  Casablanca_Valley        0          0                10           0        0
+  Marlborough              0          0                 0          12        0
+  New_York                 0          0                 0           0        0
+  Oregon                   9         28                 2          10        6
+                   Reference
+Prediction          Oregon
+  Burgundy              10
+  California            62
+  Casablanca_Valley      0
+  Marlborough            0
+  New_York               0
+  Oregon               475
+
+Overall Statistics
+                                          
+               Accuracy : 0.8793          
+                 95% CI : (0.8627, 0.8945)
+    No Information Rate : 0.4728          
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+                                          
+                  Kappa : 0.8069          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: Burgundy Class: California Class: Casablanca_Valley
+Sensitivity                   0.9076            0.9583                 0.384615
+Specificity                   0.9889            0.8515                 1.000000
+Pos Pred Value                0.9310            0.8526                 1.000000
+Neg Pred Value                0.9847            0.9579                 0.990379
+Prevalence                    0.1423            0.4728                 0.015541
+Detection Rate                0.1291            0.4531                 0.005977
+Detection Prevalence          0.1387            0.5314                 0.005977
+Balanced Accuracy             0.9482            0.9049                 0.692308
+                     Class: Marlborough Class: New_York Class: Oregon
+Sensitivity                    0.266667         0.00000        0.8684
+Specificity                    1.000000         1.00000        0.9512
+Pos Pred Value                 1.000000             NaN        0.8962
+Neg Pred Value                 0.980132         0.98446        0.9370
+Prevalence                     0.026898         0.01554        0.3270
+Detection Rate                 0.007173         0.00000        0.2839
+Detection Prevalence           0.007173         0.00000        0.3168
+Balanced Accuracy              0.633333         0.50000        0.9098</code></pre>
+</div>
+</div>
+</section>
+<section id="re-fit-and-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="re-fit-and-evaluation">Re-fit and evaluation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu">set.seed</span>(<span class="dv">1504</span>)</span>
+<span id="cb6-2"></span>
+<span id="cb6-3">wine_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(wino<span class="sc">$</span>province, <span class="at">p =</span> <span class="fl">0.80</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-4">train <span class="ot">&lt;-</span> wino[ wine_index, ]</span>
+<span id="cb6-5">test <span class="ot">&lt;-</span> wino[<span class="sc">-</span>wine_index, ]</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="co"># example spec for knn</span></span>
+<span id="cb6-8">fit_final <span class="ot">&lt;-</span> <span class="fu">train</span>(province <span class="sc">~</span> .,</span>
+<span id="cb6-9">             <span class="at">data =</span> train, </span>
+<span id="cb6-10">             <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb6-11">             <span class="at">tuneGrid =</span> fit<span class="sc">$</span>bestTune) </span>
+<span id="cb6-12"><span class="co"># The last line means we will fit a model using the best tune parameters your CV found above.</span></span></code></pre></div>
+</div>
+</section>
+<section id="final-model-performance" class="level2">
+<h2 class="anchored" data-anchor-id="final-model-performance">Final Model Performance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(fit_final, test),<span class="fu">factor</span>(test<span class="sc">$</span>province))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+                   Reference
+Prediction          Burgundy California Casablanca_Valley Marlborough New_York
+  Burgundy               219          7                 0           0        0
+  California               7        752                12          13       20
+  Casablanca_Valley        0          0                12           0        0
+  Marlborough              0          1                 0          22        0
+  New_York                 0          0                 0           0        1
+  Oregon                  12         31                 2          10        5
+                   Reference
+Prediction          Oregon
+  Burgundy               7
+  California            55
+  Casablanca_Valley      0
+  Marlborough            0
+  New_York               0
+  Oregon               485
+
+Overall Statistics
+                                          
+               Accuracy : 0.8912          
+                 95% CI : (0.8753, 0.9057)
+    No Information Rate : 0.4728          
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+                                          
+                  Kappa : 0.8274          
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: Burgundy Class: California Class: Casablanca_Valley
+Sensitivity                   0.9202            0.9507                 0.461538
+Specificity                   0.9902            0.8787                 1.000000
+Pos Pred Value                0.9399            0.8754                 1.000000
+Neg Pred Value                0.9868            0.9521                 0.991571
+Prevalence                    0.1423            0.4728                 0.015541
+Detection Rate                0.1309            0.4495                 0.007173
+Detection Prevalence          0.1393            0.5134                 0.007173
+Balanced Accuracy             0.9552            0.9147                 0.730769
+                     Class: Marlborough Class: New_York Class: Oregon
+Sensitivity                     0.48889       0.0384615        0.8867
+Specificity                     0.99939       1.0000000        0.9467
+Pos Pred Value                  0.95652       1.0000000        0.8899
+Neg Pred Value                  0.98606       0.9850478        0.9450
+Prevalence                      0.02690       0.0155409        0.3270
+Detection Rate                  0.01315       0.0005977        0.2899
+Detection Prevalence            0.01375       0.0005977        0.3258
+Balanced Accuracy               0.74414       0.5192308        0.9167</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The kappa value of 0.82 for our random forest model signifies a high level of precision and accuracy, reflecting a very good agreement with the actual outcomes. This statistical measure, important for assessing classification model performance, confirms the model’s efficacy in predicting the correct class labels. Thus, with a kappa value of 0.82, the model demonstrates reliable predictive performance.</p>
+
+
+<!-- -->
+
+</section>

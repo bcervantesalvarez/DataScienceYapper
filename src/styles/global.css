@@ -154,4 +154,163 @@
     background-image: var(--texture-dot);
     background-size: var(--texture-size);
   }
+
+  /* Article body: styles applied to raw HTML imported from the
+     previously rendered Quarto pages. Targets headings, paragraphs,
+     lists, code, tables, and figures inside the embedded content. */
+  .article-body {
+    color: var(--color-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .article-body h1,
+  .article-body h2 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .article-body h1 { font-size: 2.25rem; }
+  .article-body h2 { font-size: 1.75rem; }
+  .article-body h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-ink);
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-body h4 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .article-body > *:first-child { margin-top: 0; }
+  .article-body p {
+    margin-top: 0;
+    margin-bottom: 1.1rem;
+  }
+  .article-body ul,
+  .article-body ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .article-body li {
+    margin-bottom: 0.4rem;
+  }
+  .article-body li > p { margin-bottom: 0.4rem; }
+  .article-body a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .article-body a:hover {
+    color: var(--color-ink);
+  }
+  .article-body strong { color: var(--color-ink); font-weight: 700; }
+  .article-body em { font-style: italic; }
+  .article-body code {
+    font-family: var(--font-mono);
+    background: var(--color-surface-soft);
+    color: var(--color-ink);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.92em;
+    border: 1px solid var(--color-rule);
+  }
+  .article-body pre {
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-rule);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .article-body pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+  }
+  .article-body blockquote {
+    border-left: 3px solid var(--color-rule-strong);
+    padding-left: 1.2rem;
+    color: var(--color-muted);
+    margin: 1.5rem 0;
+    font-style: italic;
+  }
+  .article-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-rule);
+  }
+  .article-body figure {
+    margin: 2rem 0;
+  }
+  .article-body figcaption {
+    color: var(--color-muted);
+    font-size: 0.88rem;
+    text-align: center;
+    margin-top: 0.6rem;
+  }
+  .article-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+  .article-body th,
+  .article-body td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--color-rule);
+    text-align: left;
+  }
+  .article-body th {
+    background: var(--color-surface-soft);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .article-body hr {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+    margin: 2rem 0;
+  }
+  /* Hide Quarto-specific scaffolding that leaks in from old renders */
+  .article-body .quarto-title,
+  .article-body #title-block-header,
+  .article-body .anchorjs-link,
+  .article-body .header-anchor,
+  .article-body div.cell-output-display > div:empty,
+  .article-body .panel-input,
+  .article-body .panel-sidebar,
+  .article-body .column-margin > .margin-caption {
+    display: none !important;
+  }
+  /* Embedded iframes (Shiny apps, revealjs presentations) */
+  .article-body iframe {
+    width: 100%;
+    min-height: 600px;
+    border: 1px solid var(--color-rule);
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    background: var(--color-surface);
+  }
+  /* KaTeX math (loaded via CDN in BaseLayout) */
+  .article-body .math.display {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+  }
 }

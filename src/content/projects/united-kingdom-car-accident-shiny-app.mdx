@@ -9,39 +9,10 @@ external: 'https://bcervantesalvarez.shinyapps.io/UKAccidentTimeSeries/'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./united-kingdom-car-accident-shiny-app.body.html?raw";
 
 <Overview>
   This is a website (called a dashboard) that lets anyone explore real road-accident data from the United Kingdom. You can pick a region, choose a year range, and see when and where accidents happen. It is built so you can answer your own questions about the data instead of just reading a report someone else wrote.
 </Overview>
 
-## Open the dashboard
-
-The full dashboard runs on shinyapps.io. The embed below is interactive — filter, sort,
-and download the underlying data without leaving the page.
-
-<iframe src="https://bcervantesalvarez.shinyapps.io/UKAccidentTimeSeries/" title="UK Accident Time Series dashboard" loading="lazy" allow="fullscreen"
-        class="w-full h-[70vh] min-h-[480px] rounded-xl border border-rule shadow-[0_10px_30px_-12px_rgba(15,17,21,0.18)]"></iframe>
-
-[Open in a new tab ↗](https://bcervantesalvarez.shinyapps.io/UKAccidentTimeSeries/)
-
-## How it works
-
-The dashboard is an **R Shiny** application backed by the UK Department for Transport's
-historical accident records. Data is filtered reactively through `dplyr` pipelines and
-rendered with `plotly` for the charts and `leaflet` for the map view.
-
-Notable design decisions:
-
-- **Defaults that surface signal first.** The landing view aggregates the full timeline
-  so visitors see the headline trend before they touch a single control.
-- **Decoupled filter and display state.** Filter changes update a reactive subset, and
-  the visualizations subscribe to that subset rather than re-querying.
-- **Cached aggregates.** Expensive grouped summaries are computed once on app start so
-  subsequent filter changes feel instant.
-
-## When this pattern fits
-
-A dashboard like this is the right call when stakeholders need to ask their own
-questions of a dataset, not just consume a pre-built chart deck. Pair it with an
-exportable data download so analysts who want to take the underlying numbers further
-can do so without asking for a re-run.
+<article class="article-body" set:html={body}></article>

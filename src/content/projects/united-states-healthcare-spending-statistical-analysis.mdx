@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./united-states-healthcare-spending-statistical-analysis.body.html?raw";
 
 <Overview>
   A 35-year look at U.S. healthcare expenditure broken down by service category, region, and state. The headline is not the upward trend — everyone knows it — but how cleanly the growth tracks across categories once you control for population.
 </Overview>
 
-## Notes from the archive
-
-Reshaped a wide Kaggle dataset into tidy long form, then ran a series of category-by-region trend analyses. The technical exercise was less about novel statistics and more about the data-wrangling discipline required to make 35 years of survey data answer a clean question.
+<article class="article-body" set:html={body}></article>

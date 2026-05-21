@@ -8,11 +8,10 @@ status: 'archived'
 ---
 
 import Overview from "@components/Overview.astro";
+import body from "./health-insurance-premiums-analysis.body.html?raw";
 
 <Overview>
   A Python notebook quantifying how smoking and BMI drive up health-insurance premiums by age and gender. The headline: male smokers pay roughly 408% more than non-smokers; female smokers about 350% more. BMI above 30 adds further surcharges.
 </Overview>
 
-## Notes from the archive
-
-A worked example of structuring a small statistical investigation end-to-end — exploratory plots, group-wise comparisons, regression, and the one-sentence conclusion that summarises what the data actually show.
+<article class="article-body" set:html={body}></article>
