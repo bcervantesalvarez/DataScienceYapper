@@ -1467,42 +1467,70 @@ const construction = [
       .catch(() => { /* fallback stays visible by design */ });
   }
 
-  // Real poster art: Wikipedia's REST API is CORS-open, so we pull
-  // each title's infobox image straight from the article named in
-  // data-wiki and fade it in over the placeholder. Failures cost
-  // nothing — the styled emoji card simply stays.
-  function loadPosters() {
-    document.querySelectorAll<HTMLElement>('.poster-media[data-wiki]').forEach(async (media) => {
-      if (media.dataset.posterDone) return;
-      media.dataset.posterDone = '1';
-      const article = media.dataset.wiki || '';
-      try {
-        const cacheKey = `poster:${article}`;
-        let src = sessionStorage.getItem(cacheKey);
-        if (!src) {
-          const r = await fetch(
-            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(article)}`,
-            { headers: { Accept: 'application/json' } },
-          );
-          if (!r.ok) return;
-          const data = await r.json();
-          const thumb = data?.thumbnail?.source as string | undefined;
-          if (!thumb) return;
-          // Ask for a sharper rendition than the 320px default.
-          src = thumb.replace(/\/(\d+)px-/, '/640px-');
-          sessionStorage.setItem(cacheKey, src);
+  // Real poster art. Wikipedia's REST summary only exposes free-license
+  // images, which silently drops fair-use TV/film posters — so we hit
+  // the MediaWiki pageimages API with pilicense=any (CORS-open via
+  // origin=*), one batched request for every title on the page. Each
+  // poster fades in over its styled placeholder; failures cost nothing.
+  function attachPoster(media: HTMLElement, src: string) {
+    if (media.querySelector('.poster-img')) return;
+    const img = document.createElement('img');
+    img.className = 'poster-img';
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('load', () => img.classList.add('is-loaded'));
+    img.addEventListener('error', () => img.remove());
+    img.src = src;
+    media.appendChild(img);
+  }
+
+  async function loadPosters() {
+    const medias = Array.from(document.querySelectorAll<HTMLElement>('.poster-media[data-wiki]'))
+      .filter((m) => !m.dataset.posterDone);
+    if (!medias.length) return;
+    medias.forEach((m) => { m.dataset.posterDone = '1'; });
+
+    const byTitle = new Map<string, HTMLElement>();
+    medias.forEach((m) => byTitle.set(m.dataset.wiki || '', m));
+
+    const need: string[] = [];
+    for (const t of byTitle.keys()) {
+      const cached = sessionStorage.getItem(`poster:${t}`);
+      if (cached) attachPoster(byTitle.get(t)!, cached);
+      else need.push(t);
+    }
+    if (!need.length) return;
+
+    try {
+      const url =
+        'https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*' +
+        '&prop=pageimages&piprop=thumbnail&pithumbsize=640&pilicense=any&redirects=1&titles=' +
+        encodeURIComponent(need.join('|'));
+      const r = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (!r.ok) return;
+      const data = await r.json();
+      // Walk the API's title rewrites backwards: page title → redirect
+      // source → pre-normalization original, so results map back to
+      // the exact strings in data-wiki.
+      const redirects = new Map<string, string>(
+        (data.query?.redirects ?? []).map((x: { from: string; to: string }) => [x.to, x.from]),
+      );
+      const normalized = new Map<string, string>(
+        (data.query?.normalized ?? []).map((x: { from: string; to: string }) => [x.to, x.from]),
+      );
+      for (const pg of data.query?.pages ?? []) {
+        let t = pg.title as string;
+        t = redirects.get(t) ?? t;
+        t = normalized.get(t) ?? t;
+        const el = byTitle.get(t);
+        const src = pg.thumbnail?.source as string | undefined;
+        if (el && src) {
+          try { sessionStorage.setItem(`poster:${t}`, src); } catch { /* full */ }
+          attachPoster(el, src);
         }
-        const img = document.createElement('img');
-        img.className = 'poster-img';
-        img.alt = '';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.addEventListener('load', () => img.classList.add('is-loaded'));
-        img.addEventListener('error', () => img.remove());
-        img.src = src;
-        media.appendChild(img);
-      } catch { /* placeholder stays */ }
-    });
+      }
+    } catch { /* placeholders stay */ }
   }
   document.addEventListener('astro:page-load', loadPosters);
   if (document.readyState !== 'loading') loadPosters();
