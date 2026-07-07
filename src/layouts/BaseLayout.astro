@@ -47,6 +47,9 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
+  <!-- Mobile browser chrome color; kept in sync with the active theme
+       by the applyTheme script below. -->
+  <meta name="theme-color" content="#fbfaf7" />
   <link rel="canonical" href={canonical} />
 
   <!-- Fluid page-to-page transitions (View Transitions API with a
@@ -134,11 +137,24 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
           const stored = localStorage.getItem('theme');
           const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches
             ? 'dark' : 'light';
-          document.documentElement.setAttribute('data-theme', stored || prefers);
+          const theme = stored || prefers;
+          // Only write when different — the MutationObserver below
+          // watches this attribute, and an unconditional write would
+          // retrigger it forever.
+          if (document.documentElement.getAttribute('data-theme') !== theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+          }
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1115' : '#fbfaf7');
         } catch (e) { /* no-op */ }
       }
       applyTheme();
       document.addEventListener('astro:after-swap', applyTheme);
+      // The navbar toggle only flips the attribute — mirror changes
+      // into the theme-color meta as well.
+      new MutationObserver(applyTheme).observe(document.documentElement, {
+        attributes: true, attributeFilter: ['data-theme'],
+      });
     })();
   </script>
 
