@@ -27,6 +27,7 @@ cleanly with zero out-of-band coordination.
 | Buttons / CTAs             | `src/components/Button.astro` (variants: `primary`, `ghost`) |
 | Card UI                    | `src/components/Card.astro`                       |
 | Section heading + container| `src/components/Section.astro`                    |
+| Landing-page chapters      | `src/pages/index.astro` via `LandingSection.astro` — tones `light`/`tint`/`dark` map to `.tone-*` classes in `global.css`; the dark tone is a fixed deep band that contrasts in both themes |
 | Page bodies                | `src/pages/<route>.astro`                         |
 | Project/post/talk content  | `src/content/<collection>/<slug>.mdx`             |
 | Content schemas            | `src/content.config.ts` (Zod, validated at build) |

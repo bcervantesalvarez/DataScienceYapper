@@ -156,8 +156,9 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   </script>
 </head>
 <body class="bg-bg text-body font-sans text-base">
+  <a href="#main" class="skip-link">Skip to content</a>
   <Navbar />
-  <main>
+  <main id="main">
     <slot />
   </main>
   <Footer />

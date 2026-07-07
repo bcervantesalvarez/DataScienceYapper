@@ -3,43 +3,86 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Card from '@components/Card.astro';
 
-const resources = [
-  { href: 'https://quarto.org',         title: 'Quarto',       tag: 'Publishing', image: '/images/quartologo.jpeg',
-    description: 'Open-source scientific publishing for R, Python, Julia, and Observable.' },
-  { href: 'https://posit.co',           title: 'Posit',        tag: 'Tools',      image: '/images/positlogo.jpeg',
-    description: 'The team behind RStudio. Tools that cover the full analysis-to-deployment loop.' },
-  { href: 'https://shiny.posit.co/',    title: 'Shiny',        tag: 'Apps',       image: '/images/shinylogo.png',
-    description: 'Build interactive web applications in R (and now Python).' },
-  { href: 'https://pages.github.com/',  title: 'GitHub Pages', tag: 'Hosting',    image: '/images/githubpageslogo.png',
-    description: 'Free static hosting straight from a repository.' },
-  { href: 'https://www.rfordatasci.com/', title: 'R4DS Community', tag: 'Community', image: '/images/r4dslogo.png',
-    description: 'An active community working through R for Data Science together.' },
-  { href: 'https://www.r-bloggers.com/', title: 'R-bloggers',  tag: 'Reading',    image: '/images/rbloggerslogo.png',
-    description: 'Aggregator pulling in posts from hundreds of R bloggers.' },
-  { href: 'https://rweekly.org/',       title: 'R Weekly',     tag: 'Newsletter', image: '/images/rweeklylogo.jpeg',
-    description: 'Community-curated highlights from the R world every week.' },
+// Grouped shelves — mirrored (in condensed form) by the Resources
+// section on the landing page. Keep the two in sync when editing.
+const groups = [
+  {
+    label: 'Tools & publishing',
+    items: [
+      { href: 'https://quarto.org',         title: 'Quarto',       tag: 'Publishing', image: '/images/quartologo.jpeg',
+        description: 'Open-source scientific publishing for R, Python, Julia, and Observable.' },
+      { href: 'https://posit.co',           title: 'Posit',        tag: 'Tools',      image: '/images/positlogo.jpeg',
+        description: 'The team behind RStudio. Tools that cover the full analysis-to-deployment loop.' },
+      { href: 'https://shiny.posit.co/',    title: 'Shiny',        tag: 'Apps',       image: '/images/shinylogo.png',
+        description: 'Build interactive web applications in R (and now Python).' },
+      { href: 'https://pages.github.com/',  title: 'GitHub Pages', tag: 'Hosting',    image: '/images/githubpageslogo.png',
+        description: 'Free static hosting straight from a repository.' },
+    ],
+  },
+  {
+    label: 'Community & reading',
+    items: [
+      { href: 'https://www.rfordatasci.com/', title: 'R4DS Community', tag: 'Community', image: '/images/r4dslogo.png',
+        description: 'An active community working through R for Data Science together.' },
+      { href: 'https://www.r-bloggers.com/', title: 'R-bloggers',  tag: 'Reading',    image: '/images/rbloggerslogo.png',
+        description: 'Aggregator pulling in posts from hundreds of R bloggers.' },
+      { href: 'https://rweekly.org/',       title: 'R Weekly',     tag: 'Newsletter', image: '/images/rweeklylogo.jpeg',
+        description: 'Community-curated highlights from the R world every week.' },
+    ],
+  },
+  {
+    label: 'Foundations',
+    items: [
+      { href: 'https://r4ds.hadley.nz/', title: 'R for Data Science', tag: 'Book',
+        description: 'The canonical free text for practical analysis — import, tidy, visualize, model, communicate.' },
+      { href: 'https://www.statlearning.com/', title: 'An Introduction to Statistical Learning', tag: 'Book',
+        description: 'The gateway to modern machine learning, free from the authors, with R and Python labs.' },
+      { href: 'https://www.openintro.org/book/os/', title: 'OpenIntro Statistics', tag: 'Course',
+        description: 'A rigorous, openly licensed statistics course in book form — where I point beginners first.' },
+    ],
+  },
+  {
+    label: 'Open data',
+    items: [
+      { href: 'https://github.com/rfordatascience/tidytuesday', title: 'TidyTuesday', tag: 'Practice',
+        description: 'A fresh real-world dataset every week — the best deliberate practice in the R community.' },
+      { href: 'https://ourworldindata.org/', title: 'Our World in Data', tag: 'Reference',
+        description: 'Long-run global data on health, education, and energy — with sources you can trace.' },
+      { href: 'https://data.gov/', title: 'Data.gov', tag: 'Catalog',
+        description: 'The US government’s open data catalog — hundreds of thousands of public datasets.' },
+    ],
+  },
 ];
 ---
-<BaseLayout title="Resources" description="Curated platforms, packages, and communities I keep coming back to.">
+<BaseLayout title="Resources" description="Curated tools, communities, foundational texts, and open data sources I keep coming back to.">
   <div class="ed">
 
     <section class="pt-24 pb-10 lg:pt-28 lg:pb-12">
       <div class="max-w-wrap mx-auto px-6">
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Curated</p>
         <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
-          Learning resources.
+          Open shelves.
         </h1>
         <p class="text-lede text-body max-w-[60ch] m-0">
-          A short list of platforms, packages, and communities I keep
-          coming back to.
+          Tools, communities, foundational texts, and open data sources I
+          keep coming back to — free, canonical, and worth your time.
         </p>
       </div>
     </section>
 
     <Section first>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {resources.map(r => (
-          <Card {...r} external imageAlt={r.title} />
+      <div class="flex flex-col gap-16">
+        {groups.map((g) => (
+          <div>
+            <h2 class="text-sm font-bold uppercase tracking-[0.14em] text-ink border-b border-rule pb-3 m-0 mb-8">
+              {g.label}
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {g.items.map(r => (
+                <Card {...r} external imageAlt={r.title} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </Section>

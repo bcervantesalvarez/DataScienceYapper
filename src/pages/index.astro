@@ -1,11 +1,106 @@
 ---
 // src/pages/index.astro — Landing
+//
+// Nine chapters, one story: what data science is → why it matters →
+// how Epsilon Labs practices it → proof (AI stack, projects, talks) →
+// open shelves → an honest invitation. Sections alternate light /
+// tint / fixed-dark tones (see .tone-dark in global.css) instead of
+// horizontal rules.
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Section from '@components/Section.astro';
+import LandingSection from '@components/LandingSection.astro';
 import Card from '@components/Card.astro';
 import Button from '@components/Button.astro';
 import StatusBanner from '@components/StatusBanner.astro';
+import { getCollection } from 'astro:content';
 
+// ---- Chapter 07: talks, straight from the content collection -------
+const allTalks = await getCollection('talks', ({ data }) => !data.draft && data.status === 'active');
+const talks = allTalks
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+const fmtTalk = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
+
+// ---- Chapter 02: the discipline in three moves ----------------------
+const pipeline = [
+  {
+    step: 'Ask & collect',
+    body: 'Define the question precisely, then gather data that can actually answer it. Most projects are won or lost right here, before any model exists.',
+  },
+  {
+    step: 'Model & test',
+    body: 'Fit statistical and machine-learning models — then try hard to prove them wrong. A model you haven’t attacked is a model you can’t trust.',
+  },
+  {
+    step: 'Decide & monitor',
+    body: 'Translate results into a decision, ship the tooling, and watch whether reality agrees. The analysis isn’t done when the report is.',
+  },
+];
+
+// ---- Chapter 03: why careful beats fast ------------------------------
+const vignettes = [
+  {
+    kicker: 'Averages hide the story',
+    body: 'Two programs with the same average outcome can serve completely different people. Distributions — not summaries — are what good decisions are made of.',
+  },
+  {
+    kicker: 'Uncertainty is information',
+    body: 'A forecast without an error bar is an opinion. Quantified uncertainty tells you when to act, when to wait, and when to collect more data.',
+  },
+  {
+    kicker: 'Reproducibility compounds',
+    body: 'An analysis that reruns cleanly next quarter becomes infrastructure. One that doesn’t becomes folklore. I build the first kind.',
+  },
+];
+
+// ---- Chapter 04: practice areas --------------------------------------
+const practices = [
+  {
+    n: 'A',
+    title: 'Statistical analysis & modeling',
+    body: 'Experimental design, hypothesis testing, regression, and Bayesian inference for questions that deserve careful answers.',
+  },
+  {
+    n: 'B',
+    title: 'Predictive modeling & ML',
+    body: 'Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit.',
+  },
+  {
+    n: 'C',
+    title: 'Interactive dashboards',
+    body: 'Self-service decision tools your team can poke at without me in the room — defaults that surface signal first.',
+  },
+  {
+    n: 'D',
+    title: 'Reproducible reporting',
+    body: 'Pipelines that document their assumptions, version cleanly, and produce the same numbers next quarter.',
+  },
+];
+
+// ---- Chapter 05: AI stack (kept — brand accents are intentional) -----
+const aiStack = [
+  {
+    name: 'ChatGPT',
+    role: 'Reasoning, drafting, code review at speed.',
+    accent: '#10A37F',
+    icon: 'openai',
+  },
+  {
+    name: 'Claude',
+    role: 'Long-context analysis, careful writing, hard problems.',
+    accent: '#D97757',
+    icon: 'anthropic',
+  },
+  {
+    name: 'Gemini',
+    role: 'Multimodal exploration, large doc ingestion, fast iteration.',
+    accent: '#4285F4',
+    icon: 'gemini',
+  },
+];
+
+// ---- Chapter 06: selected work ---------------------------------------
 const featuredProjects = [
   {
     href: '/projects/united-kingdom-car-accident-shiny-app',
@@ -33,274 +128,425 @@ const featuredProjects = [
   },
 ];
 
-const featuredPost = {
-  href: '/blog/interactive-teaching-with-webr',
-  title: 'Interactive Teaching with webR',
-  description: 'Browser-native, no-install R lessons so students run code inline and learn by doing.',
-  tag: 'Statistics Lab',
-  image: '/images/webr.png',
-  imageAlt: 'Interactive Teaching with webR',
-};
-
-// AI cards live on the landing as a visible "AI-native" signal.
-// Each card has its own accent so the row reads as three distinct tools.
-const aiStack = [
+// ---- Chapter 08: open shelves ----------------------------------------
+const shelves = [
   {
-    name: 'ChatGPT',
-    role: 'Reasoning, drafting, code review at speed.',
-    accent: '#10A37F',
-    icon: 'openai',
+    n: 'I',
+    label: 'Tools & publishing',
+    items: [
+      { href: 'https://quarto.org', title: 'Quarto', note: 'Open-source scientific publishing for R, Python, and Julia.' },
+      { href: 'https://posit.co', title: 'Posit', note: 'The team behind RStudio — analysis-to-deployment tooling.' },
+      { href: 'https://shiny.posit.co/', title: 'Shiny', note: 'Interactive web applications in R and Python.' },
+    ],
   },
   {
-    name: 'Claude',
-    role: 'Long-context analysis, careful writing, hard problems.',
-    accent: '#D97757',
-    icon: 'anthropic',
+    n: 'II',
+    label: 'Community & reading',
+    items: [
+      { href: 'https://www.rfordatasci.com/', title: 'R4DS Community', note: 'Working through R for Data Science, together.' },
+      { href: 'https://rweekly.org/', title: 'R Weekly', note: 'Community-curated highlights, every week.' },
+      { href: 'https://www.r-bloggers.com/', title: 'R-bloggers', note: 'Hundreds of R blogs, one feed.' },
+    ],
   },
   {
-    name: 'Gemini',
-    role: 'Multimodal exploration, large doc ingestion, fast iteration.',
-    accent: '#4285F4',
-    icon: 'gemini',
+    n: 'III',
+    label: 'Foundations',
+    items: [
+      { href: 'https://r4ds.hadley.nz/', title: 'R for Data Science', note: 'The canonical free text for practical analysis.' },
+      { href: 'https://www.statlearning.com/', title: 'Intro to Statistical Learning', note: 'The gateway to modern ML, free from the authors.' },
+      { href: 'https://www.openintro.org/book/os/', title: 'OpenIntro Statistics', note: 'A rigorous, open statistics course in book form.' },
+    ],
+  },
+  {
+    n: 'IV',
+    label: 'Open data',
+    items: [
+      { href: 'https://github.com/rfordatascience/tidytuesday', title: 'TidyTuesday', note: 'A fresh real-world dataset to practice on, weekly.' },
+      { href: 'https://ourworldindata.org/', title: 'Our World in Data', note: 'Long-run global data with sources you can trace.' },
+      { href: 'https://data.gov/', title: 'Data.gov', note: 'The US government’s open data catalog.' },
+    ],
   },
 ];
 ---
 <BaseLayout
   title="Epsilon Labs"
-  description="Statistical consulting, predictive modeling, and decision-grade analytics — by Brian Cervantes Alvarez."
+  description="Statistical consulting, predictive modeling, and decision-grade analytics — the independent, AI-native data science practice of Brian Cervantes Alvarez."
 >
-  <div class="ed">
+  <!-- ── 01 · Hero ─────────────────────────────────────────────── -->
+  <section
+    id="top"
+    aria-labelledby="hero-title"
+    class="tone-dark grain hero-mesh pt-24 pb-20 lg:pt-32 lg:pb-28"
+  >
+    <div class="max-w-wrap mx-auto px-6">
+      <StatusBanner
+        href="https://www.oregon.gov/ode/"
+        org="Oregon Department of Education"
+        role="Business Intelligence Analyst · Since Dec 8, 2025"
+      />
 
-    <!-- Hero -->
-    <section class="hero pt-24 pb-16 lg:pt-28 lg:pb-20">
-      <div class="max-w-wrap mx-auto px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16 items-center">
-          <div>
-            <StatusBanner
-              href="https://www.oregon.gov/ode/"
-              org="Oregon Department of Education"
-              role="Business Intelligence Analyst · Since Dec 8, 2025"
-            />
-
-            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5 animate-el-rise [animation-delay:180ms]">
-              Epsilon Labs
-            </p>
-
-            <h1 class="font-serif font-semibold text-ink text-5xl md:text-7xl tracking-tight leading-[1.04] m-0 mb-6 animate-el-rise [animation-delay:280ms]">
-              Decision-grade statistics, scoped to ship.
-            </h1>
-
-            <p class="text-lede text-body max-w-[60ch] m-0 mb-9 animate-el-rise [animation-delay:400ms]">
-              I help teams design experiments, build predictive models, and
-              stand up the analytics behind real decisions. Documentation
-              that survives an audit. Tooling your team can keep using.
-            </p>
-
-            <div class="flex flex-wrap gap-3 animate-el-rise [animation-delay:500ms]">
-              <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
-              <Button href="/services" variant="ghost">Services</Button>
-            </div>
-          </div>
-
-          <img
-            src="/images/profile2.jpg"
-            alt="Brian Cervantes Alvarez"
-            loading="eager"
-            width="280"
-            height="280"
-            class="justify-self-center lg:justify-self-end w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover border border-rule-strong shadow-[0_0_0_8px_var(--color-bg),0_0_0_9px_var(--color-rule)] animate-el-fade [animation-delay:300ms]"
-          />
-        </div>
+      <div class="flex items-baseline gap-4 m-0 mb-6 animate-el-rise [animation-delay:160ms]">
+        <span class="font-mono text-xs font-semibold text-muted tracking-[0.18em]" aria-hidden="true">01</span>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0">
+          Epsilon Labs · Independent data science practice
+        </p>
       </div>
-    </section>
 
-    <!-- What I do (services preview) -->
-    <Section
-      eyebrow="What I do"
-      title="Four practice areas."
-      link={{ href: '/services', label: 'All services' }}
-      first
-      id="services"
-    >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Statistical analysis &amp; modeling</h3>
-          <p class="text-body m-0">Experimental design, hypothesis testing, regression, and Bayesian inference for questions that deserve careful answers.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Predictive modeling &amp; ML</h3>
-          <p class="text-body m-0">Classification, forecasting, and risk scoring with proper validation. Models built to hold up under audit.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Interactive dashboards</h3>
-          <p class="text-body m-0">Self-service decision tools your team can poke at without me in the room.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Reproducible reporting</h3>
-          <p class="text-body m-0">Pipelines that document their assumptions, version cleanly, and produce the same numbers next quarter.</p>
-        </div>
-      </div>
-    </Section>
+      <h1 id="hero-title" class="font-serif font-semibold text-ink text-display m-0 mb-7 max-w-[16ch] animate-el-rise [animation-delay:260ms]">
+        Data into decisions you can defend.
+      </h1>
 
-    <!-- AI-native stack -->
-    <Section
-      eyebrow="AI-native"
-      title="Models I work with daily."
-      id="ai"
-    >
-      <p class="text-lede text-body max-w-[60ch] m-0 mb-12">
-        Frontier models are not optional anymore. I use them every
-        day — for code, for drafts, for analysis pairing — and I know
-        how to tell when they're confident versus when they're guessing.
+      <p class="text-lede text-body max-w-[58ch] m-0 mb-10 animate-el-rise [animation-delay:380ms]">
+        I&rsquo;m Brian Cervantes Alvarez — a statistician who builds. Epsilon
+        Labs is my one-person practice: statistics-first, AI-native, and in
+        service of the community organizations and teams around me who need
+        answers that hold up under scrutiny.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {aiStack.map((m) => (
-          <article
-            class="group ai-card relative overflow-hidden bg-surface border border-rule rounded-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong"
-            style={`--accent: ${m.accent};`}
+      <div class="flex flex-wrap items-center gap-3 mb-10 animate-el-rise [animation-delay:480ms]">
+        <Button href="#work">See the work</Button>
+        <Button href="#what" variant="ghost">Start with the basics</Button>
+      </div>
+
+      <div class="inline-flex flex-wrap items-center gap-3 px-4 py-3 bg-surface/70 border border-rule rounded-2xl animate-el-rise [animation-delay:560ms]">
+        <img
+          src="/images/profile2.jpg"
+          alt=""
+          width="36"
+          height="36"
+          loading="eager"
+          class="w-9 h-9 rounded-full object-cover border border-rule-strong"
+        />
+        <p class="text-sm text-body m-0">
+          <span class="font-semibold text-ink">Contract work: currently unavailable</span>
+          <span class="text-muted"> — paused while I serve at ODE. Community questions are always welcome.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 · What is data science? ────────────────────────────── -->
+  <LandingSection
+    id="what"
+    n="02"
+    eyebrow="The discipline"
+    title="What is data science?"
+    intro="It's the craft of turning recorded facts — enrollment counts, sensor readings, survey answers — into answers you can act on. Done well, it is less about algorithms and more about asking precise questions, measuring honestly, and knowing exactly how much to trust the result."
+  >
+    <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0" data-stagger>
+      {pipeline.map((p, i) => (
+        <li class="relative bg-surface border border-rule rounded-2xl p-7 m-0 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong hover:shadow-[0_20px_50px_-30px_color-mix(in_srgb,var(--color-ink)_35%,transparent)]">
+          <span class="font-mono text-xs font-semibold text-muted tracking-[0.18em]" aria-hidden="true">
+            0{i + 1}
+          </span>
+          <h3 class="font-serif font-semibold text-ink text-2xl tracking-tight mt-3 mb-3">
+            {p.step}
+          </h3>
+          <p class="text-body text-sm leading-relaxed m-0">{p.body}</p>
+        </li>
+      ))}
+    </ol>
+  </LandingSection>
+
+  <!-- ── 03 · Why it matters ───────────────────────────────────── -->
+  <LandingSection
+    id="why"
+    n="03"
+    eyebrow="The stakes"
+    title="Because guessing is expensive."
+    intro="Every organization already makes data decisions — the only question is whether the data gets examined carefully or just gestured at. Three habits separate the two:"
+    tone="tint"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-12" data-stagger>
+      {vignettes.map((v) => (
+        <div class="border-t-2 border-rule-strong pt-6">
+          <h3 class="font-serif font-semibold text-ink text-xl tracking-tight m-0 mb-3">
+            {v.kicker}
+          </h3>
+          <p class="text-body text-sm leading-relaxed m-0">{v.body}</p>
+        </div>
+      ))}
+    </div>
+  </LandingSection>
+
+  <!-- ── 04 · How Epsilon Labs helps ───────────────────────────── -->
+  <LandingSection
+    id="how"
+    n="04"
+    eyebrow="The practice"
+    title="From open question to defensible decision."
+    intro="Four practice areas, one throughline: every engagement ends with something your team can run without me in the room."
+    link={{ href: '/services', label: 'All services' }}
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-stagger>
+      {practices.map((p) => (
+        <div class="group flex gap-5 bg-surface border border-rule rounded-2xl p-7 transition-colors hover:border-rule-strong">
+          <span
+            class="shrink-0 w-10 h-10 rounded-xl bg-surface-soft border border-rule flex items-center justify-center font-mono text-sm font-semibold text-accent-ink transition-colors group-hover:bg-ink group-hover:text-bg group-hover:border-ink"
+            aria-hidden="true"
           >
-            <span
-              class="ai-card-glow pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              aria-hidden="true"
-            ></span>
+            {p.n}
+          </span>
+          <div>
+            <h3 class="text-lg font-bold text-ink m-0 mb-2">{p.title}</h3>
+            <p class="text-body text-sm leading-relaxed m-0">{p.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </LandingSection>
 
-            <div class="relative">
-              <div class="w-14 h-14 mb-5 rounded-xl flex items-center justify-center"
-                   style={`background: linear-gradient(135deg, ${m.accent}1F, ${m.accent}05);`}>
-                {m.icon === 'openai' && (
-                  <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
-                       stroke={m.accent} stroke-width="1.6" stroke-linejoin="round"
-                       aria-hidden="true">
-                    <path d="M21.06 9.83a5.4 5.4 0 0 0-.46-4.43A5.46 5.46 0 0 0 14.5 2.7a5.4 5.4 0 0 0-9.13 1.94 5.43 5.43 0 0 0-3.63 2.62 5.46 5.46 0 0 0 .67 6.4 5.4 5.4 0 0 0 .46 4.43 5.46 5.46 0 0 0 6.1 2.7 5.4 5.4 0 0 0 9.13-1.94 5.43 5.43 0 0 0 3.63-2.62 5.46 5.46 0 0 0-.67-6.4Z"/>
-                  </svg>
-                )}
-                {m.icon === 'anthropic' && (
-                  <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
-                    <g fill={m.accent}>
-                      <path d="M12 2 L13.5 9.6 L21 11 L13.5 12.4 L12 20 L10.5 12.4 L3 11 L10.5 9.6 Z"/>
-                      <circle cx="12" cy="11" r="1.8"/>
-                    </g>
-                  </svg>
-                )}
-                {m.icon === 'gemini' && (
-                  <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="gemini-grad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%"   stop-color="#4285F4"/>
-                        <stop offset="55%"  stop-color="#9B72CB"/>
-                        <stop offset="100%" stop-color="#D96570"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M12 2 C12.5 7 13.5 8.5 18.5 9.2 C20 9.4 20 11 18.5 11.4 C13.5 12.6 12.5 14.1 12 19 C11.5 14.1 10.5 12.6 5.5 11.4 C4 11 4 9.4 5.5 9.2 C10.5 8.5 11.5 7 12 2 Z"
-                          fill="url(#gemini-grad)"/>
-                  </svg>
-                )}
-              </div>
+  <!-- ── 05 · AI-native ────────────────────────────────────────── -->
+  <LandingSection
+    id="ai"
+    n="05"
+    eyebrow="AI-native"
+    title="Models as collaborators, not oracles."
+    intro="Frontier models are part of how I work every day — for code, for drafts, for analysis pairing. The craft is knowing when they're confident and when they're guessing: I write the prompts, run the evals, and validate output against ground truth before anything ships."
+    tone="dark"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-stagger>
+      {aiStack.map((m) => (
+        <article
+          class="group ai-card relative overflow-hidden bg-surface border border-rule rounded-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong"
+          style={`--accent: ${m.accent};`}
+        >
+          <span
+            class="ai-card-glow pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            aria-hidden="true"
+          ></span>
 
-              <h3 class="font-serif text-2xl font-semibold text-ink m-0 mb-2 leading-tight">
-                {m.name}
+          <div class="relative">
+            <div class="w-14 h-14 mb-5 rounded-xl flex items-center justify-center"
+                 style={`background: linear-gradient(135deg, ${m.accent}1F, ${m.accent}05);`}>
+              {m.icon === 'openai' && (
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
+                     stroke={m.accent} stroke-width="1.6" stroke-linejoin="round"
+                     aria-hidden="true">
+                  <path d="M21.06 9.83a5.4 5.4 0 0 0-.46-4.43A5.46 5.46 0 0 0 14.5 2.7a5.4 5.4 0 0 0-9.13 1.94 5.43 5.43 0 0 0-3.63 2.62 5.46 5.46 0 0 0 .67 6.4 5.4 5.4 0 0 0 .46 4.43 5.46 5.46 0 0 0 6.1 2.7 5.4 5.4 0 0 0 9.13-1.94 5.43 5.43 0 0 0 3.63-2.62 5.46 5.46 0 0 0-.67-6.4Z"/>
+                </svg>
+              )}
+              {m.icon === 'anthropic' && (
+                <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+                  <g fill={m.accent}>
+                    <path d="M12 2 L13.5 9.6 L21 11 L13.5 12.4 L12 20 L10.5 12.4 L3 11 L10.5 9.6 Z"/>
+                    <circle cx="12" cy="11" r="1.8"/>
+                  </g>
+                </svg>
+              )}
+              {m.icon === 'gemini' && (
+                <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="gemini-grad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%"   stop-color="#4285F4"/>
+                      <stop offset="55%"  stop-color="#9B72CB"/>
+                      <stop offset="100%" stop-color="#D96570"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M12 2 C12.5 7 13.5 8.5 18.5 9.2 C20 9.4 20 11 18.5 11.4 C13.5 12.6 12.5 14.1 12 19 C11.5 14.1 10.5 12.6 5.5 11.4 C4 11 4 9.4 5.5 9.2 C10.5 8.5 11.5 7 12 2 Z"
+                        fill="url(#gemini-grad)"/>
+                </svg>
+              )}
+            </div>
+
+            <h3 class="font-serif text-2xl font-semibold text-ink m-0 mb-2 leading-tight">
+              {m.name}
+            </h3>
+            <p class="text-sm text-body m-0 leading-relaxed">
+              {m.role}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="text-sm text-muted max-w-[60ch] mt-10 m-0">
+      Automation with receipts: anything a model touches gets the same
+      validation discipline as anything I write by hand.
+    </p>
+  </LandingSection>
+
+  <!-- ── 06 · Selected work ────────────────────────────────────── -->
+  <LandingSection
+    id="work"
+    n="06"
+    eyebrow="Proof"
+    title="Selected projects."
+    intro="Dashboards, models, and analyses built end-to-end — each one links to the full write-up with methods and code."
+    link={{ href: '/projects', label: 'All projects' }}
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger>
+      {featuredProjects.map(p => <Card {...p} />)}
+    </div>
+  </LandingSection>
+
+  <!-- ── 07 · Talks ────────────────────────────────────────────── -->
+  <LandingSection
+    id="talks"
+    n="07"
+    eyebrow="On stage"
+    title="Talks & workshops."
+    intro="Live teaching is where the practice sharpens. Every deck below is embedded on its page — open one and present it fullscreen."
+    tone="dark"
+    link={{ href: '/talks', label: 'Full archive' }}
+  >
+    <!-- Speaker card -->
+    <div class="flex flex-wrap items-center gap-6 bg-surface border border-rule rounded-2xl px-7 py-6 mb-12">
+      <img
+        src="/images/profile2.jpg"
+        alt="Brian Cervantes Alvarez"
+        width="72"
+        height="72"
+        loading="lazy"
+        class="w-16 h-16 md:w-[72px] md:h-[72px] rounded-2xl object-cover border border-rule-strong"
+      />
+      <div class="min-w-0">
+        <p class="font-serif font-semibold text-ink text-xl tracking-tight m-0">
+          Brian Cervantes Alvarez
+        </p>
+        <p class="text-sm text-muted m-0 mt-1">
+          M.S. Statistics, Oregon State · M.S. Data Science, Willamette
+        </p>
+      </div>
+      <ul class="flex flex-wrap gap-2 list-none m-0 p-0 md:ml-auto" aria-label="Speaking topics">
+        {['R & webR', 'Quarto', 'Applied statistics', 'Teaching'].map((t) => (
+          <li class="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-accent-ink bg-surface-soft border border-rule px-2.5 py-1 rounded-full m-0">
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <ol class="list-none m-0 p-0 flex flex-col" data-stagger>
+      {talks.map((t, idx) => (
+        <li class="m-0 border-t border-rule last:border-b">
+          <a
+            href={`/talks/${t.id}`}
+            class="talk-row group relative grid grid-cols-1 md:grid-cols-[92px_1fr_auto] gap-4 md:gap-8 items-start py-8 md:py-9 px-1 md:px-2 no-underline transition-colors hover:bg-surface"
+          >
+            <div class="hidden md:flex flex-col items-start gap-1">
+              <span class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                No. {String(talks.length - idx).padStart(2, '0')}
+              </span>
+              <span class="text-[2.4rem] font-serif font-semibold text-ink leading-none" aria-hidden="true">
+                '{yearStamp(t.data.date)}
+              </span>
+            </div>
+
+            <div class="min-w-0">
+              <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted m-0 mb-2.5">
+                {t.data.tag && (
+                  <span class="font-bold uppercase tracking-[0.14em] text-accent-ink bg-surface-soft border border-rule px-2.5 py-1 rounded-full">
+                    {t.data.tag}
+                  </span>
+                )}
+                <span class="font-mono">{fmtTalk(t.data.date)}</span>
+                {t.data.venue && <span>· {t.data.venue}</span>}
+              </p>
+              <h3 class="font-serif font-semibold text-ink text-2xl md:text-[1.75rem] tracking-tight leading-tight m-0 mb-2 transition-colors group-hover:text-accent-ink">
+                {t.data.title}
               </h3>
-              <p class="text-sm text-body m-0 leading-relaxed">
-                {m.role}
+              <p class="text-body text-sm leading-relaxed m-0 max-w-prose">
+                {t.data.description}
               </p>
             </div>
-          </article>
-        ))}
-      </div>
 
-      <p class="text-sm text-muted max-w-[60ch] mt-10 m-0">
-        I treat models as collaborators, not oracles. I write the prompts,
-        run the evals, and validate the output against ground truth before
-        anything ships.
+            <div class="hidden md:flex flex-col items-end gap-2 self-center pr-2">
+              <span class="text-xs font-semibold uppercase tracking-[0.14em] text-muted transition-colors group-hover:text-ink">
+                Open deck
+              </span>
+              <span class="w-12 h-12 rounded-full border border-rule bg-surface flex items-center justify-center transition-all group-hover:border-ink group-hover:bg-ink group-hover:text-bg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                     class="transition-transform group-hover:translate-x-0.5">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </LandingSection>
+
+  <!-- ── 08 · Resources ────────────────────────────────────────── -->
+  <LandingSection
+    id="resources"
+    n="08"
+    eyebrow="Open shelves"
+    title="The resources I actually use."
+    intro="Free, canonical, and community-maintained — the same shelves I point students and clients to. No affiliate links, no gates."
+    tone="tint"
+    link={{ href: '/resources', label: 'Full list' }}
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" data-stagger>
+      {shelves.map((s) => (
+        <div class="bg-surface border border-rule rounded-2xl p-6 flex flex-col">
+          <p class="font-mono text-xs font-semibold text-muted tracking-[0.18em] m-0 mb-1" aria-hidden="true">
+            {s.n}
+          </p>
+          <h3 class="text-sm font-bold uppercase tracking-[0.12em] text-ink m-0 mb-5">
+            {s.label}
+          </h3>
+          <ul class="list-none m-0 p-0 flex flex-col gap-4">
+            {s.items.map((r) => (
+              <li class="m-0">
+                <a href={r.href} target="_blank" rel="noreferrer" class="group block no-underline">
+                  <span class="flex items-center gap-1.5 font-semibold text-ink text-[0.95rem] group-hover:text-accent transition-colors">
+                    {r.title}
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                         class="opacity-0 -translate-x-0.5 transition-all group-hover:opacity-100 group-hover:translate-x-0">
+                      <line x1="7" y1="17" x2="17" y2="7" />
+                      <polyline points="8 7 17 7 17 16" />
+                    </svg>
+                  </span>
+                  <span class="block text-xs text-muted leading-relaxed mt-1">{r.note}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-sm text-muted m-0 mt-10">
+      My own shelf lives on the <a href="/blog" class="font-semibold">blog</a> —
+      teaching labs, visualization walkthroughs, and applied write-ups.
+    </p>
+  </LandingSection>
+
+  <!-- ── 09 · Contact ──────────────────────────────────────────── -->
+  <LandingSection
+    id="contact"
+    n="09"
+    eyebrow="An honest invitation"
+    title="Rooted in community, not a startup."
+    intro="Epsilon Labs looks like a modern studio, but it's one statistician serving his community. Right now my full attention belongs to the Oregon Department of Education, so contract engagements are paused — but the door isn't closed."
+  >
+    <div class="bg-surface border border-rule rounded-2xl px-8 py-12 lg:px-12 lg:py-14 text-center shadow-[0_30px_80px_-50px_color-mix(in_srgb,var(--color-ink)_30%,transparent)]">
+      <h3 class="font-serif font-semibold text-ink text-3xl md:text-4xl tracking-tight leading-[1.1] m-0 mb-5 max-w-[26ch] mx-auto">
+        Have a question worth answering carefully?
+      </h3>
+      <p class="text-body max-w-[58ch] mx-auto m-0 mb-4">
+        Community organizations, educators, students: send the question and
+        the data you have. I'll reply within two business days with next
+        steps — or point you to someone who can take it on if I can't.
       </p>
-    </Section>
-
-    <!-- Selected work -->
-    <Section
-      eyebrow="Recent work"
-      title="Selected projects."
-      link={{ href: '/projects', label: 'All projects' }}
-      id="work"
-    >
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProjects.map(p => <Card {...p} />)}
+      <p class="text-sm text-muted max-w-[58ch] mx-auto m-0 mb-8">
+        Backed by graduate training in
+        <strong class="text-ink">Statistics</strong> (M.S., Oregon State)
+        and <strong class="text-ink">Data Science</strong> (M.S., Willamette) —
+        the foundations live underneath every model and every report.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
+        <Button href="/about" variant="ghost">About</Button>
+        <Button href="/resume" variant="ghost">Resume</Button>
       </div>
-    </Section>
-
-    <!-- Writing -->
-    <Section
-      eyebrow="Writing"
-      title="From the blog."
-      link={{ href: '/blog', label: 'All posts' }}
-    >
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card {...featuredPost} />
-      </div>
-    </Section>
-
-    <!-- How I work -->
-    <Section eyebrow="How I work" title="Four things you can expect.">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Decision-focused</h3>
-          <p class="text-body m-0">Every analysis answers <em>what should we do next</em> — not just <em>what happened</em>.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Explainable</h3>
-          <p class="text-body m-0">Validated with proper holdout and cross-validation. I default to interpretable methods so stakeholders can trust the answer.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Reproducible</h3>
-          <p class="text-body m-0">Documented assumptions and reruns that produce the same numbers next quarter — or tell you precisely why they can't.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-ink m-0 mb-2">Production-minded</h3>
-          <p class="text-body m-0">I ship lightweight tools, instrument usage, and iterate so the work compounds instead of fading.</p>
-        </div>
-      </div>
-    </Section>
-
-    <!-- Contact -->
-    <Section>
-      <div class="bg-surface-soft border border-rule rounded-2xl px-8 py-12 lg:px-12 lg:py-14 text-center" id="contact">
-        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4">Hire me</p>
-        <h2 class="font-serif font-semibold text-ink text-4xl md:text-5xl tracking-tight leading-[1.08] m-0 mb-5">
-          Have a question worth answering carefully?
-        </h2>
-        <p class="text-body max-w-[58ch] mx-auto m-0 mb-4">
-          Send the question, the data you have, and when you need the answer.
-          I'll reply within two business days with next steps — or a referral
-          if I'm not the right fit.
-        </p>
-
-        <!-- Credibility line: graduate training in statistics + data science -->
-        <p class="text-sm text-muted max-w-[58ch] mx-auto m-0 mb-8">
-          Backed by graduate training in
-          <strong class="text-ink">Statistics</strong> (M.S., Oregon State)
-          and <strong class="text-ink">Data Science</strong> (M.S., Willamette) —
-          the foundations live underneath every model and every report.
-        </p>
-
-        <div class="flex flex-wrap justify-center gap-3">
-          <Button href="mailto:briancervantesalvarez@gmail.com">Email me</Button>
-          <Button href="/services" variant="ghost">See services</Button>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between gap-4 mt-8 px-6 py-5 bg-surface border border-rule rounded-xl">
-        <p class="text-sm text-body m-0">
-          <strong>Want the full background?</strong> Read the about page, the resume, or grab the CV.
-        </p>
-        <div class="flex flex-wrap gap-2">
-          <Button href="/about" variant="ghost">About</Button>
-          <Button href="/resume" variant="ghost">Resume</Button>
-          <Button href="/documents/resume/bca-resume.pdf" target="_blank" rel="noreferrer" variant="ghost">CV (PDF)</Button>
-        </div>
-      </div>
-    </Section>
-
-  </div>
+    </div>
+  </LandingSection>
 </BaseLayout>
 
 <style>
@@ -312,14 +558,27 @@ const aiStack = [
       transparent 65%
     );
   }
-  .ai-card {
-    background-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 100%
-    );
-  }
   .ai-card:hover {
     box-shadow: 0 24px 60px -28px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+
+  /* Talk rows: a hairline sweeps in from the left on hover — same
+     motif as the /talks page, tuned for the dark band. */
+  .talk-row::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .talk-row:hover::before,
+  .talk-row:focus-visible::before {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .talk-row::before { transition: none; }
   }
 </style>

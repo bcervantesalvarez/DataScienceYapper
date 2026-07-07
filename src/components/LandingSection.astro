@@ -1,0 +1,59 @@
+---
+// src/components/LandingSection.astro
+// Section shell for the landing page's nine-chapter story. Each chapter
+// gets a running number, an eyebrow, a fluid serif title, and a tone
+// (light follows the theme; tint adds the dot texture; dark is a fixed
+// deep band that contrasts in BOTH themes — see .tone-dark in
+// global.css). Other pages keep using Section.astro.
+interface Props {
+  id: string;
+  n: string;                         // running chapter number, e.g. "02"
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  tone?: 'light' | 'tint' | 'dark';
+  link?: { href: string; label: string };
+  reveal?: boolean;                  // default on; hero passes false
+}
+
+const { id, n, eyebrow, title, intro, tone = 'light', link, reveal = true } = Astro.props;
+const toneClass =
+  tone === 'dark' ? 'tone-dark grain' :
+  tone === 'tint' ? 'tone-tint' : 'bg-bg';
+---
+<section
+  id={id}
+  aria-labelledby={`${id}-title`}
+  data-reveal={reveal ? '' : undefined}
+  class={`${toneClass} py-24 lg:py-32`}
+>
+  <div class="max-w-wrap mx-auto px-6">
+    <div class="flex items-baseline gap-4 m-0 mb-5">
+      <span class="font-mono text-xs font-semibold text-muted tracking-[0.18em]" aria-hidden="true">{n}</span>
+      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0">{eyebrow}</p>
+    </div>
+
+    <div class="flex flex-wrap items-baseline justify-between gap-4 mb-6">
+      <h2 id={`${id}-title`} class="font-serif font-semibold text-ink text-title m-0 max-w-[24ch]">
+        {title}
+      </h2>
+      {link && (
+        <a
+          href={link.href}
+          class="group inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-ink no-underline border-b border-rule hover:border-ink pb-px transition-colors"
+        >
+          {link.label}
+          <span aria-hidden="true" class="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+        </a>
+      )}
+    </div>
+
+    {intro && (
+      <p class="text-lede text-body max-w-[62ch] m-0 mb-12 lg:mb-14">
+        {intro}
+      </p>
+    )}
+
+    <slot />
+  </div>
+</section>

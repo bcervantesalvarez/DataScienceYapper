@@ -24,7 +24,8 @@
   --color-surface-soft:  rgb(243 240 234);
   --color-ink:           rgb(15  17  21);
   --color-body:          rgb(58  61  68);
-  --color-muted:         rgb(107 108 112);
+  /* ≥4.5:1 on both --color-bg and --color-surface-soft (WCAG 2.2 AA) */
+  --color-muted:         rgb(95  97 103);
   --color-rule:          rgb(230 227 221);
   --color-rule-strong:   rgb(200 197 190);
   --color-accent:        rgb(27  58 107);
@@ -41,6 +42,13 @@
   --text-base--line-height: 1.65;
   --text-lede: 1.25rem;
   --text-lede--line-height: 1.55;
+  /* Fluid display scale for the landing hero + section titles */
+  --text-display: clamp(2.9rem, 5.2vw + 1rem, 5.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: clamp(2.1rem, 2.6vw + 1rem, 3.4rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.02em;
 
   /* ---------- Containers (max-w-* utilities) ---------- */
   --container-prose:  72ch;
@@ -97,6 +105,19 @@
     opacity: 1;
     transform: none;
   }
+
+  /* Optional per-child stagger inside a revealing section: children of
+     [data-stagger] rise one after another once the section reveals. */
+  html.reveal-ready [data-reveal] [data-stagger] > * {
+    opacity: 0;
+  }
+  html.reveal-ready [data-reveal].is-revealed [data-stagger] > * {
+    animation: el-rise 0.65s cubic-bezier(0.2, 0, 0.2, 1) both;
+  }
+  html.reveal-ready [data-reveal].is-revealed [data-stagger] > :nth-child(2) { animation-delay: 80ms; }
+  html.reveal-ready [data-reveal].is-revealed [data-stagger] > :nth-child(3) { animation-delay: 160ms; }
+  html.reveal-ready [data-reveal].is-revealed [data-stagger] > :nth-child(4) { animation-delay: 240ms; }
+  html.reveal-ready [data-reveal].is-revealed [data-stagger] > :nth-child(n+5) { animation-delay: 320ms; }
 }
 
 /* ---------- Reduced motion ----------
@@ -113,6 +134,10 @@
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  html.reveal-ready [data-reveal] [data-stagger] > * {
+    opacity: 1 !important;
+    animation: none !important;
   }
 }
 
@@ -143,6 +168,63 @@
                    rgb(245 242 235 / 0.055) 1px, transparent 0);
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   Section tones (landing).
+
+   .tone-dark re-declares the palette tokens locally, so every
+   existing utility (bg-surface, text-ink, border-rule, …) simply
+   works inside a dark band. Values sit a step DEEPER than the dark
+   theme so the band still reads as a distinct surface when the
+   whole site is in dark mode.
+   ────────────────────────────────────────────────────────────────── */
+.tone-dark {
+  --color-bg:            rgb(9  11  15);
+  --color-surface:       rgb(17  20  26);
+  --color-surface-soft:  rgb(23  27  34);
+  --color-ink:           rgb(245 242 235);
+  --color-body:          rgb(198 201 208);
+  --color-muted:         rgb(145 148 156);
+  --color-rule:          rgb(38  42  50);
+  --color-rule-strong:   rgb(58  63  72);
+  --color-accent:        rgb(139 176 220);
+  --color-accent-ink:    rgb(185 209 235);
+  --color-status:        rgb(74  196 133);
+  --color-danger:        rgb(224 130 118);
+  color-scheme: dark;
+  background-color: var(--color-bg);
+  color: var(--color-body);
+}
+.tone-tint {
+  background-color: var(--color-surface-soft);
+  background-image: var(--texture-dot);
+  background-size: var(--texture-size);
+}
+
+/* Film grain: an SVG turbulence tile at whisper opacity. Adds tactile
+   depth to dark bands without any image request. */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.grain > * { position: relative; }
+
+/* Hero atmosphere: two soft radial pools (accent + status) over the
+   deep background — the "mesh gradient" is just layered radials. */
+.hero-mesh {
+  background-image:
+    radial-gradient(56rem 30rem at 82% -12%,
+      color-mix(in srgb, var(--color-accent) 13%, transparent), transparent 68%),
+    radial-gradient(44rem 26rem at 4% 108%,
+      color-mix(in srgb, var(--color-status) 9%, transparent), transparent 66%);
+}
+
 /* ---------- Base ---------- */
 @layer base {
   html { color-scheme: light dark; -webkit-text-size-adjust: 100%; }
@@ -163,6 +245,33 @@
     transition: color 0.15s ease;
   }
   a:hover { color: var(--color-ink); }
+
+  /* Visible, consistent keyboard focus everywhere (WCAG 2.4.7/2.4.13).
+     :focus-visible keeps mouse clicks clean while giving keyboard
+     users a strong ring that adapts to each tone's accent. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Skip link: first tabbable element, visible only on focus. */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--color-ink);
+    color: var(--color-bg);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  .skip-link:focus-visible {
+    top: 1rem;
+    color: var(--color-bg);
+  }
 
   strong, b { color: var(--color-ink); font-weight: 700; }
 
