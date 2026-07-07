@@ -15,13 +15,13 @@ const identity = ['Hispanic (Mexican)', 'Oregon', 'Data Scientist', 'AI Builder'
 const education = [
   { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '',
     color: '#4B0082',
-    logo: 'https://thelinfieldreview.com/wp-content/uploads/2020/11/Linflogo-copy-900x900.jpg' },
+    logo: '/images/schools/linfield.svg', monogram: 'L' },
   { degree: "Master's", school: 'Willamette University', field: 'Data Science', when: '2023',
     color: '#A6093D',
-    logo: 'https://abound.college/mba/wp-content/uploads/sites/4/2019/01/willamette-university-logo.png' },
+    logo: '/images/schools/willamette.svg', monogram: 'WU' },
   { degree: "Master's", school: 'Oregon State University', field: 'Statistics', when: '2025',
     color: '#DC4405',
-    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Oregon_State_University_wordmark.svg' },
+    logo: '/images/schools/oregon-state.svg', monogram: 'OSU' },
 ];
 
 const hobbies = {
@@ -143,6 +143,7 @@ const construction = [
           style={`--school-color: ${e.color};`}
         >
           <div class="edu-band relative overflow-hidden p-6 md:p-7 text-white">
+            <span class="edu-watermark edu-monogram" aria-hidden="true">{e.monogram}</span>
             <img
               class="edu-watermark"
               src={e.logo}
@@ -150,6 +151,7 @@ const construction = [
               aria-hidden="true"
               loading="lazy"
               decoding="async"
+              onload="this.closest('.edu-band')?.querySelector('.edu-monogram')?.remove()"
               onerror="this.remove()"
             />
             <p class="relative text-[0.7rem] font-bold uppercase tracking-[0.16em] opacity-85 m-0 mb-2">
@@ -523,6 +525,20 @@ const construction = [
   .edu-card:hover .edu-watermark {
     opacity: 1;
     transform: translateY(-50%) scale(1.06);
+  }
+  .edu-monogram {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 130%;
+    aspect-ratio: auto;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 6.5rem;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: #fff;
+    right: 2%;
   }
   @media (prefers-reduced-motion: reduce) {
     .edu-card:hover .edu-watermark { transform: translateY(-50%); }

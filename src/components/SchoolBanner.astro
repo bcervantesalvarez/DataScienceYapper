@@ -26,6 +26,9 @@ interface Props {
       or transparent PNG both melt in). Removes itself on 404. */
   logoSrc?: string;
   logoAlt?: string;
+  /** Serif monogram (e.g. "OSU") rendered as the watermark whenever the
+      logoSrc image hasn't loaded — instant, local, always renders. */
+  monogram?: string;
 }
 
 const {
@@ -36,6 +39,7 @@ const {
   description,
   logoSrc,
   logoAlt,
+  monogram,
 } = Astro.props;
 ---
 <article
@@ -53,6 +57,9 @@ const {
       align === 'right' ? 'md:order-2' : 'md:order-1',
     ]}
   >
+    {monogram && (
+      <span class="school-watermark school-monogram" aria-hidden="true">{monogram}</span>
+    )}
     {logoSrc && (
       <img
         class="school-watermark"
@@ -61,6 +68,7 @@ const {
         aria-hidden="true"
         loading="lazy"
         decoding="async"
+        onload="this.closest('.school-band')?.querySelector('.school-monogram')?.remove()"
         onerror="this.remove()"
       />
     )}
@@ -135,6 +143,23 @@ const {
   .school-banner:hover .school-watermark {
     opacity: 1;
     transform: translateY(-50%) scale(1.05);
+  }
+
+  /* Typographic fallback: the school initials in the site serif,
+     ghosted with the same soft-light + fade treatment. */
+  .school-monogram {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 120%;
+    aspect-ratio: auto;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(7rem, 16vw, 11rem);
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: #fff;
+    right: -2%;
   }
   @media (prefers-reduced-motion: reduce) {
     .school-banner:hover .school-watermark { transform: translateY(-50%); }

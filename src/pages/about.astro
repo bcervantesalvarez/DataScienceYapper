@@ -13,7 +13,8 @@ const schools = [
     years: '2022 – 2024',
     href: 'https://stat.oregonstate.edu/',
     hrefLabel: 'Department of Statistics',
-    logoSrc: 'https://commons.wikimedia.org/wiki/Special:FilePath/Oregon_State_University_wordmark.svg',
+    logoSrc: '/images/schools/oregon-state.svg',
+    monogram: 'OSU',
     logoAlt: 'Oregon State University wordmark',
     color: '#DC4405',  // Beaver Orange
     accent: '#FFFFFF',
@@ -29,7 +30,8 @@ const schools = [
     years: '2021 – 2022',
     href: 'https://willamette.edu/academics/computing/data-science/',
     hrefLabel: 'Data Science program',
-    logoSrc: 'https://abound.college/mba/wp-content/uploads/sites/4/2019/01/willamette-university-logo.png',
+    logoSrc: '/images/schools/willamette.svg',
+    monogram: 'WU',
     logoAlt: 'Willamette University wordmark',
     color: '#A6093D',  // Willamette Cardinal
     accent: '#E1A03F', // Old Gold
@@ -45,7 +47,8 @@ const schools = [
     years: '2016 – 2020',
     href: 'https://www.linfield.edu/',
     hrefLabel: 'Visit Linfield',
-    logoSrc: 'https://thelinfieldreview.com/wp-content/uploads/2020/11/Linflogo-copy-900x900.jpg',
+    logoSrc: '/images/schools/linfield.svg',
+    monogram: 'L',
     logoAlt: 'Linfield University logo',
     color: '#4B0082',  // Linfield Wildcat purple
     accent: '#FFFFFF',
@@ -206,14 +209,15 @@ const schools = [
   const WINDOW_MS = 10_000;
   const CLICKS_NEEDED = 5;
 
-  function initEasterEgg() {
+  // Document-level delegation: survives ClientRouter swaps, re-renders,
+  // and anything else that replaces the portrait node.
+  let clicks: number[] = [];
+
+  function handlePortraitClick() {
     const img = document.getElementById('about-portrait');
     const modal = document.getElementById('single-modal') as HTMLDialogElement | null;
     const wrap = document.getElementById('portrait-wrap');
-    if (!img || !modal || !wrap || img.dataset.init) return;
-    img.dataset.init = '1';
-
-    let clicks: number[] = [];
+    if (!img || !modal || !wrap) return;
 
     const burst = () => {
       const sparks = ['✨', '💫', '⭐', '✨', '💛', '✨', '💫', '⭐'];
@@ -232,35 +236,33 @@ const schools = [
       });
     };
 
-    img.addEventListener('click', () => {
-      const now = Date.now();
-      clicks = clicks.filter((t) => now - t < WINDOW_MS);
-      clicks.push(now);
-      if (clicks.length < CLICKS_NEEDED) return;
-      clicks = [];
+    const now = Date.now();
+    clicks = clicks.filter((t) => now - t < WINDOW_MS);
+    clicks.push(now);
+    if (clicks.length < CLICKS_NEEDED) return;
+    clicks = [];
 
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        modal.showModal();
-        return;
-      }
-      img.classList.add('egg-pop');
-      burst();
-      setTimeout(() => {
-        img.classList.remove('egg-pop');
-        modal.showModal();
-      }, 650);
-    });
-
-    modal.querySelectorAll('.single-modal-close').forEach((b) =>
-      b.addEventListener('click', () => modal.close())
-    );
-    modal.addEventListener('click', (e) => {
-      // Click on the backdrop closes.
-      if (e.target === modal) modal.close();
-    });
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      modal.showModal();
+      return;
+    }
+    img.classList.add('egg-pop');
+    burst();
+    setTimeout(() => {
+      img.classList.remove('egg-pop');
+      modal.showModal();
+    }, 650);
   }
 
-  document.addEventListener('astro:page-load', initEasterEgg);
-  if (document.readyState !== 'loading') initEasterEgg();
-  else document.addEventListener('DOMContentLoaded', initEasterEgg);
+  document.addEventListener('click', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    if (!t) return;
+    if (t.closest('#about-portrait')) {
+      handlePortraitClick();
+      return;
+    }
+    const modal = document.getElementById('single-modal') as HTMLDialogElement | null;
+    if (!modal || !modal.open) return;
+    if (t.closest('.single-modal-close') || t === modal) modal.close();
+  });
 </script>
