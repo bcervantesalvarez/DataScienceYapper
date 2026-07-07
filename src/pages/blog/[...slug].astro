@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BackLink from '@components/BackLink.astro';
+import KatexAssets from '@components/KatexAssets.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('blog');
@@ -21,6 +22,8 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All po
   description={entry.data.description}
   ogPath={`blog/${entry.id}`}
 >
+  {/* KaTeX only ships on article routes — ported bodies may carry math */}
+  <KatexAssets slot="head" />
   <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>

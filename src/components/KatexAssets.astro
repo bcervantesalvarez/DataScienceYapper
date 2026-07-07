@@ -1,0 +1,55 @@
+---
+// src/components/KatexAssets.astro
+// KaTeX CSS + JS + the in-place math renderer for article bodies.
+// Only the article routes (blog/projects/talks [...slug] pages) include
+// this — via <KatexAssets slot="head" /> — so the homepage and utility
+// pages never pay for KaTeX. The ported Quarto bodies carry raw LaTeX
+// inside <span class="math inline|display"> nodes; we render those in
+// place after DOMContentLoaded.
+---
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  is:inline
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  crossorigin="anonymous"
+></script>
+
+<script>
+  function renderArticleMath() {
+    // @ts-ignore — katex is loaded via the CDN <script> above
+    const k = window.katex;
+    if (!k) return false;
+    document.querySelectorAll('.article-body .math').forEach((el) => {
+      if (el.hasAttribute('data-katex-rendered')) return;
+      const tex = (el.textContent || '').trim();
+      if (!tex) return;
+      const displayMode = el.classList.contains('display');
+      try {
+        k.render(tex, el, { throwOnError: false, displayMode, strict: 'ignore' });
+        el.setAttribute('data-katex-rendered', '');
+      } catch (e) {
+        console.warn('KaTeX render failed:', tex, e);
+      }
+    });
+    return true;
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      // The katex script has `defer`, so it may not be ready yet.
+      if (!renderArticleMath()) {
+        const retry = setInterval(() => {
+          if (renderArticleMath()) clearInterval(retry);
+        }, 50);
+        setTimeout(() => clearInterval(retry), 5000);
+      }
+    });
+  } else {
+    renderArticleMath();
+  }
+</script>

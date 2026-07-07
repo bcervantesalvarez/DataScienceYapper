@@ -5,6 +5,16 @@ import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
 import ScrollTop from '@components/ScrollTop.astro';
 import SearchModal from '@components/SearchModal.astro';
+import { SITE_NAME, SITE_DESCRIPTION, AUTHOR, absoluteUrl } from '@lib/site';
+// Self-hosted fonts via @fontsource (same packages Satori uses for the
+// OG images at build time) — no render-blocking Google Fonts request.
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/newsreader/500.css';
+import '@fontsource/newsreader/600.css';
+import '@fontsource/newsreader/700.css';
 import '@styles/global.css';
 
 interface Props {
@@ -18,13 +28,13 @@ interface Props {
 }
 
 const {
-  title = 'Epsilon Labs',
-  description = 'Statistical consulting, predictive modeling, and decision-grade analytics by Brian Cervantes Alvarez.',
+  title = SITE_NAME,
+  description = `${SITE_DESCRIPTION.replace(/\.$/, '')} by ${AUTHOR.name}.`,
   ogPath,
   ogImage,
 } = Astro.props;
 
-const fullTitle = title === 'Epsilon Labs' ? title : `${title} · Epsilon Labs`;
+const fullTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
 ---
@@ -40,7 +50,7 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <link
     rel="alternate"
     type="application/rss+xml"
-    title="Epsilon Labs — Insights"
+    title={`${SITE_NAME} — Insights`}
     href="/blog/rss.xml"
   />
 
@@ -52,46 +62,26 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <meta property="og:image" content={new URL(resolvedOg, Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Type -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500..800&display=swap"
-  />
-
-  <!-- KaTeX: render math left over from the Quarto export. The bodies
-       carry raw LaTeX inside <span class="math inline|display"> nodes;
-       we render those in place after DOMContentLoaded. -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
-    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
-    crossorigin="anonymous"
-  />
-  <script
-    is:inline
-    defer
-    src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
-    crossorigin="anonymous"
-  ></script>
+  <!-- Per-page head extras (e.g. noindex metas, KaTeX on article routes) -->
+  <slot name="head" />
 
   <!-- JSON-LD: Person + Organization. Search engines surface these
-       in the knowledge panel + as rich results. -->
+       in the knowledge panel + as rich results. Every absolute URL is
+       derived from `site` in astro.config.ts via @lib/site. -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Person',
-        '@id': 'https://epsilon-labs.org/#brian',
-        name: 'Brian Cervantes Alvarez',
-        url: 'https://epsilon-labs.org/',
-        image: 'https://epsilon-labs.org/images/profile.jpg',
+        '@id': absoluteUrl('/#brian'),
+        name: AUTHOR.name,
+        url: absoluteUrl('/'),
+        image: absoluteUrl('/images/profile.jpg'),
         sameAs: [
-          'https://linkedin.com/in/bcervantesalvarez',
-          'https://github.com/bcervantesalvarez',
+          AUTHOR.linkedin,
+          AUTHOR.github,
         ],
-        jobTitle: 'Business Intelligence Analyst',
+        jobTitle: AUTHOR.jobTitle,
         worksFor: {
           '@type': 'GovernmentOrganization',
           name: 'Oregon Department of Education',
@@ -110,18 +100,18 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
       },
       {
         '@type': 'Organization',
-        '@id': 'https://epsilon-labs.org/#epsilon-labs',
-        name: 'Epsilon Labs',
-        url: 'https://epsilon-labs.org/',
-        founder: { '@id': 'https://epsilon-labs.org/#brian' },
-        description: 'Statistical consulting, predictive modeling, and decision-grade analytics.',
+        '@id': absoluteUrl('/#epsilon-labs'),
+        name: SITE_NAME,
+        url: absoluteUrl('/'),
+        founder: { '@id': absoluteUrl('/#brian') },
+        description: SITE_DESCRIPTION,
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://epsilon-labs.org/#website',
-        url: 'https://epsilon-labs.org/',
-        name: 'Epsilon Labs',
-        publisher: { '@id': 'https://epsilon-labs.org/#epsilon-labs' },
+        '@id': absoluteUrl('/#website'),
+        url: absoluteUrl('/'),
+        name: SITE_NAME,
+        publisher: { '@id': absoluteUrl('/#epsilon-labs') },
         inLanguage: 'en-US',
       },
     ],
@@ -138,6 +128,31 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
       } catch (e) { /* no-op */ }
     })();
   </script>
+
+  <!-- Scroll reveal for [data-reveal] sections. Runs before paint so the
+       hidden initial state (gated on html.reveal-ready) never flashes.
+       Bails out entirely without JS, without IntersectionObserver, or
+       when the user prefers reduced motion — content stays visible. -->
+  <script is:inline>
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+      document.documentElement.classList.add('reveal-ready');
+      document.addEventListener('DOMContentLoaded', function () {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+          io.observe(el);
+        });
+      });
+    })();
+  </script>
 </head>
 <body class="bg-bg text-body font-sans text-base">
   <Navbar />
@@ -147,41 +162,6 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <Footer />
   <ScrollTop />
   <SearchModal />
-
-  <!-- KaTeX: render math left over from the Quarto export -->
-  <script>
-    function renderArticleMath() {
-      // @ts-ignore — katex is loaded via the CDN <script> in <head>
-      const k = window.katex;
-      if (!k) return false;
-      document.querySelectorAll('.article-body .math').forEach((el) => {
-        if (el.hasAttribute('data-katex-rendered')) return;
-        const tex = (el.textContent || '').trim();
-        if (!tex) return;
-        const displayMode = el.classList.contains('display');
-        try {
-          k.render(tex, el, { throwOnError: false, displayMode, strict: 'ignore' });
-          el.setAttribute('data-katex-rendered', '');
-        } catch (e) {
-          console.warn('KaTeX render failed:', tex, e);
-        }
-      });
-      return true;
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        // The katex script has `defer`, so it may not be ready yet.
-        if (!renderArticleMath()) {
-          const retry = setInterval(() => {
-            if (renderArticleMath()) clearInterval(retry);
-          }, 50);
-          setTimeout(() => clearInterval(retry), 5000);
-        }
-      });
-    } else {
-      renderArticleMath();
-    }
-  </script>
 
   <!-- Iframe presentation mode:
        Native iframe fullscreen often fails to trigger revealjs's resize
@@ -199,7 +179,7 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
         f.setAttribute('allowfullscreen', '');
       });
 
-      let active = null;
+      let active: HTMLElement | null = null;
       const exit = () => {
         if (!active) return;
         document.documentElement.classList.remove('iframe-presenting');
@@ -222,7 +202,7 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
           'iframe-fs absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-ink text-bg shadow-md hover:bg-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
         btn.innerHTML =
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><span class="fs-label">Full screen</span>';
-        const setLabel = (text) => {
+        const setLabel = (text: string) => {
           const lbl = btn.querySelector('.fs-label');
           if (lbl) lbl.textContent = text;
         };
