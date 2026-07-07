@@ -12,7 +12,16 @@ import Floaters from '@components/Floaters.astro';
 
 const INSTAGRAM = 'https://www.instagram.com/brianadolfocervantesalvarez';
 
-const identity = ['Mexican-American 🇲🇽🇺🇸', 'Dual citizen', 'Oregon', 'Data Scientist', 'AI Builder', 'Statistician'];
+// Flag emoji don't render on Windows (falls back to "MX US" text),
+// so the flags are tiny inline SVGs instead.
+const identity = [
+  { label: 'Mexican-American', flags: true },
+  { label: 'Dual citizen' },
+  { label: 'Oregon' },
+  { label: 'Data Scientist' },
+  { label: 'AI Builder' },
+  { label: 'Statistician' },
+];
 
 const education = [
   { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '',
@@ -51,7 +60,8 @@ const hobbyGroups = [
 // Famous-dish showcase. Photos hot-link Wikimedia Commons (stable,
 // browser-friendly); each card keeps an emoji backdrop so a missing
 // image degrades to a handsome placeholder instead of a hole.
-const dishes = [
+type Dish = { name: string; emoji: string; img: string; img2?: string; note: string };
+const dishes: Dish[] = [
   { name: 'Pozole', emoji: '🍲',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pozole_rojo.jpg?width=800',
     note: 'La sopa que cura todo — hasta el mal de amores 🤗' },
@@ -68,31 +78,63 @@ const dishes = [
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Enchiladas_mineras.jpg?width=800',
     note: 'Nivel de picante: negociable 😌' },
 ];
-const sweets = [
+// Local files in /images/dishes/ win; img2 is the hot-linked fallback,
+// and the emoji placeholder catches anything that slips past both.
+const sweets: Dish[] = [
   { name: 'Cheesecake', emoji: '🍰',
-    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Basque-cheesecake.jpg?width=800',
-    note: 'El clásico que nunca falla' },
+    img: '/images/dishes/cheesecake.jpg',
+    img2: 'https://commons.wikimedia.org/wiki/Special:FilePath/Healthy_Strawberry_Cheesecake.jpg?width=800',
+    note: 'El clásico que nunca falla — con berries, mejor' },
   { name: 'Brownies', emoji: '🍫',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chocolatebrownie.JPG?width=800',
     note: 'Fudgy, nunca cakey — hay niveles' },
   { name: 'Lemon Loaf', emoji: '🍋',
-    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lemon_Cake.jpg?width=800',
+    img: '/images/dishes/lemon-loaf.jpg',
+    img2: 'https://www.justsotasty.com/wp-content/uploads/2024/02/Lemon-Loaf-2.jpg',
     note: 'Sí, mejor que el de la cafetería ☕' },
   { name: 'Banana Bread', emoji: '🍌',
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Banana_bread.jpg?width=800',
     note: 'Todo plátano maduro tiene un destino' },
   { name: 'Stella Rosa', emoji: '🍷',
-    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Glass_of_ros%C3%A9_sparkling_wine_-_Sarah_Stierch.jpg?width=800',
-    note: 'Dulce y burbujeante, sin pretensiones. Salud 🥂' },
+    img: '/images/dishes/stella-rosa.jpg',
+    img2: 'https://commons.wikimedia.org/wiki/Special:FilePath/Glass_of_ros%C3%A9_sparkling_wine_-_Sarah_Stierch.jpg?width=800',
+    note: 'Stella Peach junto a la alberca — dulce, burbujeante, perfecta 🥂' },
 ];
 
+// Screen time — poster-style cards, description does the flirting.
+const shows = [
+  { title: 'The Office', emoji: '📎', hue: 210, note: 'That’s what she said.' },
+  { title: 'Parks & Rec', emoji: '🌳', hue: 130, note: 'Treat yo self. I do.' },
+  { title: 'El Chavo del Ocho', emoji: '🛢️', hue: 45, note: 'Fue sin querer queriendo.' },
+  { title: 'La Familia P. Luche', emoji: '🧸', hue: 300, note: 'En peluche, obviamente.' },
+  { title: 'The Walking Dead', emoji: '🧟', hue: 90, note: 'I’d survive. Statistically.' },
+  { title: 'Breaking Bad', emoji: '⚗️', hue: 160, note: 'Say my name. (Es Brian.)' },
+  { title: 'Dexter', emoji: '🩸', hue: 355, note: 'Tonight’s the night.' },
+  { title: 'Vincenzo', emoji: '⚖️', hue: 230, note: 'K-drama + abogado de la mafia = cine.' },
+  { title: 'Attack on Titan', emoji: '🗡️', hue: 20, note: 'Shinzou wo sasageyo.' },
+  { title: 'Black Clover', emoji: '🍀', hue: 140, note: 'La magia es no rendirse.' },
+];
+const movies = [
+  { title: 'Star Wars I–VI', emoji: '🌌', hue: 250, note: 'The saga as intended — yes, prequels included.' },
+  { title: 'Harry Potter 1–8', emoji: '⚡', hue: 48, note: 'Siempre listo para el maratón completo.' },
+  { title: 'The Lord of the Rings', emoji: '💍', hue: 105, note: 'Extended editions. Obviamente.' },
+  { title: 'The Hobbit 1–3', emoji: '🐉', hue: 30, note: 'El cierre del viaje — palomitas obligatorias.' },
+];
+
+// The story, in order — how I picture it unfolding.
 const goals = [
-  { emoji: '👶', label: 'One child' },
-  { emoji: '💞', label: 'Long-term relationship' },
-  { emoji: '🌍', label: 'Travel together' },
-  { emoji: '🥾', label: 'Local adventures' },
-  { emoji: '🛫', label: 'International travel' },
-  { emoji: '🌱', label: 'Shared growth' },
+  { emoji: '🌱', label: 'Shared growth',
+    story: 'It starts simple: two people making each other better. Your goals become part of my planning, mine become part of yours.' },
+  { emoji: '🥾', label: 'Local adventures',
+    story: 'Weekends that feel like little trips — coffee crawls, hikes, mercados, bailes, jaripeos, and live sports whenever we can (fútbol first, siempre ⚽).' },
+  { emoji: '🌍', label: 'Travel together',
+    story: 'Then bigger maps: road trips up the coast, México to see family, Europe again — this time with someone to share the window seat.' },
+  { emoji: '💞', label: 'Long-term relationship',
+    story: 'Built slow and solid — the kind where the paperwork is boring because the trust was settled years earlier.' },
+  { emoji: '💍', label: 'Marriage',
+    story: 'When it stops being a question. No rushing milestones — but yes, this is where I want the road to lead.' },
+  { emoji: '👶', label: '1–2 kids',
+    story: 'A little familia of our own — raised bilingual, well-fed (see the food section), and thoroughly loved.' },
 ];
 
 const lookingFor = [
@@ -101,11 +143,18 @@ const lookingFor = [
 ];
 
 const construction = [
-  "Sometimes I'm too organized.",
-  'I occasionally avoid addressing small annoyances longer than I should.',
-  'I have a tendency to help so much that it can become overwhelming — please tell me if that happens.',
-  "I'm trying to become more spiritually reflective.",
-  'Some weeks I accidentally become a professional homebody because staying home is significantly cheaper.',
+  { t: "Sometimes I'm too organized.",
+    d: 'I have my mini-OCDs: once I commit to organizing something, it has to be organized well — labels, categories, the whole system — and a full day can quietly disappear into it. The closet has never looked better, though.' },
+  { t: 'I sit on small annoyances longer than I should.',
+    d: "If something tiny bothers me, I'll sometimes wait too long to say it out loud because it feels too small to bring up. I'm working on saying the small things early so they never become big things." },
+  { t: 'I help… a lot.',
+    d: "My default is to fix, support, and take things off your plate — and sometimes that much help can feel overwhelming instead of loving. Please tell me if it happens; I'd rather adjust than smother." },
+  { t: "I'm still finding my spiritual side.",
+    d: "I want to become more spiritually reflective — more moments of gratitude and quiet — and I'm honestly early in that journey." },
+  { t: 'Professional homebody (some weeks).',
+    d: 'Staying home is significantly cheaper, and some weeks I lean into that a little too hard. The fix is easy: give me a reason to go out. Be the reason 😉' },
+  { t: 'I proudly live with my parents.',
+    d: "Not a flaw to me, but said plainly: I live with my familia and I'm proud of it. One day I'd love a place of my own — once I know they're set and in a good spot. Family first, always." },
 ];
 ---
 <BaseLayout title="I'm Single BTW" description="A hidden page for the curious.">
@@ -150,8 +199,14 @@ const construction = [
           </p>
           <ul class="flex flex-wrap gap-2 list-none m-0 p-0 mb-7 animate-el-rise [animation-delay:400ms]" aria-label="About me at a glance">
             {identity.map((t) => (
-              <li class="text-[0.72rem] font-bold uppercase tracking-[0.13em] text-accent-ink bg-surface-soft border border-rule px-3 py-1.5 rounded-full m-0">
-                {t}
+              <li class="inline-flex items-center gap-1.5 text-[0.72rem] font-bold uppercase tracking-[0.13em] text-accent-ink bg-surface-soft border border-rule px-3 py-1.5 rounded-full m-0">
+                {t.label}
+                {t.flags && (
+                  <span class="inline-flex items-center gap-1" aria-label="Mexico and United States">
+                    <svg class="miniflag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#006341"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#C8102E"/><circle cx="1.5" cy="1" r="0.3" fill="#8C6A2F"/></svg>
+                    <svg class="miniflag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#B22234"/><g fill="#fff"><rect y="0.31" width="3" height="0.22"/><rect y="0.77" width="3" height="0.22"/><rect y="1.23" width="3" height="0.22"/><rect y="1.69" width="3" height="0.22"/></g><rect width="1.25" height="1" fill="#3C3B6E"/></svg>
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -333,10 +388,11 @@ const construction = [
               <span class="dish-emoji" aria-hidden="true">{d.emoji}</span>
               <img
                 src={d.img}
+                data-img2={d.img2}
                 alt={d.name}
                 loading="lazy"
                 decoding="async"
-                onerror="this.remove()"
+                onerror="if (this.dataset.img2 && !this.dataset.tried) { this.dataset.tried = '1'; this.src = this.dataset.img2; } else { this.remove(); }"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
               />
             </div>
@@ -366,10 +422,11 @@ const construction = [
               <span class="dish-emoji" aria-hidden="true">{d.emoji}</span>
               <img
                 src={d.img}
+                data-img2={d.img2}
                 alt={d.name}
                 loading="lazy"
                 decoding="async"
-                onerror="this.remove()"
+                onerror="if (this.dataset.img2 && !this.dataset.tried) { this.dataset.tried = '1'; this.src = this.dataset.img2; } else { this.remove(); }"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
               />
             </div>
@@ -388,16 +445,80 @@ const construction = [
       </button>
     </div>
 
-    <p class="text-sm text-body max-w-prose m-0">
-      🍗 On everything else: anything involving chicken — except extremely
-      greasy fried chicken. A man needs standards.
-    </p>
+    <aside class="chicken-banner flex flex-wrap items-center gap-6 border border-rule rounded-2xl px-7 py-6 md:px-9 md:py-7">
+      <span class="text-5xl md:text-6xl" aria-hidden="true">🍗</span>
+      <div class="min-w-0 flex-1">
+        <p class="font-serif font-semibold text-ink text-2xl md:text-3xl tracking-tight leading-tight m-0">
+          On everything else: if it involves chicken, count me in.
+        </p>
+        <p class="text-body text-sm m-0 mt-2">
+          Except extremely greasy fried chicken — un hombre necesita estándares.
+        </p>
+      </div>
+    </aside>
+  </LandingSection>
+
+  <!-- ── Screen time ──────────────────────────────────────────── -->
+  <LandingSection
+    id="single-screen"
+    n="05"
+    eyebrow="Screen time · Maratones 🍿"
+    title="Shows & movies I'll rewatch with you."
+    tone="dark"
+  >
+    <Floaters glyphs={['🍿', '🎬', '📺', '🎞️', '🍿']} variant="sway" />
+
+    <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-6">Series · Las series</h3>
+    <div class="dish-rail-wrap relative mb-12">
+      <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite TV shows">
+        {shows.map((x) => (
+          <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
+            <div class="poster-media" aria-hidden="true">
+              <span class="poster-emoji">{x.emoji}</span>
+            </div>
+            <div class="px-4 pt-3.5 pb-4">
+              <h4 class="font-serif font-semibold text-ink text-lg tracking-tight leading-tight m-0 mb-1">{x.title}</h4>
+              <p class="text-xs text-muted italic m-0">{x.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="button" class="rail-btn rail-prev" aria-label="Previous shows" data-rail-dir="-1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button type="button" class="rail-btn rail-next" aria-label="More shows" data-rail-dir="1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+    </div>
+
+    <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-6">Sagas · Para maratonear</h3>
+    <div class="dish-rail-wrap relative">
+      <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite movie sagas">
+        {movies.map((x) => (
+          <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
+            <div class="poster-media" aria-hidden="true">
+              <span class="poster-emoji">{x.emoji}</span>
+            </div>
+            <div class="px-4 pt-3.5 pb-4">
+              <h4 class="font-serif font-semibold text-ink text-lg tracking-tight leading-tight m-0 mb-1">{x.title}</h4>
+              <p class="text-xs text-muted italic m-0">{x.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="button" class="rail-btn rail-prev" aria-label="Previous sagas" data-rail-dir="-1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button type="button" class="rail-btn rail-next" aria-label="More sagas" data-rail-dir="1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+    </div>
   </LandingSection>
 
   <!-- ── Instagram ────────────────────────────────────────────── -->
   <LandingSection
     id="single-gram"
-    n="05"
+    n="06"
     eyebrow="Proof of life · Las pruebas 📸"
     title="From my Instagram."
     tone="dark"
@@ -432,20 +553,24 @@ const construction = [
   <!-- ── Relationship goals ───────────────────────────────────── -->
   <LandingSection
     id="single-goals"
-    n="06"
+    n="07"
     eyebrow="The long game · Lo que ofrezco 🌹"
     title="Relationship goals."
     intro="Dicho en serio — y un poquito en coqueto: esto es lo que estoy buscando construir con alguien."
   >
     <Floaters glyphs={['🌹', '💕', '🌹', '💖', '🌹']} variant="drift" />
-    <ul class="card-flow list-none m-0 p-0 mb-8" data-stagger>
-      {goals.map((g) => (
-        <li class="goal-card m-0">
-          <span class="goal-chip" aria-hidden="true">{g.emoji}</span>
-          <span class="font-serif font-semibold text-ink text-lg tracking-tight">{g.label}</span>
+    <ol class="goal-story list-none m-0 p-0 mb-10 max-w-[46rem]" data-stagger>
+      {goals.map((g, i) => (
+        <li class="goal-step relative m-0 pl-16 pb-9">
+          <span class="goal-chip absolute left-0 top-0" aria-hidden="true">{g.emoji}</span>
+          <p class="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted m-0 mb-1">
+            Capítulo {i + 1}
+          </p>
+          <h3 class="font-serif font-semibold text-ink text-2xl tracking-tight m-0 mb-2">{g.label}</h3>
+          <p class="text-body text-sm leading-relaxed m-0">{g.story}</p>
         </li>
       ))}
-    </ul>
+    </ol>
     <div class="card-flow">
       <div class="goal-note border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-3">⛪ Religion</h3>
@@ -457,8 +582,8 @@ const construction = [
       <div class="goal-note border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-3">🐈 Pets</h3>
         <p class="text-body text-sm m-0">
-          Love animals. If choosing one: cats. Hard maximum of two —
-          this is a household, not a sanctuary.
+          Love animals. If I had to choose: cats — ideally two little
+          compañeros at most, so every one of them gets spoiled properly 🐾
         </p>
       </div>
       <div class="goal-note border border-rule rounded-2xl p-7">
@@ -469,11 +594,19 @@ const construction = [
       </div>
     </div>
 
-    <aside class="mt-8 bg-surface border-l-4 border-accent border border-rule rounded-2xl px-7 py-6" aria-label="Random fact">
-      <p class="text-body m-0">
-        <strong class="text-ink">Random fact:</strong> believe it or not, my
-        longest relationship lasted three months... in middle school. So
-        yes, we're setting a very achievable record here.
+    <aside class="fact-card relative mt-10 rounded-2xl px-8 py-8 md:px-10" aria-label="Random fact">
+      <span class="fact-spark" style="top: -0.7rem; left: 8%;" aria-hidden="true">✨</span>
+      <span class="fact-spark" style="bottom: -0.7rem; right: 10%; animation-delay: 1.4s;" aria-hidden="true">✨</span>
+      <p class="font-mono text-[0.68rem] font-bold uppercase tracking-[0.2em] text-accent-ink m-0 mb-3">
+        ⭐ Dato curioso · Random fact
+      </p>
+      <p class="font-serif text-ink text-xl md:text-2xl tracking-tight leading-snug m-0">
+        Believe it or not, my longest relationship lasted three months…
+        <em>in middle school.</em>
+      </p>
+      <p class="text-body text-sm m-0 mt-3">
+        So yes — we'd be setting a very achievable record here. La barra
+        está bajita, pero mis intenciones no 😉
       </p>
     </aside>
   </LandingSection>
@@ -481,7 +614,7 @@ const construction = [
   <!-- ── Looking for ──────────────────────────────────────────── -->
   <LandingSection
     id="single-looking"
-    n="07"
+    n="08"
     eyebrow="The good stuff"
     title="What I'm looking for."
     tone="tint"
@@ -496,6 +629,12 @@ const construction = [
         their own, wants something serious, and is comfortable with the
         idea that we'd both keep growing.
       </p>
+      <p class="text-body m-0 mt-4">
+        And to be clear about what I bring: your independence is fantastic —
+        I'd never want to shrink it. I want to be your <strong class="text-ink">foundation</strong>:
+        the steady one you can build on, helping you grow even stronger
+        while I grow right alongside you. Tu apoyo, no tu sombra.
+      </p>
     </div>
     <ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Qualities that matter to me">
       {lookingFor.map((q) => (
@@ -507,7 +646,7 @@ const construction = [
   <!-- ── Compatibility ────────────────────────────────────────── -->
   <LandingSection
     id="single-compat"
-    n="08"
+    n="09"
     eyebrow="Honest calibration · Sin rodeos"
     title="We'd probably be compatible if..."
   >
@@ -527,9 +666,10 @@ const construction = [
         who already has children.
       </p>
       <p class="text-body m-0">
-        On politics: shared core values and respect for individual rights
-        matter to me. I'm an Progressive Independent + compatibility on the big
-        life questions is the thing worth checking.
+        On politics: I'm a Progressive Socialist — I believe in expanding
+        human rights for everyone, full stop. Shared core values and respect
+        for people matter to me far more than labels, and compatibility on
+        the big life questions is the thing worth checking.
       </p>
     </div>
   </LandingSection>
@@ -537,7 +677,7 @@ const construction = [
   <!-- ── Bonus points ─────────────────────────────────────────── -->
   <LandingSection
     id="single-bonus"
-    n="09"
+    n="10"
     eyebrow="Nice-to-haves, not requirements"
     title="Bonus points."
     tone="tint"
@@ -566,15 +706,16 @@ const construction = [
   <!-- ── Under construction ───────────────────────────────────── -->
   <LandingSection
     id="single-construction"
-    n="10"
+    n="11"
     eyebrow="Full disclosure"
     title="Still under construction 🚧"
   >
     <Floaters glyphs={['🚧', '🔧', '🛠️', '📐']} variant="sway" />
     <ul class="max-w-prose list-none m-0 p-0 flex flex-col gap-4" data-stagger>
       {construction.map((c) => (
-        <li class="bg-surface border border-rule rounded-xl px-6 py-4 m-0 text-body text-sm">
-          {c}
+        <li class="bg-surface border border-rule rounded-xl px-6 py-5 m-0">
+          <h3 class="font-serif font-semibold text-ink text-lg tracking-tight m-0 mb-1.5">{c.t}</h3>
+          <p class="text-body text-sm leading-relaxed m-0">{c.d}</p>
         </li>
       ))}
     </ul>
@@ -586,7 +727,7 @@ const construction = [
   <!-- ── Final CTA ────────────────────────────────────────────── -->
   <LandingSection
     id="single-cta"
-    n="11"
+    n="12"
     eyebrow="If you've made it this far... · Si llegaste hasta aquí..."
     title="Maybe that's a sign."
     tone="dark"
@@ -603,8 +744,12 @@ const construction = [
       </p>
       <p class="text-body m-0">
         Mexican-American, born in the U.S. — U.S. citizen and Mexican
-        citizen, orgullosamente los dos 🇲🇽🇺🇸. Ya llegaste hasta aquí…
-        lo justo es que me saludes 😉
+        citizen, orgullosamente los dos
+        <span class="inline-flex items-center gap-1 align-baseline" aria-label="Mexico and United States">
+          <svg class="miniflag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#006341"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#C8102E"/><circle cx="1.5" cy="1" r="0.3" fill="#8C6A2F"/></svg>
+          <svg class="miniflag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#B22234"/><g fill="#fff"><rect y="0.31" width="3" height="0.22"/><rect y="0.77" width="3" height="0.22"/><rect y="1.23" width="3" height="0.22"/><rect y="1.69" width="3" height="0.22"/></g><rect width="1.25" height="1" fill="#3C3B6E"/></svg>
+        </span>.
+        Ya llegaste hasta aquí… lo justo es que me saludes 😉
       </p>
     </div>
     <div class="flex flex-wrap items-center gap-3">
@@ -996,6 +1141,90 @@ const construction = [
   .goal-card:hover .goal-chip {
     transform: scale(1.12);
   }
+  /* Storytelling timeline: rose rail connecting the chapters */
+  .goal-step .goal-chip {
+    width: 3rem;
+    height: 3rem;
+  }
+  .goal-step::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 3.4rem;
+    bottom: 0.5rem;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, rgb(231 84 128 / 0.5), rgb(200 16 46 / 0.2));
+  }
+  .goal-step:last-child { padding-bottom: 0; }
+  .goal-step:last-child::before { display: none; }
+
+  /* Dato curioso: gradient-framed pull quote with twinkles */
+  .fact-card {
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(100deg, rgb(231 84 128), rgb(200 16 46), rgb(231 84 128)) border-box;
+    box-shadow: 0 24px 50px -34px rgb(200 16 46 / 0.5);
+  }
+  .fact-spark {
+    position: absolute;
+    font-size: 1.3rem;
+    animation: fl-twinkle 4.5s ease-in-out infinite;
+  }
+
+  /* Chicken doctrine: warm gold statement banner */
+  .chicken-banner {
+    background:
+      radial-gradient(46rem 20rem at 90% 0%, rgb(225 160 63 / 0.20), transparent 65%),
+      linear-gradient(180deg, rgb(225 160 63 / 0.08), transparent 60%),
+      var(--color-surface);
+    border-color: rgb(225 160 63 / 0.45) !important;
+  }
+
+  /* Screen time: poster cards (2:3 media, hue-lit, emoji as the art) */
+  .poster-card {
+    flex: 0 0 min(200px, 56vw);
+    scroll-snap-align: start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 1.1rem;
+    overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .poster-card:hover {
+    transform: translateY(-5px) rotate(-0.6deg);
+    border-color: hsl(var(--hue) 50% 55% / 0.7);
+    box-shadow: 0 24px 44px -26px hsl(var(--hue) 60% 40% / 0.6);
+  }
+  .poster-media {
+    aspect-ratio: 2 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(120% 90% at 50% 0%, hsl(var(--hue) 55% 38% / 0.55), transparent 75%),
+      radial-gradient(120% 90% at 50% 110%, hsl(var(--hue) 65% 22% / 0.7), transparent 80%),
+      color-mix(in srgb, hsl(var(--hue) 40% 16%) 55%, var(--color-surface-soft));
+  }
+  .poster-emoji {
+    font-size: 4.2rem;
+    filter: drop-shadow(0 10px 22px hsl(var(--hue) 70% 20% / 0.8));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .poster-card:hover .poster-emoji {
+    transform: scale(1.18) rotate(5deg);
+  }
+
+  /* Windows-safe inline flags */
+  .miniflag {
+    width: 1.15em;
+    height: 0.77em;
+    border-radius: 2px;
+    display: inline-block;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.18);
+  }
+
   .goal-note {
     background:
       linear-gradient(180deg, rgb(231 84 128 / 0.06), transparent 60%),
@@ -1134,8 +1363,11 @@ const construction = [
     .hobby-tile,
     .hobby-tile:hover,
     .goal-card:hover,
+    .poster-card:hover,
+    .fact-spark,
     .dish-card:hover {
       transform: none;
+      animation: none;
     }
   }
 </style>
