@@ -139,6 +139,12 @@
     opacity: 1 !important;
     animation: none !important;
   }
+  /* View transitions become instant swaps. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 /* ---------- Dark palette ---------- */
@@ -198,6 +204,20 @@
   background-color: var(--color-surface-soft);
   background-image: var(--texture-dot);
   background-size: var(--texture-size);
+}
+
+/* Fluid card rows: every card shares its row equally and a short last
+   row stretches to fill the width — no orphan gaps when the item
+   count changes (1 card fills the whole row, 4 cards make 2×2 before
+   they'd make 3+1, etc.). Used by the listing pages. */
+.card-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.card-flow > * {
+  flex: 1 1 300px;
+  min-width: min(280px, 100%);
 }
 
 /* Film grain: an SVG turbulence tile at whisper opacity. Adds tactile

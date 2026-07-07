@@ -29,11 +29,11 @@ const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
       </div>
     </section>
 
-    <Section first>
+    <Section first reveal={true}>
       {talks.length === 0 ? (
         <p class="text-body">New talks will be posted here.</p>
       ) : (
-        <ol class="list-none m-0 p-0 max-w-narrow mx-auto flex flex-col gap-px bg-rule">
+        <ol class="list-none m-0 p-0 max-w-narrow mx-auto flex flex-col gap-px bg-rule" data-stagger>
           {talks.map((t, idx) => (
             <li class="bg-bg">
               <a
@@ -45,7 +45,7 @@ const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
                   <span class="text-xs font-semibold uppercase tracking-[0.18em]">
                     No. {String(talks.length - idx).padStart(2, '0')}
                   </span>
-                  <span class="text-[2.5rem] font-serif font-semibold text-ink leading-none">
+                  <span class="text-[2.5rem] font-serif font-semibold text-ink leading-none transition-all duration-500 group-hover:text-accent group-hover:translate-x-1">
                     '{yearStamp(t.data.date)}
                   </span>
                 </div>
@@ -57,7 +57,10 @@ const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
                       {t.data.tag}
                     </p>
                   )}
-                  <h2 class="font-serif font-semibold text-ink text-2xl md:text-3xl tracking-tight leading-tight m-0 mb-2 group-hover:text-accent transition-colors">
+                  <h2
+                    class="font-serif font-semibold text-ink text-2xl md:text-3xl tracking-tight leading-tight m-0 mb-2 group-hover:text-accent transition-colors"
+                    transition:name={`talk-title-${t.id}`}
+                  >
                     {t.data.title}
                   </h2>
                   <p class="text-sm text-muted m-0 mb-3">
@@ -73,10 +76,10 @@ const yearStamp = (d: Date) => String(d.getFullYear()).slice(-2);
                   <span class="text-xs font-semibold uppercase tracking-[0.14em] text-muted group-hover:text-ink transition-colors">
                     Open
                   </span>
-                  <div class="w-12 h-12 rounded-full border border-rule bg-surface flex items-center justify-center transition-all group-hover:border-ink group-hover:bg-ink group-hover:text-bg">
+                  <div class="w-12 h-12 rounded-full border border-rule bg-surface flex items-center justify-center transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-bg group-hover:scale-110">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-                         class="transition-transform group-hover:translate-x-0.5">
+                         class="transition-transform duration-300 group-hover:translate-x-0.5">
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />
                     </svg>

@@ -143,9 +143,10 @@ const thankYouUrl = absoluteUrl('/forms/thank-you/');
         const MIN_DWELL_MS = 2500;
         const SUBMIT_TIMEOUT_MS = 15000;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function initPolicyForm() {
           const form = document.getElementById('policyForm') as HTMLFormElement | null;
-          if (!form) return;
+          if (!form || form.dataset.init) return;
+          form.dataset.init = '1';
           const status = document.getElementById('policyFormStatus');
           const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
           const frame = document.getElementById('policyFormTarget');
@@ -214,7 +215,11 @@ const thankYouUrl = absoluteUrl('/forms/thank-you/');
               status.textContent = 'Submission stalled. Check your connection and try again.';
             }, SUBMIT_TIMEOUT_MS);
           });
-        });
+        }
+
+        document.addEventListener('astro:page-load', initPolicyForm);
+        if (document.readyState !== 'loading') initPolicyForm();
+        else document.addEventListener('DOMContentLoaded', initPolicyForm);
       </script>
     </Section>
 

@@ -47,6 +47,11 @@
   (function () {
     let inited = false;
 
+    // ClientRouter swaps replace the dialog + #search-target nodes and
+    // strip the dynamically-added Pagefind assets from <head>, so the
+    // UI must re-initialize on the next open after a navigation.
+    document.addEventListener('astro:after-swap', () => { inited = false; });
+
     function ensureCss() {
       if (document.querySelector('link[data-pagefind-css]')) return;
       const link = document.createElement('link');

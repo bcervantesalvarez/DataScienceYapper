@@ -198,3 +198,10 @@ Cloudflare Workers (static assets):
   execute inside a Worker.
 - Custom domain:  `epsilon-labs.org` (attached to the Worker in the
   Cloudflare dashboard)
+
+## Hidden pages
+
+`/single` is an easter egg — noindex, excluded from the sitemap and the
+Pagefind index, reachable only by clicking the About-page portrait five
+times within ten seconds (trigger script lives in `src/pages/about.astro`).
+Keep it out of navigation, feeds, and listings.

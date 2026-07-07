@@ -77,7 +77,7 @@ const groups = [
             <h2 class="text-sm font-bold uppercase tracking-[0.14em] text-ink border-b border-rule pb-3 m-0 mb-8">
               {g.label}
             </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card-flow">
               {g.items.map(r => (
                 <Card {...r} external imageAlt={r.title} />
               ))}

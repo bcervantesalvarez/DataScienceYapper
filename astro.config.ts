@@ -22,6 +22,15 @@ export default defineConfig({
   site: 'https://epsilon-labs.org',
   output: 'static',
   trailingSlash: 'ignore',
+  // The ML/Statistics write-ups moved from /projects to /blog — keep
+  // old inbound links alive with static meta-refresh redirect pages.
+  redirects: {
+    '/projects/predicting-customer-returns-machine-learning': '/blog/predicting-customer-returns-machine-learning',
+    '/projects/predicting-patient-severity-machine-learning': '/blog/predicting-patient-severity-machine-learning',
+    '/projects/predicting-salaries-machine-learning': '/blog/predicting-salaries-machine-learning',
+    '/projects/predicting-wine-province-machine-learning': '/blog/predicting-wine-province-machine-learning',
+    '/projects/united-states-healthcare-spending-statistical-analysis': '/blog/united-states-healthcare-spending-statistical-analysis',
+  },
   build: {
     assets: '_assets',
     inlineStylesheets: 'auto',
@@ -29,8 +38,9 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      // /forms/thank-you is noindex — keep it out of the sitemap too.
-      filter: (page) => !page.includes('/forms/'),
+      // /forms/thank-you is noindex; /single is a hidden easter egg.
+      // Neither belongs in the sitemap.
+      filter: (page) => !page.includes('/forms/') && !page.includes('/single'),
     }),
   ],
   vite: {

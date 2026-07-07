@@ -78,25 +78,52 @@ const practices = [
   },
 ];
 
-// ---- Chapter 05: AI stack (kept — brand accents are intentional) -----
+// ---- Chapter 05: AI stack -------------------------------------------
+// Official marks from LobeHub's icon set (vendored under src/assets/ai).
+// The monochrome ones (OpenAI, Ollama) use fill="currentColor", so a
+// single file adapts to any surface — light theme, dark theme, or the
+// fixed-dark band — via the CSS `color` on their wrapper.
+import openaiMark from '@/assets/ai/openai.svg?raw';
+import claudeMark from '@/assets/ai/claude-color.svg?raw';
+import geminiMark from '@/assets/ai/gemini-color.svg?raw';
+import ollamaMark from '@/assets/ai/ollama.svg?raw';
+
 const aiStack = [
   {
     name: 'ChatGPT',
     role: 'Reasoning, drafting, code review at speed.',
     accent: '#10A37F',
-    icon: 'openai',
+    mark: openaiMark,
+    mono: true,
   },
   {
     name: 'Claude',
     role: 'Long-context analysis, careful writing, hard problems.',
     accent: '#D97757',
-    icon: 'anthropic',
+    mark: claudeMark,
+    mono: false,
   },
   {
     name: 'Gemini',
     role: 'Multimodal exploration, large doc ingestion, fast iteration.',
     accent: '#4285F4',
-    icon: 'gemini',
+    mark: geminiMark,
+    mono: false,
+  },
+];
+
+const ollamaPoints = [
+  {
+    title: 'Local development',
+    body: 'Open-weight models running on my own hardware — prompts, RAG experiments, and eval harnesses iterate offline, with zero per-token cost.',
+  },
+  {
+    title: 'Private deployment',
+    body: 'Some data can never leave the building — student records, health data, anything under agreement. Self-hosted inference makes AI usable there at all.',
+  },
+  {
+    title: 'Reproducible testing',
+    body: 'Pinned local models don’t drift under your test suite overnight. Evals run against the same weights every time, so regressions mean something.',
   },
 ];
 
@@ -317,36 +344,12 @@ const shelves = [
           ></span>
 
           <div class="relative">
-            <div class="w-14 h-14 mb-5 rounded-xl flex items-center justify-center"
-                 style={`background: linear-gradient(135deg, ${m.accent}1F, ${m.accent}05);`}>
-              {m.icon === 'openai' && (
-                <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
-                     stroke={m.accent} stroke-width="1.6" stroke-linejoin="round"
-                     aria-hidden="true">
-                  <path d="M21.06 9.83a5.4 5.4 0 0 0-.46-4.43A5.46 5.46 0 0 0 14.5 2.7a5.4 5.4 0 0 0-9.13 1.94 5.43 5.43 0 0 0-3.63 2.62 5.46 5.46 0 0 0 .67 6.4 5.4 5.4 0 0 0 .46 4.43 5.46 5.46 0 0 0 6.1 2.7 5.4 5.4 0 0 0 9.13-1.94 5.43 5.43 0 0 0 3.63-2.62 5.46 5.46 0 0 0-.67-6.4Z"/>
-                </svg>
-              )}
-              {m.icon === 'anthropic' && (
-                <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
-                  <g fill={m.accent}>
-                    <path d="M12 2 L13.5 9.6 L21 11 L13.5 12.4 L12 20 L10.5 12.4 L3 11 L10.5 9.6 Z"/>
-                    <circle cx="12" cy="11" r="1.8"/>
-                  </g>
-                </svg>
-              )}
-              {m.icon === 'gemini' && (
-                <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="gemini-grad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%"   stop-color="#4285F4"/>
-                      <stop offset="55%"  stop-color="#9B72CB"/>
-                      <stop offset="100%" stop-color="#D96570"/>
-                    </linearGradient>
-                  </defs>
-                  <path d="M12 2 C12.5 7 13.5 8.5 18.5 9.2 C20 9.4 20 11 18.5 11.4 C13.5 12.6 12.5 14.1 12 19 C11.5 14.1 10.5 12.6 5.5 11.4 C4 11 4 9.4 5.5 9.2 C10.5 8.5 11.5 7 12 2 Z"
-                        fill="url(#gemini-grad)"/>
-                </svg>
-              )}
+            <div
+              class="ai-mark w-14 h-14 mb-5 rounded-xl flex items-center justify-center"
+              style={`background: linear-gradient(135deg, ${m.accent}1F, ${m.accent}05); ${m.mono ? `color: ${m.accent};` : ''}`}
+              aria-hidden="true"
+            >
+              <Fragment set:html={m.mark} />
             </div>
 
             <h3 class="font-serif text-2xl font-semibold text-ink m-0 mb-2 leading-tight">
@@ -360,9 +363,53 @@ const shelves = [
       ))}
     </div>
 
+    <!-- Ollama: full-width panel spanning the three cards above -->
+    <article
+      class="group ai-card relative overflow-hidden bg-surface border border-rule rounded-2xl p-7 md:p-9 mt-6 transition-all duration-300 hover:-translate-y-1 hover:border-rule-strong"
+      style="--accent: #9aa4b2;"
+      aria-labelledby="ollama-title"
+    >
+      <span
+        class="ai-card-glow pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        aria-hidden="true"
+      ></span>
+
+      <div class="relative">
+        <div class="flex flex-wrap items-center gap-5 mb-7">
+          <div
+            class="ai-mark w-14 h-14 rounded-xl flex items-center justify-center text-ink"
+            style="background: linear-gradient(135deg, #9aa4b21F, #9aa4b205);"
+            aria-hidden="true"
+          >
+            <Fragment set:html={ollamaMark} />
+          </div>
+          <div>
+            <h3 id="ollama-title" class="font-serif text-2xl font-semibold text-ink m-0 leading-tight">
+              Ollama
+            </h3>
+            <p class="text-sm text-muted m-0 mt-1">
+              Local models · the workhorse behind everything that can't touch a cloud API
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-6">
+          {ollamaPoints.map((p) => (
+            <div class="border-t border-rule pt-5">
+              <h4 class="text-sm font-bold uppercase tracking-[0.12em] text-ink m-0 mb-2">
+                {p.title}
+              </h4>
+              <p class="text-sm text-body leading-relaxed m-0">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </article>
+
     <p class="text-sm text-muted max-w-[60ch] mt-10 m-0">
-      Automation with receipts: anything a model touches gets the same
-      validation discipline as anything I write by hand.
+      Automation with receipts: anything a model touches — hosted or
+      local — gets the same validation discipline as anything I write
+      by hand.
     </p>
   </LandingSection>
 
@@ -550,6 +597,14 @@ const shelves = [
 </BaseLayout>
 
 <style>
+  /* Official model marks arrive via set:html (1em intrinsic size), so
+     size them through a :global selector — scoped attrs don't reach
+     injected markup. */
+  .ai-mark :global(svg) {
+    width: 2rem;
+    height: 2rem;
+  }
+
   /* AI card: subtle gradient halo glow on hover, keyed off --accent */
   .ai-card-glow {
     background: radial-gradient(

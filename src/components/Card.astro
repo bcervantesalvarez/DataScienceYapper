@@ -20,7 +20,7 @@ const rel = external ? 'noreferrer' : undefined;
   href={href}
   target={target}
   rel={rel}
-  class="group block bg-surface border border-rule rounded-xl overflow-hidden no-underline transition-colors hover:border-ink"
+  class="group flex flex-col h-full bg-surface border border-rule rounded-xl overflow-hidden no-underline transition-colors hover:border-ink"
 >
   {image && (
     <div class="aspect-[16/10] bg-surface-soft border-b border-rule overflow-hidden">
@@ -32,7 +32,7 @@ const rel = external ? 'noreferrer' : undefined;
       />
     </div>
   )}
-  <div class="px-6 pt-5 pb-7">
+  <div class="flex-1 px-6 pt-5 pb-7">
     {tag && (
       <p class="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent-ink m-0 mb-2">
         {tag}

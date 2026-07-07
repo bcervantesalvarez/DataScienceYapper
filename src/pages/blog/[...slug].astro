@@ -27,7 +27,10 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All po
   <article class="max-w-prose mx-auto px-6 pt-20 pb-16">
     <BackLink href={backHref} label={backLabel} />
     <p class="text-sm text-muted m-0 mb-3">{fmt(entry.data.date)}</p>
-    <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-5">
+    <h1
+      class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-5"
+      transition:name={`post-title-${entry.id}`}
+    >
       {entry.data.title}
     </h1>
     <p class="text-lede text-body m-0 mb-10">{entry.data.description}</p>

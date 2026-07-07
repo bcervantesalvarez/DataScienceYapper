@@ -29,7 +29,10 @@ const backLabel = entry.data.status === 'archived' ? 'Back to archive' : 'All ta
     <p class="text-sm text-muted m-0 mb-3">
       {fmt(entry.data.date)}{entry.data.venue ? ` · ${entry.data.venue}` : ''}
     </p>
-    <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-5">
+    <h1
+      class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-5"
+      transition:name={`talk-title-${entry.id}`}
+    >
       {entry.data.title}
     </h1>
     <p class="text-lede text-body m-0 mb-10">{entry.data.description}</p>

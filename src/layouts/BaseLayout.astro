@@ -5,6 +5,7 @@ import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
 import ScrollTop from '@components/ScrollTop.astro';
 import SearchModal from '@components/SearchModal.astro';
+import { ClientRouter } from 'astro:transitions';
 import { SITE_NAME, SITE_DESCRIPTION, AUTHOR, absoluteUrl } from '@lib/site';
 // Self-hosted fonts via @fontsource — no render-blocking Google Fonts
 // request. Newsreader ships as a variable font with the opsz axis so
@@ -47,6 +48,11 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+
+  <!-- Fluid page-to-page transitions (View Transitions API with a
+       same-document fallback). Reduced-motion users get instant swaps
+       via the media query in global.css. -->
+  <ClientRouter />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link
     rel="alternate"
@@ -118,15 +124,21 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
     ],
   })} />
 
-  <!-- Set theme before paint to avoid flash -->
+  <!-- Set theme before paint to avoid flash. Re-applied after every
+       ClientRouter swap: the router replaces <html> attributes with
+       the incoming page's, which would otherwise reset the theme. -->
   <script is:inline>
     (function () {
-      try {
-        const stored = localStorage.getItem('theme');
-        const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', stored || prefers);
-      } catch (e) { /* no-op */ }
+      function applyTheme() {
+        try {
+          const stored = localStorage.getItem('theme');
+          const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', stored || prefers);
+        } catch (e) { /* no-op */ }
+      }
+      applyTheme();
+      document.addEventListener('astro:after-swap', applyTheme);
     })();
   </script>
 
@@ -138,20 +150,25 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
     (function () {
       if (!('IntersectionObserver' in window)) return;
       if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
-      document.documentElement.classList.add('reveal-ready');
-      document.addEventListener('DOMContentLoaded', function () {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              io.unobserve(entry.target);
-            }
-          });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+      function arm() {
+        document.documentElement.classList.add('reveal-ready');
+        document.querySelectorAll('[data-reveal]:not(.is-revealed)').forEach(function (el) {
           io.observe(el);
         });
-      });
+      }
+      document.documentElement.classList.add('reveal-ready');
+      document.addEventListener('DOMContentLoaded', arm);
+      // ClientRouter swaps replace <html> attributes and the DOM —
+      // re-stamp the gate class and observe the fresh sections.
+      document.addEventListener('astro:after-swap', arm);
     })();
   </script>
 </head>
@@ -172,7 +189,25 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
        the iframe into a fixed full-viewport overlay; revealjs picks up
        the natural resize and scales correctly. Esc exits. -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    let active: HTMLElement | null = null;
+    const exit = () => {
+      if (!active) return;
+      document.documentElement.classList.remove('iframe-presenting');
+      active.classList.remove('present');
+      active = null;
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && active) {
+        active.dispatchEvent(new Event('present:exit'));
+        exit();
+      }
+    });
+    // Leaving the page via the ClientRouter should never strand the
+    // presentation overlay class on <html>.
+    document.addEventListener('astro:before-swap', exit);
+
+    function initIframes() {
       document.querySelectorAll('iframe').forEach((f) => {
         const cur = f.getAttribute('allow') || '';
         if (!cur.includes('fullscreen')) {
@@ -180,14 +215,6 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
         }
         f.setAttribute('allowfullscreen', '');
       });
-
-      let active: HTMLElement | null = null;
-      const exit = () => {
-        if (!active) return;
-        document.documentElement.classList.remove('iframe-presenting');
-        active.classList.remove('present');
-        active = null;
-      };
 
       document.querySelectorAll('.article-body iframe').forEach((f) => {
         if (f.parentElement?.classList.contains('iframe-shell')) return;
@@ -228,14 +255,11 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
 
         shell.addEventListener('present:exit', () => setLabel('Full screen'));
       });
+    }
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && active) {
-          active.dispatchEvent(new Event('present:exit'));
-          exit();
-        }
-      });
-    });
+    document.addEventListener('astro:page-load', initIframes);
+    if (document.readyState !== 'loading') initIframes();
+    else document.addEventListener('DOMContentLoaded', initIframes);
   </script>
 </body>
 </html>

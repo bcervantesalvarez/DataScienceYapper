@@ -41,23 +41,31 @@ import Button from '@components/Button.astro';
     </section>
 
     <script>
-      // SMIL <animate> ignores CSS reduced-motion rules — jump the
-      // checkmark draw to its finished frame and freeze it instead.
-      const check = document.getElementById('ty-check');
-      if (
-        check instanceof SVGSVGElement &&
-        matchMedia('(prefers-reduced-motion: reduce)').matches
-      ) {
-        check.setCurrentTime(2);
-        check.pauseAnimations();
+      function initThankYou() {
+        // SMIL <animate> ignores CSS reduced-motion rules — jump the
+        // checkmark draw to its finished frame and freeze it instead.
+        const check = document.getElementById('ty-check');
+        if (!check || (check as HTMLElement).dataset.init) return;
+        (check as HTMLElement).dataset.init = '1';
+        if (
+          check instanceof SVGSVGElement &&
+          matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          check.setCurrentTime(2);
+          check.pauseAnimations();
+        }
+
+        let secs = 15;
+        const el = document.getElementById('ty-sec');
+        const t = setInterval(() => {
+          secs--; el && (el.textContent = String(secs));
+          if (secs <= 0) { clearInterval(t); location.href = '/'; }
+        }, 1000);
       }
 
-      let secs = 15;
-      const el = document.getElementById('ty-sec');
-      const t = setInterval(() => {
-        secs--; el && (el.textContent = String(secs));
-        if (secs <= 0) { clearInterval(t); location.href = '/'; }
-      }, 1000);
+      document.addEventListener('astro:page-load', initThankYou);
+      if (document.readyState !== 'loading') initThankYou();
+      else document.addEventListener('DOMContentLoaded', initThankYou);
     </script>
 
   </div>

@@ -28,7 +28,7 @@ const projects = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf(
       {projects.length === 0 ? (
         <p class="text-body">Projects coming soon. Until then, see the <a href="/archive">archive</a>.</p>
       ) : (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card-flow">
           {projects.map(p => (
             <Card
               href={p.data.external ?? `/projects/${p.id}`}

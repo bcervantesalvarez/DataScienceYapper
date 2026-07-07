@@ -73,8 +73,10 @@ const isActive = (href: string) =>
 </header>
 
 <script>
-  const btn = document.getElementById('theme-toggle');
-  btn?.addEventListener('click', () => {
+  // Delegated: the button node is replaced on every ClientRouter swap,
+  // but the document-level listener survives.
+  document.addEventListener('click', (e) => {
+    if (!(e.target instanceof Element) || !e.target.closest('#theme-toggle')) return;
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);

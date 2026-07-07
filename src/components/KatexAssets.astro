@@ -39,17 +39,20 @@
     });
     return true;
   }
+  function renderWithRetry() {
+    // The katex script has `defer`, so it may not be ready yet.
+    if (renderArticleMath()) return;
+    const retry = setInterval(() => {
+      if (renderArticleMath()) clearInterval(retry);
+    }, 50);
+    setTimeout(() => clearInterval(retry), 5000);
+  }
+  // astro:page-load covers ClientRouter navigations onto article
+  // routes; the readyState branch covers plain first loads.
+  document.addEventListener('astro:page-load', renderWithRetry);
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // The katex script has `defer`, so it may not be ready yet.
-      if (!renderArticleMath()) {
-        const retry = setInterval(() => {
-          if (renderArticleMath()) clearInterval(retry);
-        }, 50);
-        setTimeout(() => clearInterval(retry), 5000);
-      }
-    });
+    document.addEventListener('DOMContentLoaded', renderWithRetry);
   } else {
-    renderArticleMath();
+    renderWithRetry();
   }
 </script>

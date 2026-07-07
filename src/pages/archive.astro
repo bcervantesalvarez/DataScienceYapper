@@ -30,7 +30,7 @@ const talks = (await getCollection('talks', ({ data }) => data.status === 'archi
     <Section eyebrow="Projects" first>
       {projects.length === 0
         ? <p class="text-body">No archived projects yet.</p>
-        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        : <div class="card-flow">
             {projects.map(p => <Card href={`/projects/${p.id}`} title={p.data.title} description={p.data.description} tag={p.data.tag} image={p.data.image} imageAlt={p.data.title} />)}
           </div>}
     </Section>
@@ -38,7 +38,7 @@ const talks = (await getCollection('talks', ({ data }) => data.status === 'archi
     <Section eyebrow="Blog">
       {blog.length === 0
         ? <p class="text-body">No archived posts yet.</p>
-        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        : <div class="card-flow">
             {blog.map(p => <Card href={`/blog/${p.id}`} title={p.data.title} description={p.data.description} tag={p.data.tag} image={p.data.image} imageAlt={p.data.title} />)}
           </div>}
     </Section>
@@ -46,7 +46,7 @@ const talks = (await getCollection('talks', ({ data }) => data.status === 'archi
     <Section eyebrow="Talks">
       {talks.length === 0
         ? <p class="text-body">No archived talks yet.</p>
-        : <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        : <div class="card-flow">
             {talks.map(t => <Card href={`/talks/${t.id}`} title={t.data.title} description={t.data.description} tag="Talk" image={t.data.image} imageAlt={t.data.title} />)}
           </div>}
     </Section>

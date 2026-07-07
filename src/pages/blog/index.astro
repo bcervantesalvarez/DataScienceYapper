@@ -1,11 +1,25 @@
 ---
+// src/pages/blog/index.astro — Insights as a timeline.
+// Entries hang off a vertical rail grouped by year; a floating glass
+// date pill pops up while you scroll and tracks the entry closest to
+// the top of the viewport.
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import Card from '@components/Card.astro';
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('blog', ({ data }) => !data.draft && data.status === 'active');
 const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const pillLabel = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+// Group by year, newest first (posts are already sorted desc)
+const years = [...new Set(posts.map(p => p.data.date.getFullYear()))].map(y => ({
+  year: y,
+  entries: posts.filter(p => p.data.date.getFullYear() === y),
+}));
 ---
 <BaseLayout title="Blog" description="Practical notes on statistical practice, modeling, and analytical tooling.">
   <div class="ed">
@@ -14,11 +28,11 @@ const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
       <div class="max-w-wrap mx-auto px-6">
         <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-5">Insights</p>
         <h1 class="font-serif font-semibold text-ink text-5xl md:text-6xl tracking-tight leading-[1.06] m-0 mb-4">
-          From the blog.
+          A working timeline.
         </h1>
         <p class="text-lede text-body max-w-[60ch] m-0">
           Practical notes on statistical practice, modeling, and analytical
-          tooling.
+          tooling — in the order they happened.
         </p>
       </div>
     </section>
@@ -27,20 +41,176 @@ const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
       {posts.length === 0 ? (
         <p class="text-body">More writing is on the way.</p>
       ) : (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map(p => (
-            <Card
-              href={`/blog/${p.id}`}
-              title={p.data.title}
-              description={p.data.description}
-              tag={p.data.tag}
-              image={p.data.image}
-              imageAlt={p.data.title}
-            />
-          ))}
+        <div class="max-w-narrow mx-auto">
+          <ol class="timeline relative list-none m-0 p-0" id="timeline">
+            {years.map(({ year, entries }) => (
+              <li class="m-0">
+                <h2 class="year-stamp font-serif font-semibold text-ink text-4xl md:text-5xl tracking-tight leading-none m-0 mb-8 pl-10 md:pl-14 relative">
+                  <span class="tl-dot tl-dot-year" aria-hidden="true"></span>
+                  {year}
+                </h2>
+                <ol class="list-none m-0 p-0">
+                  {entries.map((p) => (
+                    <li
+                      class="tl-entry relative pl-10 md:pl-14 pb-10 m-0"
+                      data-date={pillLabel(p.data.date)}
+                    >
+                      <span class="tl-dot" aria-hidden="true"></span>
+                      <a
+                        href={`/blog/${p.id}`}
+                        class="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-5 items-start bg-surface border border-rule rounded-2xl p-6 md:p-7 no-underline transition-all duration-300 hover:border-rule-strong hover:-translate-y-0.5 hover:shadow-[0_18px_44px_-30px_color-mix(in_srgb,var(--color-ink)_35%,transparent)]"
+                      >
+                        <div class="min-w-0">
+                          <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted m-0 mb-2.5">
+                            {p.data.tag && (
+                              <span class="font-bold uppercase tracking-[0.14em] text-accent-ink bg-surface-soft border border-rule px-2.5 py-1 rounded-full">
+                                {p.data.tag}
+                              </span>
+                            )}
+                            <time datetime={p.data.date.toISOString().slice(0, 10)} class="font-mono">
+                              {fmt(p.data.date)}
+                            </time>
+                          </p>
+                          <h3
+                            class="font-serif font-semibold text-ink text-2xl tracking-tight leading-tight m-0 mb-2 transition-colors group-hover:text-accent"
+                            transition:name={`post-title-${p.id}`}
+                          >
+                            {p.data.title}
+                          </h3>
+                          <p class="text-sm text-body leading-relaxed m-0">
+                            {p.data.description}
+                          </p>
+                        </div>
+                        {p.data.image && (
+                          <img
+                            src={p.data.image}
+                            alt=""
+                            loading="lazy"
+                            width="128"
+                            height="96"
+                            class="hidden sm:block w-32 h-24 rounded-xl object-cover border border-rule transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
     </Section>
 
   </div>
+
+  <!-- Floating date pill: decorative, mirrors dates already in the list -->
+  <div
+    id="tl-pill"
+    aria-hidden="true"
+    class="fixed bottom-7 left-1/2 -translate-x-1/2 z-40 px-5 py-2.5 rounded-full border border-rule bg-bg/75 backdrop-blur-md shadow-lg font-serif font-semibold text-ink text-lg tracking-tight pointer-events-none opacity-0 scale-90 transition-all duration-300"
+  >
+  </div>
 </BaseLayout>
+
+<style>
+  /* The rail: a hairline running the height of the timeline. */
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 0.4rem;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-rule-strong),
+      var(--color-rule) 12rem,
+      var(--color-rule)
+    );
+  }
+  @media (min-width: 768px) {
+    .timeline::before { left: 9px; }
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--color-bg);
+    border: 2px solid var(--color-rule-strong);
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  }
+  @media (min-width: 768px) {
+    .tl-dot { left: 2px; }
+  }
+  .tl-entry:hover .tl-dot {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 18%, var(--color-bg));
+    transform: scale(1.15);
+  }
+  .tl-dot-year {
+    top: 0.35rem;
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  #tl-pill.tl-show {
+    opacity: 1;
+    scale: 1;
+  }
+</style>
+
+<script>
+  // Floating date pill: shows the month/year of the entry nearest the
+  // top third of the viewport while the reader scrolls, then fades out
+  // when scrolling stops. Purely decorative (aria-hidden) — every date
+  // is already printed in the list — so it bails entirely under
+  // prefers-reduced-motion.
+  // Module state survives ClientRouter navigations (the module runs
+  // once per real page load), so we install exactly one scroll
+  // listener and just re-resolve the elements after each swap.
+  let pill: HTMLElement | null = null;
+  let entries: HTMLElement[] = [];
+  let hideTimer: ReturnType<typeof setTimeout> | undefined;
+  let current = '';
+  let installed = false;
+
+  const update = () => {
+    if (!pill || !pill.isConnected || entries.length === 0) return;
+    const probe = window.innerHeight * 0.33;
+    let best: HTMLElement | null = null;
+    for (const el of entries) {
+      const r = el.getBoundingClientRect();
+      if (r.top <= probe && r.bottom >= 0) best = el;
+      if (r.top > probe) break;
+    }
+    if (!best) { pill.classList.remove('tl-show'); return; }
+    const label = best.dataset.date || '';
+    if (label !== current) {
+      current = label;
+      pill.textContent = label;
+    }
+    pill.classList.add('tl-show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => pill && pill.classList.remove('tl-show'), 900);
+  };
+
+  function initTimelinePill() {
+    pill = document.getElementById('tl-pill');
+    entries = Array.from(document.querySelectorAll<HTMLElement>('.tl-entry'));
+    if (!pill || entries.length === 0) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!installed) {
+      installed = true;
+      window.addEventListener('scroll', update, { passive: true });
+    }
+  }
+
+  document.addEventListener('astro:page-load', initTimelinePill);
+  if (document.readyState !== 'loading') initTimelinePill();
+  else document.addEventListener('DOMContentLoaded', initTimelinePill);
+</script>
