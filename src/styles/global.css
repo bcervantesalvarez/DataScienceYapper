@@ -83,16 +83,20 @@
    script in BaseLayout confirms JS + IntersectionObserver + motion
    preference by stamping `reveal-ready` on <html> — so users with no
    JS, old browsers, or prefers-reduced-motion always see the content. */
-html.reveal-ready [data-reveal] {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.7s cubic-bezier(0.2, 0, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
-}
-html.reveal-ready [data-reveal].is-revealed {
-  opacity: 1;
-  transform: none;
+@media screen {
+  /* Screen-only: print/PDF output must never inherit the hidden state
+     of sections the reader hadn't scrolled to. */
+  html.reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  html.reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ---------- Reduced motion ----------
