@@ -8,6 +8,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import LandingSection from '@components/LandingSection.astro';
 import Button from '@components/Button.astro';
 import StatusBanner from '@components/StatusBanner.astro';
+import Floaters from '@components/Floaters.astro';
 
 const INSTAGRAM = 'https://www.instagram.com/brianadolfocervantesalvarez';
 
@@ -25,29 +26,48 @@ const education = [
     logo: '/images/schools/oregon-state.svg', monogram: 'OSU' },
 ];
 
-const hobbies = {
-  regular: [
-    { emoji: '🥐', label: 'Baking' },
-    { emoji: '💪', label: 'Working Out' },
-    { emoji: '🤖', label: 'AI & Data Science' },
-    { emoji: '🎮', label: 'Video Games' },
-    { emoji: '✈️', label: 'Traveling' },
-  ],
-  fresh: [
-    { emoji: '🎣', label: 'Fishing' },
-    { emoji: '🍷', label: 'Wine Tasting' },
-    { emoji: '⚽', label: 'Soccer Matches' },
-  ],
-  nerd: [
-    { emoji: '🌌', label: 'Star Wars' },
-    { emoji: '🎌', label: 'Anime' },
-    { emoji: '🎧', label: 'Audiophile' },
-    { emoji: '🖥️', label: 'PC Building' },
-    { emoji: '📱', label: 'Technology' },
-  ],
-};
+const hobbyGroups = [
+  { label: 'The regulars', es: 'Las de siempre', tiles: [
+    { emoji: '🥐', label: 'Baking', hue: 35 },
+    { emoji: '💪', label: 'Working Out', hue: 8 },
+    { emoji: '🤖', label: 'AI & Data Science', hue: 210 },
+    { emoji: '🎮', label: 'Video Games', hue: 265 },
+    { emoji: '✈️', label: 'Traveling', hue: 190 },
+  ]},
+  { label: 'New this year', es: 'Estrenando', tiles: [
+    { emoji: '🎣', label: 'Fishing', hue: 155 },
+    { emoji: '🍷', label: 'Wine Tasting', hue: 340 },
+    { emoji: '⚽', label: 'Soccer Matches', hue: 120 },
+  ]},
+  { label: 'Nerd interests', es: 'Modo nerd', tiles: [
+    { emoji: '🌌', label: 'Star Wars', hue: 245 },
+    { emoji: '🎌', label: 'Anime', hue: 350 },
+    { emoji: '🎧', label: 'Audiophile', hue: 25 },
+    { emoji: '🖥️', label: 'PC Building', hue: 200 },
+    { emoji: '📱', label: 'Technology', hue: 175 },
+  ]},
+];
 
-const mexicanFoods = ['Pozole', 'Tamales', 'Mole', 'Enchiladas', 'Tacos al Pastor'];
+// Famous-dish showcase. Photos hot-link Wikimedia Commons (stable,
+// browser-friendly); each card keeps an emoji backdrop so a missing
+// image degrades to a handsome placeholder instead of a hole.
+const dishes = [
+  { name: 'Pozole', emoji: '🍲',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pozole_rojo.jpg?width=800',
+    note: 'La sopa que cura todo — hasta el mal de amores 🤗' },
+  { name: 'Tacos al Pastor', emoji: '🌮',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/01_Tacos_al_Pastor.jpg?width=800',
+    note: 'El estándar de oro. Con piña, obviamente 🍍' },
+  { name: 'Tamales', emoji: '🫔',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tamales_de_frijol.JPG?width=800',
+    note: 'Navidad envuelta en hoja de maíz' },
+  { name: 'Mole', emoji: '🍫',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mole_poblano%2C_M%C3%A9xico.JPG?width=800',
+    note: 'Chocolate + chile = la química correcta' },
+  { name: 'Enchiladas', emoji: '🌶️',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Enchiladas_mineras.jpg?width=800',
+    note: 'Nivel de picante: negociable 😌' },
+];
 const desserts = ['Cheesecake', 'Brownies', 'Lemon Loaf', 'Banana Bread'];
 
 const goals = [
@@ -140,14 +160,7 @@ const construction = [
     eyebrow="Receipts · Los recibos"
     title="Education."
   >
-    {/* Tossed graduation caps loop in the section background */}
-    <div class="grad-caps absolute inset-0 pointer-events-none" aria-hidden="true">
-      <span class="grad-cap" style="left: 6%;  top: 12%; animation-delay: 0s;   animation-duration: 6.5s;">🎓</span>
-      <span class="grad-cap" style="left: 38%; top: 70%; animation-delay: 1.2s; animation-duration: 7.5s;">🎓</span>
-      <span class="grad-cap" style="left: 64%; top: 16%; animation-delay: 2.4s; animation-duration: 6s;">🎓</span>
-      <span class="grad-cap" style="left: 88%; top: 58%; animation-delay: 0.7s; animation-duration: 8s;">🎓</span>
-      <span class="grad-cap" style="left: 18%; top: 44%; animation-delay: 3.1s; animation-duration: 7s;">🎓</span>
-    </div>
+    <Floaters glyphs={['🎓', '🎓', '🎓', '🎓', '🎓']} variant="toss" />
     <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0" data-stagger>
       {education.map((e) => (
         <li
@@ -214,6 +227,7 @@ const construction = [
     title="Current chapter."
     tone="tint"
   >
+    <Floaters glyphs={['🌱', '📊', '💼', '🏛️', '🌱']} variant="sway" />
     <StatusBanner
       href="https://www.oregon.gov/ode/"
       org="Oregon Department of Education"
@@ -236,27 +250,19 @@ const construction = [
       </p>
     </div>
 
-    {/* Where this is headed: salary milestones, stated plainly */}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10" data-stagger>
-      {[
-        { year: '2028', figure: '$100K', note: 'base salary' },
-        { year: '2035', figure: '$150K', note: 'and climbing' },
-        { year: '2040', figure: '$200K+', note: 'bare minimum' },
-      ].map((m) => (
-        <div class="bg-surface border border-rule rounded-2xl px-6 py-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
-          <p class="font-mono text-xs font-semibold text-muted tracking-[0.16em] uppercase m-0 mb-1">{m.year}</p>
-          <p class="font-serif font-semibold text-ink text-3xl tracking-tight m-0">{m.figure}</p>
-          <p class="text-xs text-muted m-0 mt-1">{m.note}</p>
-        </div>
-      ))}
-    </div>
-
     <div class="max-w-prose mt-8">
       <p class="text-body m-0 mb-4">
-        I aim for remote-friendly roles that keep me above the $100K line.
-        With the State it's a slower ride — but that's realistic for
-        government work, and the stability is the point. If I ever jump to
-        the private sector, those numbers move up fast.
+        For the curious (I know you're doing the math): the State pays me
+        a comfortable, stable salary in the healthy five figures — and once
+        you count the benefits package, worth roughly another quarter on
+        top, the total quietly crosses six. Yes, I count the benefits.
+        I'm a statistician; counting is the whole job.
+      </p>
+      <p class="text-body m-0 mb-4">
+        Government pace is a slower ride than the private sector — that's
+        the honest trade, and the stability is exactly the point. I lean
+        toward remote-friendly work, and the trajectory only points up
+        from here.
       </p>
       <p class="text-lede text-ink font-serif m-0">
         Financial stability is my ultimate goal.
@@ -272,40 +278,24 @@ const construction = [
     eyebrow="How I spend my time"
     title="Hobbies."
   >
-    <div class="flex flex-col gap-10">
-      <div>
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-5">The regulars</h3>
-        <ul class="card-flow list-none m-0 p-0" data-stagger>
-          {hobbies.regular.map((h) => (
-            <li class="bg-surface border border-rule rounded-2xl px-6 py-5 m-0 flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
-              <span class="text-3xl" aria-hidden="true">{h.emoji}</span>
-              <span class="font-semibold text-ink">{h.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-5">New this year</h3>
-        <ul class="card-flow list-none m-0 p-0" data-stagger>
-          {hobbies.fresh.map((h) => (
-            <li class="bg-surface border border-rule rounded-2xl px-6 py-5 m-0 flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
-              <span class="text-3xl" aria-hidden="true">{h.emoji}</span>
-              <span class="font-semibold text-ink">{h.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-5">Nerd interests</h3>
-        <ul class="card-flow list-none m-0 p-0" data-stagger>
-          {hobbies.nerd.map((h) => (
-            <li class="bg-surface border border-rule rounded-2xl px-6 py-5 m-0 flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
-              <span class="text-3xl" aria-hidden="true">{h.emoji}</span>
-              <span class="font-semibold text-ink">{h.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Floaters glyphs={['🎮', '🥐', '⚽', '🎧', '✈️']} variant="pendulum" />
+    <div class="flex flex-col gap-12">
+      {hobbyGroups.map((g) => (
+        <div>
+          <h3 class="inline-flex items-baseline gap-3 text-sm font-bold uppercase tracking-[0.14em] text-ink bg-surface border border-rule rounded-full px-5 py-2 m-0 mb-7">
+            {g.label}
+            <span class="text-muted normal-case tracking-normal font-medium italic">· {g.es}</span>
+          </h3>
+          <ul class="sticker-wall list-none m-0 p-0" data-stagger>
+            {g.tiles.map((t) => (
+              <li class="hobby-tile m-0" style={`--hue: ${t.hue};`}>
+                <span class="hobby-emoji" aria-hidden="true">{t.emoji}</span>
+                <span class="font-bold text-ink text-base md:text-lg leading-tight">{t.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   </LandingSection>
 
@@ -317,21 +307,46 @@ const construction = [
     title="Favorite things."
     tone="tint"
   >
-    <div class="card-flow" data-stagger>
+    <Floaters glyphs={['🌮', '🍰', '🍷', '🫔', '🍫']} variant="drift" />
+
+    {/* Restaurant-style dish showcase: swipe or use the arrows */}
+    <div class="dish-rail-wrap relative mb-12">
+      <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="My favorite Mexican dishes">
+        {dishes.map((d) => (
+          <li class="dish-card group m-0">
+            <div class="dish-media relative overflow-hidden">
+              <span class="dish-emoji" aria-hidden="true">{d.emoji}</span>
+              <img
+                src={d.img}
+                alt={d.name}
+                loading="lazy"
+                decoding="async"
+                onerror="this.remove()"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+              />
+            </div>
+            <div class="px-5 pt-4 pb-5">
+              <h3 class="font-serif font-semibold text-ink text-xl tracking-tight m-0 mb-1">{d.name}</h3>
+              <p class="text-sm text-muted italic m-0">{d.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="button" class="rail-btn rail-prev" aria-label="Previous dishes" data-rail-dir="-1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button type="button" class="rail-btn rail-next" aria-label="More dishes" data-rail-dir="1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+    </div>
+
+    <div class="card-flow">
       <div class="bg-surface border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍗 Food, generally</h3>
         <p class="text-body text-sm m-0">
           Anything involving chicken — except extremely greasy fried
           chicken. A man needs standards.
         </p>
-      </div>
-      <div class="bg-surface border border-rule rounded-2xl p-7">
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🇲🇽 Mexican favorites</h3>
-        <ul class="list-none m-0 p-0 flex flex-wrap gap-2">
-          {mexicanFoods.map((f) => (
-            <li class="text-sm font-semibold text-ink bg-surface-soft border border-rule px-3 py-1.5 rounded-full m-0">{f}</li>
-          ))}
-        </ul>
       </div>
       <div class="bg-surface border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍰 Desserts</h3>
@@ -392,6 +407,7 @@ const construction = [
     eyebrow="The long game"
     title="Relationship goals."
   >
+    <Floaters glyphs={['💞', '🌍', '✈️', '💐', '🏡']} variant="drift" />
     <ul class="card-flow list-none m-0 p-0 mb-8" data-stagger>
       {goals.map((g) => (
         <li class="bg-surface border border-rule rounded-2xl px-6 py-5 m-0 flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
@@ -440,6 +456,7 @@ const construction = [
     title="What I'm looking for."
     tone="tint"
   >
+    <Floaters glyphs={['✨', '💫', '⭐', '✨', '💛']} variant="twinkle" />
     <div class="max-w-prose mb-8">
       <p class="text-body m-0">
         Someone I genuinely like being around — kind by default, curious
@@ -464,6 +481,7 @@ const construction = [
     eyebrow="Honest calibration · Sin rodeos"
     title="We'd probably be compatible if..."
   >
+    <Floaters glyphs={['⚖️', '🧭', '🤝']} variant="pendulum" />
     <div class="max-w-prose">
       <p class="text-body m-0 mb-4">
         You're not highly religious, you have goals and ambitions of your
@@ -494,6 +512,7 @@ const construction = [
     title="Bonus points."
     tone="tint"
   >
+    <Floaters glyphs={['🪙', '📈', '💰', '🪙', '🏦']} variant="rise" />
     <div class="max-w-prose mb-8">
       <p class="text-body m-0 mb-4">
         None of these are expectations — but if you're financially
@@ -521,6 +540,7 @@ const construction = [
     eyebrow="Full disclosure"
     title="Still under construction 🚧"
   >
+    <Floaters glyphs={['🚧', '🔧', '🛠️', '📐']} variant="sway" />
     <ul class="max-w-prose list-none m-0 p-0 flex flex-col gap-4" data-stagger>
       {construction.map((c) => (
         <li class="bg-surface border border-rule rounded-xl px-6 py-4 m-0 text-body text-sm">
@@ -541,6 +561,7 @@ const construction = [
     title="Maybe that's a sign."
     tone="dark"
   >
+    <Floaters glyphs={['💌', '🌹', '💌', '🌹']} variant="drift" />
     <div class="max-w-prose mb-6">
       <p class="text-body m-0 mb-3">
         First, congratulations — you found the secret page.
@@ -818,21 +839,166 @@ const construction = [
     to { transform: translateY(-14rem) rotate(8deg); }
   }
 
-  /* ── Education: graduation caps tossed in a slow loop ─────────── */
-  #single-education {
+  /* ── Chapter floaters: every section gets its own drifting set ── */
+  .romance section {
     position: relative;
     overflow: hidden;
   }
-  .grad-cap {
+  .floater {
     position: absolute;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    opacity: 0.14;
-    animation: cap-toss 7s ease-in-out infinite;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    opacity: 0.13;
   }
+  .floater-toss     { animation: cap-toss 7s ease-in-out infinite; }
+  .floater-sway     { animation: fl-sway 9s ease-in-out infinite; }
+  .floater-rise     { animation: fl-rise 11s linear infinite; }
+  .floater-twinkle  { animation: fl-twinkle 5s ease-in-out infinite; }
+  .floater-pendulum { transform-origin: top center; animation: fl-pend 8s ease-in-out infinite; }
+  .floater-drift    { animation: ig-drift 10s ease-in-out infinite; }
   @keyframes cap-toss {
     0%, 100% { transform: translateY(16px) rotate(-14deg); }
     50%      { transform: translateY(-30px) rotate(12deg); }
   }
+  @keyframes fl-sway {
+    0%, 100% { transform: translateX(-10px) rotate(-6deg); }
+    50%      { transform: translateX(12px) rotate(7deg); }
+  }
+  @keyframes fl-rise {
+    0%   { transform: translateY(46px) scale(0.9); opacity: 0; }
+    15%  { opacity: 0.13; }
+    85%  { opacity: 0.13; }
+    100% { transform: translateY(-64px) scale(1.05); opacity: 0; }
+  }
+  @keyframes fl-twinkle {
+    0%, 100% { transform: scale(0.8) rotate(-4deg); opacity: 0.07; }
+    50%      { transform: scale(1.2) rotate(6deg); opacity: 0.22; }
+  }
+  @keyframes fl-pend {
+    0%, 100% { transform: rotate(-11deg); }
+    50%      { transform: rotate(11deg); }
+  }
+
+  /* ── Hobbies: sticker wall ───────────────────────────────────── */
+  .sticker-wall {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .hobby-tile {
+    flex: 1 1 150px;
+    min-width: min(150px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1.4rem 1.4rem 1.25rem;
+    border-radius: 1.4rem;
+    border: 1px solid hsl(var(--hue) 45% 62% / 0.45);
+    background:
+      radial-gradient(120% 100% at 85% 0%, hsl(var(--hue) 85% 88% / 0.9), hsl(var(--hue) 60% 94% / 0.55)),
+      var(--color-surface);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .hobby-tile:nth-child(2n)  { rotate: 0.8deg; }
+  .hobby-tile:nth-child(3n)  { rotate: -0.9deg; }
+  .hobby-tile:hover {
+    transform: translateY(-6px) rotate(-1.5deg) scale(1.04);
+    border-color: hsl(var(--hue) 60% 50% / 0.8);
+    box-shadow: 0 22px 40px -22px hsl(var(--hue) 70% 45% / 0.55);
+  }
+  .hobby-tile .hobby-emoji {
+    font-size: 2.6rem;
+    line-height: 1;
+    filter: drop-shadow(0 6px 12px hsl(var(--hue) 70% 40% / 0.25));
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hobby-tile:hover .hobby-emoji {
+    transform: scale(1.25) rotate(8deg);
+  }
+  [data-theme="dark"] .hobby-tile {
+    background:
+      radial-gradient(120% 100% at 85% 0%, hsl(var(--hue) 45% 24% / 0.85), hsl(var(--hue) 30% 16% / 0.5)),
+      var(--color-surface);
+    border-color: hsl(var(--hue) 35% 38% / 0.6);
+  }
+
+  /* ── Favorites: vertical tricolor + restaurant rail ──────────── */
+  #single-favorites {
+    background-image:
+      linear-gradient(
+        to right,
+        rgb(0 99 65 / 0.12) 0%,
+        rgb(0 99 65 / 0.10) 16%,
+        transparent 34%,
+        transparent 66%,
+        rgb(200 16 46 / 0.10) 84%,
+        rgb(200 16 46 / 0.12) 100%
+      ),
+      var(--texture-dot);
+    background-size: auto, var(--texture-size);
+  }
+  .dish-rail {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.25rem 0.25rem 0.9rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rule-strong) transparent;
+  }
+  .dish-card {
+    flex: 0 0 min(320px, 78vw);
+    scroll-snap-align: start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .dish-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-rule-strong);
+    box-shadow: 0 24px 44px -28px color-mix(in srgb, var(--color-ink) 40%, transparent);
+  }
+  .dish-media {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(100% 100% at 50% 0%, rgb(0 99 65 / 0.14), transparent 70%),
+      radial-gradient(100% 100% at 50% 100%, rgb(200 16 46 / 0.14), transparent 70%),
+      var(--color-surface-soft);
+  }
+  .dish-emoji {
+    font-size: 4rem;
+  }
+  .rail-btn {
+    position: absolute;
+    top: 38%;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--color-rule-strong);
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    color: var(--color-ink);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .rail-btn:hover {
+    transform: scale(1.08);
+    background: var(--color-ink);
+    color: var(--color-bg);
+  }
+  .rail-prev { left: -10px; }
+  .rail-next { right: -10px; }
 
   /* ── Instagram band: gradient atmosphere + drifting glyphs ────── */
   #single-gram {
@@ -872,9 +1038,14 @@ const construction = [
     .romance-photo.click-squish,
     .romance-photo.click-jump,
     #single-photo-wrap .burst-heart,
-    .grad-cap,
+    .floater,
     .ig-floater {
       animation: none !important;
+    }
+    .hobby-tile,
+    .hobby-tile:hover,
+    .dish-card:hover {
+      transform: none;
     }
   }
 </style>
@@ -964,6 +1135,17 @@ const construction = [
       })
       .catch(() => { /* fallback stays visible by design */ });
   }
+
+  // Dish rail arrows: scroll the showcase one card at a time.
+  document.addEventListener('click', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    const btn = t?.closest('[data-rail-dir]');
+    if (!btn) return;
+    const rail = btn.closest('.dish-rail-wrap')?.querySelector('.dish-rail');
+    if (!rail) return;
+    const dir = Number(btn.getAttribute('data-rail-dir')) || 1;
+    rail.scrollBy({ left: dir * 344, behavior: 'smooth' });
+  });
 
   // "Text me 😉" — swap the button for the real number (sms: link),
   // delegated so it survives router swaps.

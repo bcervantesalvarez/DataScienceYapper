@@ -1,0 +1,32 @@
+---
+// src/components/Floaters.astro
+// Decorative floating glyphs for the hidden page's chapters — each
+// section gets its own glyph set and motion personality. Purely
+// decorative (aria-hidden), stilled under prefers-reduced-motion, and
+// clipped by the section (see `.romance section` in single.astro).
+interface Props {
+  glyphs: string[];
+  variant?: 'toss' | 'sway' | 'rise' | 'twinkle' | 'pendulum' | 'drift';
+}
+
+const { glyphs, variant = 'drift' } = Astro.props;
+
+// Spread positions; repeats cycle through with fresh delays/durations.
+const spots = [
+  { l: '6%',  t: '14%' },
+  { l: '84%', t: '10%' },
+  { l: '28%', t: '74%' },
+  { l: '92%', t: '60%' },
+  { l: '54%', t: '28%' },
+  { l: '14%', t: '52%' },
+  { l: '70%', t: '80%' },
+];
+---
+<div class="floaters absolute inset-0 pointer-events-none" aria-hidden="true">
+  {glyphs.map((g, i) => (
+    <span
+      class={`floater floater-${variant}`}
+      style={`left:${spots[i % spots.length].l};top:${spots[i % spots.length].t};animation-delay:${(i * 1.3).toFixed(1)}s;animation-duration:${(7 + (i % 4) * 1.6).toFixed(1)}s;`}
+    >{g}</span>
+  ))}
+</div>
