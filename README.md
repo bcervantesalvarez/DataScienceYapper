@@ -23,43 +23,52 @@ Requires Node 20+.
 ```
 /
 ├── public/                 # Static assets served as-is (/images, /documents, CNAME, favicon.svg)
+├── scripts/
+│   └── qmd-to-mdx.ts       # Quarto → MDX port helper (npm run port)
 ├── src/
 │   ├── pages/              # Each file = a route (about.astro -> /about)
-│   │   ├── projects/       # Listing + dynamic [slug].astro
+│   │   ├── projects/       # Listing + dynamic [...slug].astro
 │   │   ├── blog/
 │   │   ├── talks/
+│   │   ├── og/             # Build-time OG card PNGs (Satori + resvg)
 │   │   └── forms/
 │   ├── layouts/
 │   │   └── BaseLayout.astro    # <html> shell + navbar + footer + theme bootstrap
 │   ├── components/         # Reusable: Navbar, Footer, Section, Card, Button, StatusBanner
-│   ├── content/
-│   │   ├── config.ts       # Zod schemas for projects/blog/talks
-│   │   ├── projects/       # *.mdx — typed frontmatter, validated at build
+│   ├── content/            # *.mdx (+ *.body.html Quarto exports) per collection
+│   │   ├── projects/       # Typed frontmatter, validated at build
 │   │   ├── blog/
 │   │   └── talks/
+│   ├── content.config.ts   # Zod schemas for projects/blog/talks
+│   ├── lib/
+│   │   └── site.ts         # Site identity constants; URLs derive from astro.config.ts `site`
 │   └── styles/
-│       └── global.css      # Design tokens + Tailwind layers (single source of truth)
-├── astro.config.ts
-├── tailwind.config.ts      # Exposes the CSS variables as Tailwind utilities
+│       └── global.css      # Design tokens (@theme) + Tailwind v4 layers — single source of truth
+├── astro.config.ts         # `site` here is the single source of truth for the domain
 ├── tsconfig.json
 └── package.json
 ```
 
 ## Design tokens
 
-All colors, fonts, and spacing live as CSS custom properties in
-[`src/styles/global.css`](src/styles/global.css). Tailwind utilities
-(`bg-bg`, `text-ink`, `border-rule`, etc.) read from those tokens, and
-the dark theme just swaps the values under `[data-theme="dark"]`.
+All colors, fonts, and spacing live as CSS custom properties in the
+`@theme` block of [`src/styles/global.css`](src/styles/global.css).
+This is Tailwind v4: there is no `tailwind.config.ts` — utilities
+(`bg-bg`, `text-ink`, `border-rule`, etc.) are generated straight from
+`@theme`, and the dark theme just swaps the values under
+`[data-theme="dark"]`.
 
-To re-tune the palette: edit `:root { ... }` in `global.css`. No rebuild
-of Tailwind config required.
+To re-tune the palette: edit `@theme { ... }` (and the dark overrides)
+in `global.css`. Tokens are complete color values — consume them with
+`var(--color-x)`, or `color-mix(in srgb, var(--color-x) N%, transparent)`
+when you need alpha. Never wrap a token in `rgb(...)`.
 
 ## Adding content
 
 Drop a `.mdx` file into the matching `src/content/<collection>/`
-directory. Frontmatter is validated by Zod ([config.ts](src/content/config.ts))
-— a missing field or wrong type fails the build with a helpful error.
+directory. Frontmatter is validated by Zod
+([content.config.ts](src/content.config.ts)) — a missing field or wrong
+type fails the build with a helpful error.
 
 Minimal project frontmatter:
 
@@ -80,7 +89,7 @@ image: ../../../public/images/project-cover.jpg   # optional
 
 - **Hosting:** Cloudflare Pages (build command `npm run build`, output dir `dist`)
 - **Custom domain:** `epsilon-labs.org` (the `CNAME` in `public/` carries over)
-- **Form backend:** Google Apps Script (the contact form on `/privacy` posts there). To enable Cloudflare Turnstile server-side verification, see `archive/chatbot/...` for the snippet — wait, that lives on the old `claude/review-codebase-8KnDb` branch.
+- **Form backend:** Google Apps Script (the contact form on `/privacy` posts there). Cloudflare Turnstile is wired client-side; set the real sitekey on the `.cf-turnstile` div in `src/pages/privacy.astro` and add the matching secret check in the Apps Script to enable it end to end.
 
 ## Why Astro
 
@@ -92,3 +101,9 @@ image: ../../../public/images/project-cover.jpg   # optional
 
 See [`AGENTS.md`](AGENTS.md) for the layout an agent (or future-you)
 should follow when editing this repo.
+
+---
+
+*Transparency note: this Astro rewrite was built by **Claude** —
+Anthropic's Claude Code agent, running its latest-generation frontier
+model with extended thinking mode enabled.*

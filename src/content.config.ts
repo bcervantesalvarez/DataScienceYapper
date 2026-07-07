@@ -1,5 +1,5 @@
 // src/content.config.ts
-// Astro v6+ content collections with the new glob loader API.
+// Astro 5 content collections with the glob loader API.
 // Frontmatter is validated at build time via Zod schemas — a missing
 // or malformed field fails the build instead of producing a broken
 // card or rendering blank metadata.

@@ -1,8 +1,8 @@
 # Working on this repo
 
-Quick reference for Claude (or any agent / future-you) editing Epsilon
-Labs. Goal: predictable file locations + typed contracts so changes
-land cleanly with zero out-of-band coordination.
+Quick reference for any agent (or future-you) editing Epsilon Labs.
+Goal: predictable file locations + typed contracts so changes land
+cleanly with zero out-of-band coordination.
 
 ## Mental model
 
@@ -17,8 +17,9 @@ land cleanly with zero out-of-band coordination.
 
 | Concern                    | File                                              |
 | -------------------------- | ------------------------------------------------- |
-| Design tokens (colors)     | `src/styles/global.css` (`:root` + `[data-theme="dark"]`) |
-| Tailwind utility names     | `tailwind.config.ts` (reads from the CSS vars)    |
+| Design tokens (colors)     | `src/styles/global.css` (`@theme` + `[data-theme="dark"]`) |
+| Tailwind utility names     | `src/styles/global.css` — Tailwind v4 generates utilities from `@theme`; there is **no** `tailwind.config.ts` |
+| Site identity (name, socials, absolute URLs) | `src/lib/site.ts` (origin derives from `site` in `astro.config.ts`) |
 | Site-wide HTML / `<head>`  | `src/layouts/BaseLayout.astro`                    |
 | Navbar links               | `src/components/Navbar.astro` (`links` array)     |
 | Footer copy / links        | `src/components/Footer.astro`                     |
@@ -28,9 +29,9 @@ land cleanly with zero out-of-band coordination.
 | Section heading + container| `src/components/Section.astro`                    |
 | Page bodies                | `src/pages/<route>.astro`                         |
 | Project/post/talk content  | `src/content/<collection>/<slug>.mdx`             |
-| Content schemas            | `src/content/config.ts` (Zod, validated at build) |
+| Content schemas            | `src/content.config.ts` (Zod, validated at build) |
 | Static files (img, pdf)    | `public/` (served at the root URL)                |
-| Site URL, integrations     | `astro.config.ts`                                 |
+| Site URL, integrations     | `astro.config.ts` (`site` is the single source of truth for the domain) |
 | Spam-defense JS for form   | inline `<script>` at the bottom of `src/pages/privacy.astro` |
 
 ## Conventions
@@ -42,9 +43,22 @@ land cleanly with zero out-of-band coordination.
 - **No magic strings.** Re-use the tokens (`bg-bg`, `text-ink`, …) so a
   palette change in `global.css` propagates everywhere.
 - **Animations** use Tailwind's `animate-el-rise`, `animate-el-fade`,
-  `animate-el-ping` — defined in `tailwind.config.ts → keyframes`.
-- **Respect `prefers-reduced-motion`.** Use `motion-safe:` Tailwind
-  variant for any non-essential motion.
+  `animate-el-ping` — defined in `global.css` (`--animate-*` tokens in
+  `@theme` + the matching `@keyframes`).
+- **Respect `prefers-reduced-motion`.** A global
+  `@media (prefers-reduced-motion: reduce)` block in `global.css`
+  already neutralizes the `animate-el-*` entrance animations and the
+  scroll reveal; still prefer the `motion-safe:` variant for any new
+  non-essential motion.
+- **Scroll reveal.** `<Section>` fades in on first scroll into view
+  (IntersectionObserver, zero dependencies) — on by default, pass
+  `reveal={false}` to opt a section out. No-JS safe (content stays
+  visible without JS) and disabled automatically under reduced motion.
+- **Color tokens are complete colors,** not bare channel triplets.
+  Solid: `var(--color-x)`. Alpha:
+  `color-mix(in srgb, var(--color-x) N%, transparent)`.
+  Never `rgb(var(--color-x))` — `rgb(rgb(...))` is invalid CSS and the
+  browser drops the whole declaration.
 
 ## Adding a new page
 
@@ -66,8 +80,15 @@ src/content/blog/<slug>.mdx
 src/content/talks/<slug>.mdx
 ```
 
-Frontmatter contract in `src/content/config.ts`. If the build fails
+Frontmatter contract in `src/content.config.ts`. If the build fails
 with a Zod error, the message names the missing/wrong field.
+
+**Why `.mdx` + `.body.html` pairs?** Entries ported from the old Quarto
+site keep their original rendered HTML in a sibling `<slug>.body.html`,
+which the `.mdx` imports and injects (the `.article-body` styles in
+`global.css` re-skin it). This preserves years of rendered R output
+without re-executing anything at build time. New, non-ported entries
+are plain `.mdx` and don't need a `.body.html`.
 
 Every public-facing entry should open with an `<Overview>` block —
 plain-language, ~80 words, 8th-grade reading level — then the
