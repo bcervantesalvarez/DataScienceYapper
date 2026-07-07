@@ -13,9 +13,15 @@ const INSTAGRAM = 'https://www.instagram.com/brianadolfocervantesalvarez';
 const identity = ['Hispanic (Mexican)', 'Oregon', 'Data Scientist', 'AI Builder', 'Statistician'];
 
 const education = [
-  { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '' },
-  { degree: "Master's", school: 'Willamette University', field: 'Data Science', when: '2023' },
-  { degree: "Master's", school: 'Oregon State University', field: 'Statistics', when: '2025' },
+  { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '',
+    color: '#4B0082',
+    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Linfield_University_Logo%2C_2020.png?width=480' },
+  { degree: "Master's", school: 'Willamette University', field: 'Data Science', when: '2023',
+    color: '#A6093D',
+    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Willamette_univ_textlogo.png?width=480' },
+  { degree: "Master's", school: 'Oregon State University', field: 'Statistics', when: '2025',
+    color: '#DC4405',
+    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Oregon_State_University_wordmark.svg' },
 ];
 
 const hobbies = {
@@ -70,10 +76,12 @@ const construction = [
 
   {/* data-pagefind-ignore="all": the site search must never surface
       the secret — this page stays out of the Pagefind index entirely */}
-  <div data-pagefind-ignore="all">
+  <div data-pagefind-ignore="all" class="romance">
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
-  <section class="tone-dark grain hero-mesh pt-24 pb-20 lg:pt-28 lg:pb-24" aria-labelledby="single-hero-title">
+  <section class="tone-dark grain hero-mesh relative overflow-hidden pt-24 pb-20 lg:pt-28 lg:pb-24" aria-labelledby="single-hero-title">
+    <div class="romance-orb romance-orb-a" aria-hidden="true"></div>
+    <div class="romance-orb romance-orb-b" aria-hidden="true"></div>
     <div class="max-w-wrap mx-auto px-6">
       <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-14 items-center">
         <img
@@ -82,7 +90,7 @@ const construction = [
           loading="eager"
           width="288"
           height="288"
-          class="justify-self-center w-52 h-52 lg:w-72 lg:h-72 rounded-3xl object-cover [object-position:50%_25%] border border-rule-strong shadow-2xl animate-el-fade"
+          class="romance-photo justify-self-center w-52 h-52 lg:w-72 lg:h-72 rounded-3xl object-cover [object-position:50%_25%] border border-rule-strong animate-el-fade"
         />
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4 animate-el-rise [animation-delay:120ms]">
@@ -92,7 +100,7 @@ const construction = [
             Brian
           </h1>
           <p class="text-lede text-ink font-semibold m-0 mb-1 animate-el-rise [animation-delay:300ms]">
-            Status: Single · <span id="single-age">—</span> years old
+            Status: Single <span class="heartbeat" aria-hidden="true">❤️</span> · <span id="single-age">—</span> years old
           </p>
           <p class="text-sm text-muted italic m-0 mb-6 animate-el-rise [animation-delay:340ms]">
             (This page will immediately be removed the day this becomes untrue.)
@@ -124,12 +132,29 @@ const construction = [
   >
     <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0" data-stagger>
       {education.map((e) => (
-        <li class="relative bg-surface border border-rule rounded-2xl p-7 m-0 border-t-4 border-t-rule-strong transition-all duration-300 hover:-translate-y-1 hover:border-t-accent">
-          <p class="font-mono text-xs font-semibold text-muted tracking-[0.16em] uppercase m-0 mb-3">
-            {e.degree}{e.when && ` · ${e.when}`}
-          </p>
-          <h3 class="font-serif font-semibold text-ink text-xl tracking-tight m-0 mb-1">{e.school}</h3>
-          <p class="text-body text-sm m-0">{e.field}</p>
+        <li
+          class="edu-card group relative overflow-hidden bg-surface border border-rule rounded-2xl m-0 flex flex-col transition-all duration-300"
+          style={`--school-color: ${e.color};`}
+        >
+          <div class="edu-band relative p-6 md:p-7 text-white">
+            <p class="text-[0.7rem] font-bold uppercase tracking-[0.16em] opacity-85 m-0 mb-2">
+              {e.degree}{e.when && ` · ${e.when}`}
+            </p>
+            <h3 class="font-serif font-semibold text-2xl tracking-tight leading-tight m-0 text-white">{e.school}</h3>
+          </div>
+          <div class="p-6 md:p-7 flex flex-col gap-5 flex-1">
+            <span class="edu-logo-chip inline-flex items-center self-start bg-white rounded-xl border border-rule px-4 py-2.5">
+              <img
+                src={e.logo}
+                alt={`${e.school} logo`}
+                loading="lazy"
+                decoding="async"
+                class="h-8 max-w-[180px] object-contain"
+                onerror="const c=this.closest('.edu-logo-chip'); if(c) c.style.display='none';"
+              />
+            </span>
+            <p class="text-body text-sm font-semibold m-0 mt-auto">{e.field}</p>
+          </div>
         </li>
       ))}
     </ol>
@@ -439,6 +464,139 @@ const construction = [
 
   </div>
 </BaseLayout>
+
+<style>
+  /* Education mini-banners: the About page's SchoolBanner language in
+     card form — solid school-color band, diagonal sheen sweep on
+     hover, colored lift shadow. */
+  .edu-band {
+    background-color: var(--school-color);
+    background-image: linear-gradient(
+      135deg,
+      var(--school-color) 0%,
+      color-mix(in srgb, var(--school-color) 80%, #000 5%) 100%
+    );
+    isolation: isolate;
+  }
+  .edu-band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 40%,
+      rgb(255 255 255 / 0.22) 50%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .edu-card:hover .edu-band::after {
+    transform: translateX(100%);
+  }
+  .edu-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--school-color);
+    box-shadow: 0 26px 44px -28px color-mix(in srgb, var(--school-color) 55%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .edu-band::after { transition: none; }
+    .edu-card:hover { transform: none; }
+  }
+</style>
+
+<style is:global>
+  /* ── Romance identity — this page only ─────────────────────────
+     A rose accent replaces the site blue, and the motion goes a
+     step softer and more alive than the main site: drifting gradient
+     orbs, a gently bobbing portrait, a heartbeat, wiggling emoji.
+     Everything collapses to stillness under reduced motion. */
+  .romance {
+    --color-accent: rgb(178 58 98);
+    --color-accent-ink: rgb(143 41 80);
+  }
+  .romance .tone-dark {
+    --color-accent: rgb(238 143 174);
+    --color-accent-ink: rgb(244 185 204);
+  }
+
+  /* Drifting hero orbs (rose + amber pools behind the content) */
+  .romance-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(64px);
+    pointer-events: none;
+  }
+  .romance-orb-a {
+    width: clamp(240px, 46vw, 520px);
+    height: clamp(240px, 46vw, 520px);
+    top: -14%;
+    right: -8%;
+    background: radial-gradient(circle, rgb(238 143 174 / 0.42), transparent 70%);
+    animation: orb-drift-a 18s ease-in-out infinite alternate;
+  }
+  .romance-orb-b {
+    width: clamp(200px, 38vw, 440px);
+    height: clamp(200px, 38vw, 440px);
+    bottom: -18%;
+    left: -10%;
+    background: radial-gradient(circle, rgb(225 160 63 / 0.30), transparent 70%);
+    animation: orb-drift-b 24s ease-in-out infinite alternate;
+  }
+  @keyframes orb-drift-a {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-9%, 14%) scale(1.18); }
+  }
+  @keyframes orb-drift-b {
+    from { transform: translate(0, 0) scale(1.1); }
+    to   { transform: translate(12%, -10%) scale(0.95); }
+  }
+
+  /* Portrait: rose ring + slow bob */
+  .romance-photo {
+    box-shadow:
+      0 0 0 8px rgb(238 143 174 / 0.25),
+      0 34px 70px -34px rgb(0 0 0 / 0.65);
+    animation: photo-bob 7s ease-in-out infinite;
+  }
+  @keyframes photo-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-9px) rotate(-1.2deg); }
+  }
+
+  /* Heartbeat: a double-thump, like the real thing */
+  .heartbeat {
+    display: inline-block;
+    transform-origin: center;
+    animation: heartbeat 1.8s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 48%, 100% { transform: scale(1); }
+    12%           { transform: scale(1.25); }
+    24%           { transform: scale(1); }
+    36%           { transform: scale(1.18); }
+  }
+
+  /* Emoji wiggle on card hover */
+  .romance .card-flow li:hover > span:first-child {
+    animation: emo-wiggle 0.6s ease;
+  }
+  @keyframes emo-wiggle {
+    0%, 100% { transform: rotate(0); }
+    25%      { transform: rotate(-12deg) scale(1.18); }
+    60%      { transform: rotate(9deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .romance-orb,
+    .romance-photo,
+    .heartbeat,
+    .romance .card-flow li:hover > span:first-child {
+      animation: none !important;
+    }
+  }
+</style>
 
 <script>
   // Age derives from the birthday (Dec 10, 1999) at view time — never

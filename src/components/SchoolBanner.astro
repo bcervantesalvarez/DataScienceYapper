@@ -20,6 +20,11 @@ interface Props {
   align?: 'left' | 'right';
   /** Bullets / paragraph text. Plain string. */
   description: string;
+  /** Transparent full-color logo (e.g. a Wikimedia Commons
+      Special:FilePath URL). Sits on a white chip so brand colors stay
+      legible in both themes; hides itself if the URL 404s. */
+  logoSrc?: string;
+  logoAlt?: string;
 }
 
 const {
@@ -28,6 +33,8 @@ const {
   color, accent,
   align = 'left',
   description,
+  logoSrc,
+  logoAlt,
 } = Astro.props;
 ---
 <article
@@ -49,7 +56,7 @@ const {
       <p class="text-xs font-bold uppercase tracking-[0.18em] opacity-80 m-0 mb-3">
         {degree}
       </p>
-      <h3 class="font-serif text-3xl md:text-4xl font-semibold leading-[1.1] m-0">
+      <h3 class="font-serif text-3xl md:text-4xl font-semibold leading-[1.1] m-0 text-white">
         {school}
       </h3>
     </div>
@@ -63,6 +70,18 @@ const {
       align === 'right' ? 'md:order-1' : 'md:order-2',
     ]}
   >
+    {logoSrc && (
+      <span class="edu-logo-chip inline-flex items-center self-start bg-white rounded-xl border border-rule px-5 py-3">
+        <img
+          src={logoSrc}
+          alt={logoAlt ?? `${school} logo`}
+          loading="lazy"
+          decoding="async"
+          class="h-9 md:h-10 max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-[1.04]"
+          onerror="const c=this.closest('.edu-logo-chip'); if(c) c.style.display='none';"
+        />
+      </span>
+    )}
     <p class="text-body m-0 text-base leading-relaxed">{description}</p>
 
     <a
