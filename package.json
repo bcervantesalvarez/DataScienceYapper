@@ -13,24 +13,23 @@
     "port": "tsx scripts/qmd-to-mdx.ts"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.0.5",
-    "@astrojs/rss": "^4.0.10",
-    "@astrojs/sitemap": "^3.2.1",
-    "@fontsource/inter": "^5.1.1",
-    "@fontsource/newsreader": "^5.1.1",
-    "@tailwindcss/vite": "^4.0.0",
-    "astro": "^5.1.5",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/newsreader": "^5.2.10",
+    "@tailwindcss/vite": "^4.3.2",
+    "astro": "^5.18.2",
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@types/node": "^22.10.5",
+    "@types/node": "^22.20.0",
     "gray-matter": "^4.0.3",
-    "pagefind": "^1.3.0",
-    "satori": "^0.12.0",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "pagefind": "^1.5.2",
+    "satori": "^0.12.2",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.3"
   }
 }
-
