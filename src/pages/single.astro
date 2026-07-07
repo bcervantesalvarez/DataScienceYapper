@@ -68,7 +68,23 @@ const dishes = [
     img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Enchiladas_mineras.jpg?width=800',
     note: 'Nivel de picante: negociable 😌' },
 ];
-const desserts = ['Cheesecake', 'Brownies', 'Lemon Loaf', 'Banana Bread'];
+const sweets = [
+  { name: 'Cheesecake', emoji: '🍰',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Basque-cheesecake.jpg?width=800',
+    note: 'El clásico que nunca falla' },
+  { name: 'Brownies', emoji: '🍫',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chocolatebrownie.JPG?width=800',
+    note: 'Fudgy, nunca cakey — hay niveles' },
+  { name: 'Lemon Loaf', emoji: '🍋',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lemon_Cake.jpg?width=800',
+    note: 'Sí, mejor que el de la cafetería ☕' },
+  { name: 'Banana Bread', emoji: '🍌',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Banana_bread.jpg?width=800',
+    note: 'Todo plátano maduro tiene un destino' },
+  { name: 'Stella Rosa', emoji: '🍷',
+    img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Glass_of_ros%C3%A9_sparkling_wine_-_Sarah_Stierch.jpg?width=800',
+    note: 'Dulce y burbujeante, sin pretensiones. Salud 🥂' },
+];
 
 const goals = [
   { emoji: '👶', label: 'One child' },
@@ -227,7 +243,6 @@ const construction = [
     title="Current chapter."
     tone="tint"
   >
-    <Floaters glyphs={['🌱', '📊', '💼', '🏛️', '🌱']} variant="sway" />
     <StatusBanner
       href="https://www.oregon.gov/ode/"
       org="Oregon Department of Education"
@@ -289,8 +304,8 @@ const construction = [
           <ul class="sticker-wall list-none m-0 p-0" data-stagger>
             {g.tiles.map((t) => (
               <li class="hobby-tile m-0" style={`--hue: ${t.hue};`}>
-                <span class="hobby-emoji" aria-hidden="true">{t.emoji}</span>
-                <span class="font-bold text-ink text-base md:text-lg leading-tight">{t.label}</span>
+                <span class="hobby-chip" aria-hidden="true">{t.emoji}</span>
+                <span class="font-semibold text-ink text-[0.95rem] leading-tight">{t.label}</span>
               </li>
             ))}
           </ul>
@@ -340,29 +355,43 @@ const construction = [
       </button>
     </div>
 
-    <div class="card-flow">
-      <div class="bg-surface border border-rule rounded-2xl p-7">
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍗 Food, generally</h3>
-        <p class="text-body text-sm m-0">
-          Anything involving chicken — except extremely greasy fried
-          chicken. A man needs standards.
-        </p>
-      </div>
-      <div class="bg-surface border border-rule rounded-2xl p-7">
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍰 Desserts</h3>
-        <ul class="list-none m-0 p-0 flex flex-wrap gap-2">
-          {desserts.map((f) => (
-            <li class="text-sm font-semibold text-ink bg-surface-soft border border-rule px-3 py-1.5 rounded-full m-0">{f}</li>
-          ))}
-        </ul>
-      </div>
-      <div class="bg-surface border border-rule rounded-2xl p-7">
-        <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍷 Favorite wine</h3>
-        <p class="text-body text-sm m-0">
-          Stella Rosa. Yes, I know. No, I won't be taking questions. Salud 🥂
-        </p>
-      </div>
+    <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-6">
+      The sweet course · Postres y vino 🍰
+    </h3>
+    <div class="dish-rail-wrap relative mb-10">
+      <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Desserts and wine">
+        {sweets.map((d) => (
+          <li class="dish-card group m-0">
+            <div class="dish-media relative overflow-hidden">
+              <span class="dish-emoji" aria-hidden="true">{d.emoji}</span>
+              <img
+                src={d.img}
+                alt={d.name}
+                loading="lazy"
+                decoding="async"
+                onerror="this.remove()"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+              />
+            </div>
+            <div class="px-5 pt-4 pb-5">
+              <h4 class="font-serif font-semibold text-ink text-xl tracking-tight m-0 mb-1">{d.name}</h4>
+              <p class="text-sm text-muted italic m-0">{d.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button type="button" class="rail-btn rail-prev" aria-label="Previous desserts" data-rail-dir="-1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+      <button type="button" class="rail-btn rail-next" aria-label="More desserts" data-rail-dir="1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
     </div>
+
+    <p class="text-sm text-body max-w-prose m-0">
+      🍗 On everything else: anything involving chicken — except extremely
+      greasy fried chicken. A man needs standards.
+    </p>
   </LandingSection>
 
   <!-- ── Instagram ────────────────────────────────────────────── -->
@@ -404,34 +433,35 @@ const construction = [
   <LandingSection
     id="single-goals"
     n="06"
-    eyebrow="The long game"
+    eyebrow="The long game · Lo que ofrezco 🌹"
     title="Relationship goals."
+    intro="Dicho en serio — y un poquito en coqueto: esto es lo que estoy buscando construir con alguien."
   >
-    <Floaters glyphs={['💞', '🌍', '✈️', '💐', '🏡']} variant="drift" />
+    <Floaters glyphs={['🌹', '💕', '🌹', '💖', '🌹']} variant="drift" />
     <ul class="card-flow list-none m-0 p-0 mb-8" data-stagger>
       {goals.map((g) => (
-        <li class="bg-surface border border-rule rounded-2xl px-6 py-5 m-0 flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
-          <span class="text-3xl" aria-hidden="true">{g.emoji}</span>
-          <span class="font-semibold text-ink">{g.label}</span>
+        <li class="goal-card m-0">
+          <span class="goal-chip" aria-hidden="true">{g.emoji}</span>
+          <span class="font-serif font-semibold text-ink text-lg tracking-tight">{g.label}</span>
         </li>
       ))}
     </ul>
     <div class="card-flow">
-      <div class="bg-surface-soft border border-rule rounded-2xl p-7">
+      <div class="goal-note border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-3">⛪ Religion</h3>
         <p class="text-body text-sm m-0">
           Culturally Catholic, practically agnostic. Open-minded and
           respectful either way.
         </p>
       </div>
-      <div class="bg-surface-soft border border-rule rounded-2xl p-7">
+      <div class="goal-note border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-3">🐈 Pets</h3>
         <p class="text-body text-sm m-0">
           Love animals. If choosing one: cats. Hard maximum of two —
           this is a household, not a sanctuary.
         </p>
       </div>
-      <div class="bg-surface-soft border border-rule rounded-2xl p-7">
+      <div class="goal-note border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-3">💬 Love languages</h3>
         <p class="text-body text-sm m-0">
           ❤️ Acts of Service · 🤝 Physical Touch
@@ -878,49 +908,108 @@ const construction = [
     50%      { transform: rotate(11deg); }
   }
 
-  /* ── Hobbies: sticker wall ───────────────────────────────────── */
+  /* ── Hobbies: quiet cards, one soft tint each ─────────────────
+     Neutral surfaces and typography carry the design; the only color
+     is a soft hue-tinted chip behind each emoji. */
   .sticker-wall {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.9rem;
   }
   .hobby-tile {
-    flex: 1 1 150px;
-    min-width: min(150px, 100%);
+    flex: 1 1 200px;
+    min-width: min(200px, 100%);
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.9rem;
-    padding: 1.4rem 1.4rem 1.25rem;
-    border-radius: 1.4rem;
-    border: 1px solid hsl(var(--hue) 45% 62% / 0.45);
-    background:
-      radial-gradient(120% 100% at 85% 0%, hsl(var(--hue) 85% 88% / 0.9), hsl(var(--hue) 60% 94% / 0.55)),
-      var(--color-surface);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.35s ease, border-color 0.35s ease;
+    padding: 0.9rem 1.15rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-rule);
+    background: var(--color-surface);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1),
+                border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .hobby-tile:nth-child(2n)  { rotate: 0.8deg; }
-  .hobby-tile:nth-child(3n)  { rotate: -0.9deg; }
   .hobby-tile:hover {
-    transform: translateY(-6px) rotate(-1.5deg) scale(1.04);
-    border-color: hsl(var(--hue) 60% 50% / 0.8);
-    box-shadow: 0 22px 40px -22px hsl(var(--hue) 70% 45% / 0.55);
+    transform: translateY(-3px);
+    border-color: hsl(var(--hue) 45% 55% / 0.6);
+    box-shadow: 0 14px 30px -20px hsl(var(--hue) 55% 40% / 0.45);
   }
-  .hobby-tile .hobby-emoji {
-    font-size: 2.6rem;
-    line-height: 1;
-    filter: drop-shadow(0 6px 12px hsl(var(--hue) 70% 40% / 0.25));
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  .hobby-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.85rem;
+    font-size: 1.45rem;
+    background: hsl(var(--hue) 65% 93%);
+    border: 1px solid hsl(var(--hue) 45% 82%);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .hobby-tile:hover .hobby-emoji {
-    transform: scale(1.25) rotate(8deg);
+  .hobby-tile:hover .hobby-chip {
+    transform: scale(1.1) rotate(-4deg);
   }
-  [data-theme="dark"] .hobby-tile {
+  [data-theme="dark"] .hobby-chip {
+    background: hsl(var(--hue) 35% 20%);
+    border-color: hsl(var(--hue) 30% 32%);
+  }
+
+  /* ── Relationship goals: para ella 🌹 — blush + red romance ───── */
+  #single-goals {
+    background-image:
+      radial-gradient(60rem 36rem at 85% -10%, rgb(231 84 128 / 0.14), transparent 62%),
+      radial-gradient(50rem 32rem at 0% 110%, rgb(200 16 46 / 0.10), transparent 60%);
+  }
+  .goal-card {
+    flex: 1 1 240px;
+    min-width: min(240px, 100%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 1.3rem;
+    border-radius: 1.1rem;
+    border: 1px solid rgb(231 84 128 / 0.28);
+    border-top: 3px solid transparent;
+    border-image: linear-gradient(to right, rgb(231 84 128), rgb(200 16 46)) 1;
+    border-image-width: 3px 0 0 0;
     background:
-      radial-gradient(120% 100% at 85% 0%, hsl(var(--hue) 45% 24% / 0.85), hsl(var(--hue) 30% 16% / 0.5)),
+      linear-gradient(180deg, rgb(231 84 128 / 0.07), transparent 55%),
       var(--color-surface);
-    border-color: hsl(var(--hue) 35% 38% / 0.6);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease;
+  }
+  .goal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 38px -24px rgb(200 16 46 / 0.45);
+  }
+  .goal-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    font-size: 1.5rem;
+    background: rgb(231 84 128 / 0.12);
+    border: 1px solid rgb(231 84 128 / 0.3);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .goal-card:hover .goal-chip {
+    transform: scale(1.12);
+  }
+  .goal-note {
+    background:
+      linear-gradient(180deg, rgb(231 84 128 / 0.06), transparent 60%),
+      var(--color-surface-soft);
+    border-color: rgb(231 84 128 / 0.22) !important;
+  }
+  [data-theme="dark"] .goal-card {
+    border-color: rgb(231 84 128 / 0.35);
+    background:
+      linear-gradient(180deg, rgb(231 84 128 / 0.10), transparent 55%),
+      var(--color-surface);
+  }
+  [data-theme="dark"] .goal-chip {
+    background: rgb(231 84 128 / 0.16);
   }
 
   /* ── Favorites: vertical tricolor + restaurant rail ──────────── */
@@ -1044,6 +1133,7 @@ const construction = [
     }
     .hobby-tile,
     .hobby-tile:hover,
+    .goal-card:hover,
     .dish-card:hover {
       transform: none;
     }
