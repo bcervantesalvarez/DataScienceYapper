@@ -227,6 +227,22 @@
   min-width: min(280px, 100%);
 }
 
+/* Dark theme: the school-color education bands (About banners and the
+   hidden page's cards) pick up a film-grain + dot weave so the flat
+   brand colors feel fabric-like instead of plastic. */
+[data-theme="dark"] .school-band,
+[data-theme="dark"] .edu-band {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.13'/></svg>"),
+    radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.05) 1px, transparent 0),
+    linear-gradient(
+      135deg,
+      var(--school-color) 0%,
+      color-mix(in srgb, var(--school-color) 78%, #000 8%) 100%
+    );
+  background-size: 160px 160px, 22px 22px, auto;
+}
+
 /* Film grain: an SVG turbulence tile at whisper opacity. Adds tactile
    depth to dark bands without any image request. */
 .grain {

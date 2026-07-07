@@ -16,7 +16,10 @@ const pathname = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? pathname === '/' : pathname.startsWith(href);
 ---
-<header class="sticky top-0 z-50 border-b border-rule bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-rule bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75 transition-colors duration-300"
+>
   <nav class="relative max-w-wrap mx-auto px-6 py-4 flex items-center justify-between gap-6" aria-label="Main">
     <a href="/" class="group inline-flex items-center gap-2.5 font-bold text-ink text-base tracking-tight no-underline hover:no-underline">
       <span class="brand-mark inline-flex text-ink transition-transform duration-300 group-hover:rotate-[-8deg]" aria-hidden="true">
@@ -173,6 +176,7 @@ const isActive = (href: string) =>
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       try { localStorage.setItem('theme', next); } catch (err) { /* no-op */ }
       html.setAttribute('data-theme', next);
+      updateHeaderTone();
       return;
     }
 
@@ -193,4 +197,39 @@ const isActive = (href: string) =>
     setMenu(false);
     document.getElementById('nav-toggle')?.focus();
   });
+
+  // Adaptive header: while the sticky bar overlaps a fixed-dark band
+  // (the landing / hidden-page heroes, the AI and Talks chapters), it
+  // adopts the band's palette by taking the tone-dark class — so the
+  // light theme never leaves a light strip floating on a dark hero.
+  // The theme-color meta follows, keeping mobile browser chrome in
+  // sync with whatever is actually under the notch.
+  let darkBands: Element[] = [];
+
+  function updateHeaderTone() {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+    const line = header.getBoundingClientRect().height;
+    const over = darkBands.some((b) => {
+      const r = b.getBoundingClientRect();
+      return r.top <= line && r.bottom >= line * 0.5;
+    });
+    header.classList.toggle('tone-dark', over);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      const dark = over || document.documentElement.getAttribute('data-theme') === 'dark';
+      meta.setAttribute('content', dark ? '#090b0f' : '#fbfaf7');
+    }
+  }
+
+  function collectDarkBands() {
+    darkBands = Array.from(document.querySelectorAll('main section.tone-dark'));
+    updateHeaderTone();
+  }
+
+  window.addEventListener('scroll', updateHeaderTone, { passive: true });
+  window.addEventListener('resize', updateHeaderTone, { passive: true });
+  document.addEventListener('astro:page-load', collectDarkBands);
+  if (document.readyState !== 'loading') collectDarkBands();
+  else document.addEventListener('DOMContentLoaded', collectDarkBands);
 </script>

@@ -145,7 +145,13 @@ const resolvedOg = ogImage ?? `/og/${ogPath ?? 'default'}.png`;
             document.documentElement.setAttribute('data-theme', theme);
           }
           const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f1115' : '#fbfaf7');
+          if (meta) {
+            // The header takes .tone-dark while overlapping a dark band
+            // (see Navbar.astro) — mobile chrome should match that, not
+            // the base theme, whenever it's active.
+            const overDark = document.getElementById('site-header')?.classList.contains('tone-dark');
+            meta.setAttribute('content', overDark || theme === 'dark' ? '#090b0f' : '#fbfaf7');
+          }
         } catch (e) { /* no-op */ }
       }
       applyTheme();

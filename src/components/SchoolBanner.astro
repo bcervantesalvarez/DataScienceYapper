@@ -20,9 +20,10 @@ interface Props {
   align?: 'left' | 'right';
   /** Bullets / paragraph text. Plain string. */
   description: string;
-  /** Transparent full-color logo (e.g. a Wikimedia Commons
-      Special:FilePath URL). Sits on a white chip so brand colors stay
-      legible in both themes; hides itself if the URL 404s. */
+  /** School logo URL. Rendered as a large soft-light watermark on the
+      color band — anchored right, fading toward the text — so it reads
+      as a tonal backdrop regardless of the file's background (white JPG
+      or transparent PNG both melt in). Removes itself on 404. */
   logoSrc?: string;
   logoAlt?: string;
 }
@@ -52,7 +53,18 @@ const {
       align === 'right' ? 'md:order-2' : 'md:order-1',
     ]}
   >
-    <div>
+    {logoSrc && (
+      <img
+        class="school-watermark"
+        src={logoSrc}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        onerror="this.remove()"
+      />
+    )}
+    <div class="relative">
       <p class="text-xs font-bold uppercase tracking-[0.18em] opacity-80 m-0 mb-3">
         {degree}
       </p>
@@ -60,7 +72,7 @@ const {
         {school}
       </h3>
     </div>
-    <p class="text-sm font-medium opacity-90 m-0 mt-4">{years}</p>
+    <p class="relative text-sm font-medium opacity-90 m-0 mt-4">{years}</p>
   </div>
 
   <!-- Body -->
@@ -70,18 +82,6 @@ const {
       align === 'right' ? 'md:order-1' : 'md:order-2',
     ]}
   >
-    {logoSrc && (
-      <span class="edu-logo-chip inline-flex items-center self-start bg-white rounded-xl border border-rule px-5 py-3">
-        <img
-          src={logoSrc}
-          alt={logoAlt ?? `${school} logo`}
-          loading="lazy"
-          decoding="async"
-          class="h-9 md:h-10 max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-[1.04]"
-          onerror="const c=this.closest('.edu-logo-chip'); if(c) c.style.display='none';"
-        />
-      </span>
-    )}
     <p class="text-body m-0 text-base leading-relaxed">{description}</p>
 
     <a
@@ -111,6 +111,33 @@ const {
       0 1px 0 var(--school-color),
       0 24px 40px -28px color-mix(in srgb, var(--school-color) 50%, transparent);
     transform: translateY(-2px);
+  }
+
+  /* Watermark: big ghost of the school logo, top-right of the band,
+     fading into the color toward the text. soft-light melts white JPG
+     backgrounds and transparent PNGs alike into the band. */
+  .school-watermark {
+    position: absolute;
+    top: 45%;
+    right: -5%;
+    transform: translateY(-50%);
+    height: 140%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    mix-blend-mode: soft-light;
+    opacity: 0.9;
+    pointer-events: none;
+    user-select: none;
+    mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 28%, transparent 82%);
+    -webkit-mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 28%, transparent 82%);
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .school-banner:hover .school-watermark {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .school-banner:hover .school-watermark { transform: translateY(-50%); }
   }
 
   /* Color band — solid school color, plus a soft diagonal sheen on hover */

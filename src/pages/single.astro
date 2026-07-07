@@ -15,10 +15,10 @@ const identity = ['Hispanic (Mexican)', 'Oregon', 'Data Scientist', 'AI Builder'
 const education = [
   { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '',
     color: '#4B0082',
-    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Linfield_University_Logo%2C_2020.png?width=480' },
+    logo: 'https://thelinfieldreview.com/wp-content/uploads/2020/11/Linflogo-copy-900x900.jpg' },
   { degree: "Master's", school: 'Willamette University', field: 'Data Science', when: '2023',
     color: '#A6093D',
-    logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Willamette_univ_textlogo.png?width=480' },
+    logo: 'https://abound.college/mba/wp-content/uploads/sites/4/2019/01/willamette-university-logo.png' },
   { degree: "Master's", school: 'Oregon State University', field: 'Statistics', when: '2025',
     color: '#DC4405',
     logo: 'https://commons.wikimedia.org/wiki/Special:FilePath/Oregon_State_University_wordmark.svg' },
@@ -80,18 +80,24 @@ const construction = [
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
   <section class="tone-dark grain hero-mesh relative overflow-hidden pt-24 pb-20 lg:pt-28 lg:pb-24" aria-labelledby="single-hero-title">
-    <div class="romance-orb romance-orb-a" aria-hidden="true"></div>
-    <div class="romance-orb romance-orb-b" aria-hidden="true"></div>
+    <div class="romance-orb-layer absolute inset-0" aria-hidden="true">
+      <div class="romance-orb romance-orb-a"></div>
+      <div class="romance-orb romance-orb-b"></div>
+    </div>
     <div class="max-w-wrap mx-auto px-6">
       <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-14 items-center">
-        <img
-          src="/images/profile.jpg"
-          alt="Brian, smiling"
-          loading="eager"
-          width="288"
-          height="288"
-          class="romance-photo justify-self-center w-52 h-52 lg:w-72 lg:h-72 rounded-3xl object-cover [object-position:50%_25%] border border-rule-strong animate-el-fade"
-        />
+        <div class="relative justify-self-center" id="single-photo-wrap">
+          <img
+            id="single-photo"
+            src="/images/profile.jpg"
+            alt="Brian, smiling"
+            loading="eager"
+            width="288"
+            height="288"
+            draggable="false"
+            class="romance-photo w-52 h-52 lg:w-72 lg:h-72 rounded-3xl object-cover [object-position:50%_25%] border border-rule-strong animate-el-fade select-none cursor-pointer"
+          />
+        </div>
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4 animate-el-rise [animation-delay:120ms]">
             You found the hidden page 🎉
@@ -136,23 +142,22 @@ const construction = [
           class="edu-card group relative overflow-hidden bg-surface border border-rule rounded-2xl m-0 flex flex-col transition-all duration-300"
           style={`--school-color: ${e.color};`}
         >
-          <div class="edu-band relative p-6 md:p-7 text-white">
-            <p class="text-[0.7rem] font-bold uppercase tracking-[0.16em] opacity-85 m-0 mb-2">
+          <div class="edu-band relative overflow-hidden p-6 md:p-7 text-white">
+            <img
+              class="edu-watermark"
+              src={e.logo}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              onerror="this.remove()"
+            />
+            <p class="relative text-[0.7rem] font-bold uppercase tracking-[0.16em] opacity-85 m-0 mb-2">
               {e.degree}{e.when && ` · ${e.when}`}
             </p>
-            <h3 class="font-serif font-semibold text-2xl tracking-tight leading-tight m-0 text-white">{e.school}</h3>
+            <h3 class="relative font-serif font-semibold text-2xl tracking-tight leading-tight m-0 text-white">{e.school}</h3>
           </div>
           <div class="p-6 md:p-7 flex flex-col gap-5 flex-1">
-            <span class="edu-logo-chip inline-flex items-center self-start bg-white rounded-xl border border-rule px-4 py-2.5">
-              <img
-                src={e.logo}
-                alt={`${e.school} logo`}
-                loading="lazy"
-                decoding="async"
-                class="h-8 max-w-[180px] object-contain"
-                onerror="const c=this.closest('.edu-logo-chip'); if(c) c.style.display='none';"
-              />
-            </span>
             <p class="text-body text-sm font-semibold m-0 mt-auto">{e.field}</p>
           </div>
         </li>
@@ -495,6 +500,33 @@ const construction = [
   .edu-card:hover .edu-band::after {
     transform: translateX(100%);
   }
+
+  /* Logo watermark: large ghost anchored right, fading into the band
+     toward the text. soft-light melts white JPG backgrounds and
+     transparent PNGs alike into the school color. */
+  .edu-watermark {
+    position: absolute;
+    top: 50%;
+    right: -8%;
+    transform: translateY(-50%);
+    height: 160%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    mix-blend-mode: soft-light;
+    opacity: 0.9;
+    pointer-events: none;
+    user-select: none;
+    mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 30%, transparent 85%);
+    -webkit-mask-image: linear-gradient(to left, rgb(0 0 0 / 0.95) 30%, transparent 85%);
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .edu-card:hover .edu-watermark {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.06);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .edu-card:hover .edu-watermark { transform: translateY(-50%); }
+  }
   .edu-card:hover {
     transform: translateY(-4px);
     border-color: var(--school-color);
@@ -588,11 +620,83 @@ const construction = [
     60%      { transform: rotate(9deg); }
   }
 
+  /* Photo click: three party tricks, cycled per click */
+  @keyframes photo-spin {
+    from { transform: rotate(0) scale(1); }
+    40%  { transform: rotate(-9deg) scale(1.1); }
+    to   { transform: rotate(360deg) scale(1); }
+  }
+  @keyframes photo-squish {
+    0%, 100% { transform: scale(1, 1); }
+    30%      { transform: scale(1.18, 0.82); }
+    60%      { transform: scale(0.88, 1.14); }
+  }
+  @keyframes photo-jump {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    35%      { transform: translateY(-26px) rotate(-5deg); }
+    65%      { transform: translateY(4px) rotate(3deg); }
+  }
+  .romance-photo.click-spin   { animation: photo-spin   0.8s cubic-bezier(0.34, 1.4, 0.5, 1); }
+  .romance-photo.click-squish { animation: photo-squish 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .romance-photo.click-jump   { animation: photo-jump   0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  /* Hearts burst out of the photo on click */
+  #single-photo-wrap .burst-heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1.5rem;
+    pointer-events: none;
+    z-index: 5;
+    animation: heart-burst 1s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+  }
+  @keyframes heart-burst {
+    0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+    20%  { opacity: 1; }
+    100% {
+      transform:
+        translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+        scale(1.15)
+        rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+  /* ── Scroll-driven motion (progressive enhancement) ───────────
+     Browsers with CSS scroll-driven animations get: the hero content
+     drifting up and fading as you scroll away (parallax depth), and
+     the orb layer sliding at a different rate. Everyone else keeps
+     the standard reveal — nothing breaks. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .romance .hero-mesh .max-w-wrap {
+        animation: hero-recede linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 90vh;
+      }
+      .romance-orb-layer {
+        animation: orb-recede linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 120vh;
+      }
+    }
+  }
+  @keyframes hero-recede {
+    to { transform: translateY(9rem); opacity: 0.15; }
+  }
+  @keyframes orb-recede {
+    to { transform: translateY(-14rem) rotate(8deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .romance-orb,
     .romance-photo,
     .heartbeat,
-    .romance .card-flow li:hover > span:first-child {
+    .romance .card-flow li:hover > span:first-child,
+    .romance-photo.click-spin,
+    .romance-photo.click-squish,
+    .romance-photo.click-jump,
+    #single-photo-wrap .burst-heart {
       animation: none !important;
     }
   }
@@ -611,6 +715,38 @@ const construction = [
     const birthdayThisYear = new Date(now.getFullYear(), 11, 10); // Dec 10
     if (now < birthdayThisYear) age -= 1;
     el.textContent = String(age);
+
+    // Photo party tricks: every click runs the next animation in the
+    // cycle and bursts a handful of hearts. Skipped (hearts included)
+    // under reduced motion.
+    const photo = document.getElementById('single-photo');
+    const wrap = document.getElementById('single-photo-wrap');
+    if (photo && wrap) {
+      const tricks = ['click-squish', 'click-spin', 'click-jump'];
+      let i = 0;
+      photo.addEventListener('click', () => {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        tricks.forEach((t) => photo.classList.remove(t));
+        void (photo as HTMLElement).offsetWidth; // restart the animation
+        photo.classList.add(tricks[i % tricks.length]);
+        i += 1;
+
+        const glyphs = ['💖', '💘', '❤️', '💝', '💗', '✨'];
+        for (let k = 0; k < 6; k++) {
+          const h = document.createElement('span');
+          h.className = 'burst-heart';
+          h.setAttribute('aria-hidden', 'true');
+          h.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+          const angle = (k / 6) * Math.PI * 2 + Math.random() * 0.6;
+          const dist = 100 + Math.random() * 70;
+          h.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+          h.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+          h.style.setProperty('--rot', `${Math.random() * 80 - 40}deg`);
+          wrap.appendChild(h);
+          setTimeout(() => h.remove(), 1100);
+        }
+      });
+    }
 
     // Instagram: a static site has no server to proxy the feed and
     // Instagram blocks anonymous cross-origin reads, so this attempt
