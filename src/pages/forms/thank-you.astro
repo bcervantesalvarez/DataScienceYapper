@@ -13,7 +13,7 @@ import Button from '@components/Button.astro';
       <div class="max-w-wrap mx-auto px-6">
         {/* stroke="currentColor" + text-status: var() is unreliable inside
             SVG presentation attributes, so the token flows in via `color` */}
-        <svg width="72" height="72" viewBox="0 0 56 56" aria-hidden="true" class="mx-auto mb-5 text-status">
+        <svg id="ty-check" width="72" height="72" viewBox="0 0 56 56" aria-hidden="true" class="mx-auto mb-5 text-status">
           <circle cx="28" cy="28" r="25" fill="none" stroke="currentColor" stroke-width="3" opacity="0.18" />
           <circle cx="28" cy="28" r="25" fill="none" stroke="currentColor" stroke-width="3"
                   stroke-dasharray="157" stroke-dashoffset="157">
@@ -41,6 +41,17 @@ import Button from '@components/Button.astro';
     </section>
 
     <script>
+      // SMIL <animate> ignores CSS reduced-motion rules — jump the
+      // checkmark draw to its finished frame and freeze it instead.
+      const check = document.getElementById('ty-check');
+      if (
+        check instanceof SVGSVGElement &&
+        matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        check.setCurrentTime(2);
+        check.pauseAnimations();
+      }
+
       let secs = 15;
       const el = document.getElementById('ty-sec');
       const t = setInterval(() => {

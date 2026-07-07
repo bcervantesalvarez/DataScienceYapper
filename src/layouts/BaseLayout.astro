@@ -6,15 +6,16 @@ import Footer from '@components/Footer.astro';
 import ScrollTop from '@components/ScrollTop.astro';
 import SearchModal from '@components/SearchModal.astro';
 import { SITE_NAME, SITE_DESCRIPTION, AUTHOR, absoluteUrl } from '@lib/site';
-// Self-hosted fonts via @fontsource (same packages Satori uses for the
-// OG images at build time) — no render-blocking Google Fonts request.
+// Self-hosted fonts via @fontsource — no render-blocking Google Fonts
+// request. Newsreader ships as a variable font with the opsz axis so
+// large serif headlines keep the display cut (matching the old CDN
+// opsz 6..72 load). The static @fontsource/newsreader stays a dep for
+// Satori's build-time OG images, which need fixed instances.
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
-import '@fontsource/newsreader/500.css';
-import '@fontsource/newsreader/600.css';
-import '@fontsource/newsreader/700.css';
+import '@fontsource-variable/newsreader/opsz.css';
 import '@styles/global.css';
 
 interface Props {

@@ -170,12 +170,13 @@ After running, hand-polish:
 The pulsing pill at the top of the landing hero is `<StatusBanner>`.
 Currently shows the principal's day-job at Oregon Department of
 Education. If the day-job changes, edit the props on
-`src/pages/index.astro` (search "StatusBanner"). To swap the inline
-SVG placeholder for the real ODE logo:
+`src/pages/index.astro` (search "StatusBanner"). The employer mark is
+an `<img>` whose default `logoSrc` hot-links the ODE logo from
+oregon.gov — to self-host it instead:
 
 1. Save the logo to `public/images/ode-logo.png`.
-2. In `src/components/StatusBanner.astro`, replace the inline `<svg>`
-   block with `<img src="/images/ode-logo.png" alt="..." />`.
+2. Pass `logoSrc="/images/ode-logo.png"` from the page (or change the
+   default in `src/components/StatusBanner.astro`).
 
 ## Don't
 

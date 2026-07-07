@@ -27,7 +27,10 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
-    sitemap(),
+    sitemap({
+      // /forms/thank-you is noindex — keep it out of the sitemap too.
+      filter: (page) => !page.includes('/forms/'),
+    }),
   ],
   vite: {
     plugins: [tailwindcss()] as AstroVitePlugins,
