@@ -188,8 +188,12 @@ oregon.gov — to self-host it instead:
 
 ## Deploy
 
-Cloudflare Pages:
+Cloudflare Workers (static assets):
 
-- Build command: `npm run build`
-- Output dir:    `dist`
-- Custom domain: `epsilon-labs.org`
+- Build command:  `npm run build` (prerenders everything into `dist/`)
+- Deploy command: `npx wrangler deploy` — assets-only per
+  `wrangler.jsonc`. Never add `@astrojs/cloudflare` / SSR: the OG route
+  runs Node APIs + a native resvg binary at build time and cannot
+  execute inside a Worker.
+- Custom domain:  `epsilon-labs.org` (attached to the Worker in the
+  Cloudflare dashboard)

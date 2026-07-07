@@ -17,7 +17,8 @@ export default defineConfig({
   // Single source of truth for the canonical domain. Everything under
   // src/ derives absolute URLs from this value (via Astro.site /
   // import.meta.env.SITE — see src/lib/site.ts). Changing domains means
-  // editing this line and public/CNAME, nothing else.
+  // editing this line and re-attaching the custom domain in Cloudflare,
+  // nothing else.
   site: 'https://epsilon-labs.org',
   output: 'static',
   trailingSlash: 'ignore',

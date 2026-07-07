@@ -1,0 +1,17 @@
+// wrangler.jsonc — Cloudflare Workers static-assets deploy.
+//
+// This site is fully static: `npm run build` prerenders everything into
+// dist/ (including the OG PNGs, which need Node + native resvg at BUILD
+// time and can never run inside a Worker). Deploy is assets-only — no
+// `main`, no server code, no Astro cloudflare adapter. Without this file
+// `npx wrangler deploy` auto-runs `astro add cloudflare`, flips the build
+// to SSR, and fails on the native resvg binary.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "epsilon-labs",
+  "compatibility_date": "2026-07-07",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

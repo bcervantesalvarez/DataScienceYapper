@@ -87,8 +87,14 @@ image: ../../../public/images/project-cover.jpg   # optional
 
 ## Deployment
 
-- **Hosting:** Cloudflare Pages (build command `npm run build`, output dir `dist`)
-- **Custom domain:** `epsilon-labs.org` (the `CNAME` in `public/` carries over)
+- **Hosting:** Cloudflare Workers static assets — the `epsilon-labs`
+  Worker builds with `npm run build` and deploys `dist/` via
+  `npx wrangler deploy`. [`wrangler.jsonc`](wrangler.jsonc) keeps the
+  deploy assets-only: do **not** add the Cloudflare SSR adapter — the
+  OG image route needs Node + native resvg at build time and cannot run
+  inside a Worker.
+- **Custom domain:** `epsilon-labs.org`, attached to the Worker in the
+  Cloudflare dashboard (the canonical origin lives in `astro.config.ts`)
 - **Form backend:** Google Apps Script (the contact form on `/privacy` posts there). Cloudflare Turnstile is wired client-side; set the real sitekey on the `.cf-turnstile` div in `src/pages/privacy.astro` and add the matching secret check in the Apps Script to enable it end to end.
 
 ## Why Astro
