@@ -7,10 +7,11 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import LandingSection from '@components/LandingSection.astro';
 import Button from '@components/Button.astro';
+import StatusBanner from '@components/StatusBanner.astro';
 
 const INSTAGRAM = 'https://www.instagram.com/brianadolfocervantesalvarez';
 
-const identity = ['Hispanic (Mexican)', 'Oregon', 'Data Scientist', 'AI Builder', 'Statistician'];
+const identity = ['Mexican-American 🇲🇽🇺🇸', 'Dual citizen', 'Oregon', 'Data Scientist', 'AI Builder', 'Statistician'];
 
 const education = [
   { degree: "Bachelor's", school: 'Linfield University', field: 'Mathematics', when: '',
@@ -100,7 +101,7 @@ const construction = [
         </div>
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted m-0 mb-4 animate-el-rise [animation-delay:120ms]">
-            You found the hidden page 🎉
+            You found the hidden page 🎉 · Bienvenid@
           </p>
           <h1 id="single-hero-title" class="font-serif font-semibold text-ink text-display m-0 mb-4 animate-el-rise [animation-delay:220ms]">
             Brian
@@ -124,6 +125,9 @@ const construction = [
             exploring somewhere new. I'm looking for someone to build a
             meaningful, long-term life with.
           </p>
+          <p class="text-sm text-muted italic m-0 mt-3 animate-el-rise [animation-delay:520ms]">
+            Y sí, también hablo español — pregúntame lo que quieras 😉
+          </p>
         </div>
       </div>
     </div>
@@ -133,9 +137,17 @@ const construction = [
   <LandingSection
     id="single-education"
     n="01"
-    eyebrow="Receipts"
+    eyebrow="Receipts · Los recibos"
     title="Education."
   >
+    {/* Tossed graduation caps loop in the section background */}
+    <div class="grad-caps absolute inset-0 pointer-events-none" aria-hidden="true">
+      <span class="grad-cap" style="left: 6%;  top: 12%; animation-delay: 0s;   animation-duration: 6.5s;">🎓</span>
+      <span class="grad-cap" style="left: 38%; top: 70%; animation-delay: 1.2s; animation-duration: 7.5s;">🎓</span>
+      <span class="grad-cap" style="left: 64%; top: 16%; animation-delay: 2.4s; animation-duration: 6s;">🎓</span>
+      <span class="grad-cap" style="left: 88%; top: 58%; animation-delay: 0.7s; animation-duration: 8s;">🎓</span>
+      <span class="grad-cap" style="left: 18%; top: 44%; animation-delay: 3.1s; animation-duration: 7s;">🎓</span>
+    </div>
     <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0" data-stagger>
       {education.map((e) => (
         <li
@@ -165,16 +177,48 @@ const construction = [
         </li>
       ))}
     </ol>
+
+    {/* The next degree: wide Ph.D. goal banner in OSU colors */}
+    <aside
+      class="edu-card group relative overflow-hidden bg-surface border border-rule rounded-2xl mt-6 grid grid-cols-1 md:grid-cols-[1.15fr_1fr] transition-all duration-300"
+      style="--school-color: #DC4405;"
+      aria-labelledby="phd-goal-title"
+    >
+      <div class="edu-band relative overflow-hidden p-7 md:p-9 text-white">
+        <span class="edu-watermark edu-monogram" aria-hidden="true">PhD</span>
+        <p class="relative text-[0.7rem] font-bold uppercase tracking-[0.16em] opacity-85 m-0 mb-2">
+          The one that's coming · La próxima meta 🎓
+        </p>
+        <h3 id="phd-goal-title" class="relative font-serif font-semibold text-2xl md:text-3xl tracking-tight leading-tight m-0 text-white">
+          Ph.D. in Artificial Intelligence
+        </h3>
+        <p class="relative text-sm font-medium opacity-90 m-0 mt-4">
+          Target start 2030–2032 · defended before 2035
+        </p>
+      </div>
+      <div class="p-7 md:p-9 flex flex-col justify-center">
+        <p class="text-body text-sm leading-relaxed m-0">
+          The plan is set: keep shipping AI systems in production now, then
+          formalize it with research. Likely home: Oregon State — I already
+          look good in Beaver orange, and they know me.
+        </p>
+      </div>
+    </aside>
   </LandingSection>
 
   <!-- ── Current chapter ──────────────────────────────────────── -->
   <LandingSection
     id="single-now"
     n="02"
-    eyebrow="Life right now"
+    eyebrow="Life right now · La vida hoy"
     title="Current chapter."
     tone="tint"
   >
+    <StatusBanner
+      href="https://www.oregon.gov/ode/"
+      org="Oregon Department of Education"
+      role="Business Intelligence Analyst · Since Dec 8, 2025 — yes, this is the day job"
+    />
     <div class="max-w-prose">
       <p class="text-body m-0 mb-4">
         I have a stable career that I genuinely enjoy, and my biggest
@@ -189,6 +233,34 @@ const construction = [
         adventures, long walks, museums, game nights, road trips, and
         simply spending quality time together. The best parts of getting to
         know someone were never behind a paywall anyway.
+      </p>
+    </div>
+
+    {/* Where this is headed: salary milestones, stated plainly */}
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10" data-stagger>
+      {[
+        { year: '2028', figure: '$100K', note: 'base salary' },
+        { year: '2035', figure: '$150K', note: 'and climbing' },
+        { year: '2040', figure: '$200K+', note: 'bare minimum' },
+      ].map((m) => (
+        <div class="bg-surface border border-rule rounded-2xl px-6 py-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-rule-strong">
+          <p class="font-mono text-xs font-semibold text-muted tracking-[0.16em] uppercase m-0 mb-1">{m.year}</p>
+          <p class="font-serif font-semibold text-ink text-3xl tracking-tight m-0">{m.figure}</p>
+          <p class="text-xs text-muted m-0 mt-1">{m.note}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="max-w-prose mt-8">
+      <p class="text-body m-0 mb-4">
+        I aim for remote-friendly roles that keep me above the $100K line.
+        With the State it's a slower ride — but that's realistic for
+        government work, and the stability is the point. If I ever jump to
+        the private sector, those numbers move up fast.
+      </p>
+      <p class="text-lede text-ink font-serif m-0">
+        Financial stability is my ultimate goal.
+        <span class="text-muted text-base italic"> La estabilidad primero — lo demás llega solito 😌</span>
       </p>
     </div>
   </LandingSection>
@@ -241,7 +313,7 @@ const construction = [
   <LandingSection
     id="single-favorites"
     n="04"
-    eyebrow="The important data"
+    eyebrow="The important data · La comida es amor"
     title="Favorite things."
     tone="tint"
   >
@@ -272,7 +344,7 @@ const construction = [
       <div class="bg-surface border border-rule rounded-2xl p-7">
         <h3 class="text-sm font-bold uppercase tracking-[0.14em] text-ink m-0 mb-4">🍷 Favorite wine</h3>
         <p class="text-body text-sm m-0">
-          Stella Rosa. Yes, I know. No, I won't be taking questions.
+          Stella Rosa. Yes, I know. No, I won't be taking questions. Salud 🥂
         </p>
       </div>
     </div>
@@ -282,16 +354,32 @@ const construction = [
   <LandingSection
     id="single-gram"
     n="05"
-    eyebrow="Proof of life"
+    eyebrow="Proof of life · Las pruebas 📸"
     title="From my Instagram."
     tone="dark"
   >
+    {/* Floating Instagram glyphs drift in the band background */}
+    <div class="ig-floaters absolute inset-0 pointer-events-none" aria-hidden="true">
+      {[
+        'left: 8%;  top: 18%; animation-delay: 0s;    animation-duration: 9s;  --sz: 3.2rem;',
+        'left: 78%; top: 12%; animation-delay: 1.6s;  animation-duration: 11s; --sz: 4.4rem;',
+        'left: 30%; top: 72%; animation-delay: 3s;    animation-duration: 10s; --sz: 2.6rem;',
+        'left: 90%; top: 66%; animation-delay: 0.8s;  animation-duration: 8s;  --sz: 3rem;',
+        'left: 55%; top: 34%; animation-delay: 2.2s;  animation-duration: 12s; --sz: 5rem;',
+      ].map((style) => (
+        <svg class="ig-floater" style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+          <circle cx="12" cy="12" r="4.5" />
+          <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor" stroke="none" />
+        </svg>
+      ))}
+    </div>
     <div id="ig-gallery" class="hidden grid-cols-2 md:grid-cols-4 gap-4 mb-8"></div>
     <div id="ig-fallback" class="bg-surface border border-rule rounded-2xl px-8 py-12 text-center">
       <p class="text-lede text-ink m-0 mb-2">Looks like Instagram is being stubborn today.</p>
       <p class="text-sm text-muted m-0 mb-7">
         Europe trips, educational milestones, and other questionable
-        adventures live over there.
+        adventures live over there. Dale follow, no seas tímide 😏
       </p>
       <Button href={INSTAGRAM} target="_blank" rel="noreferrer">View my Instagram →</Button>
     </div>
@@ -373,7 +461,7 @@ const construction = [
   <LandingSection
     id="single-compat"
     n="08"
-    eyebrow="Honest calibration"
+    eyebrow="Honest calibration · Sin rodeos"
     title="We'd probably be compatible if..."
   >
     <div class="max-w-prose">
@@ -449,23 +537,49 @@ const construction = [
   <LandingSection
     id="single-cta"
     n="11"
-    eyebrow="If you've made it this far..."
+    eyebrow="If you've made it this far... · Si llegaste hasta aquí..."
     title="Maybe that's a sign."
     tone="dark"
   >
-    <div class="max-w-prose mb-9">
+    <div class="max-w-prose mb-6">
       <p class="text-body m-0 mb-3">
         First, congratulations — you found the secret page.
       </p>
-      <p class="text-body m-0">
+      <p class="text-body m-0 mb-3">
         Second, maybe that's a sign you're exactly the kind of curious
         person I'd enjoy getting to know. If you'd like to say hello,
         Instagram is probably the easiest way to reach me.
       </p>
+      <p class="text-body m-0">
+        Mexican-American, born in the U.S. — U.S. citizen and Mexican
+        citizen, orgullosamente los dos 🇲🇽🇺🇸. Ya llegaste hasta aquí…
+        lo justo es que me saludes 😉
+      </p>
     </div>
-    <div class="flex flex-wrap gap-3">
-      <Button href={INSTAGRAM} target="_blank" rel="noreferrer">📷 Instagram</Button>
-      <Button href="mailto:briancervantesalvarez@gmail.com" variant="ghost">💬 Send a Message</Button>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button href={INSTAGRAM} target="_blank" rel="noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+          <circle cx="12" cy="12" r="4.5" />
+          <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor" stroke="none" />
+        </svg>
+        Instagram
+      </Button>
+      <button
+        id="reveal-phone"
+        type="button"
+        class="inline-flex items-center gap-2 px-5 py-3 rounded-full font-sans font-semibold text-sm tracking-tight cursor-pointer bg-transparent text-ink border border-rule-strong hover:bg-surface-soft hover:border-ink transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      >
+        Text me 😉
+      </button>
+      <a
+        id="phone-revealed"
+        href="sms:+15039157245"
+        hidden
+        class="inline-flex items-center gap-2 px-5 py-3 rounded-full font-sans font-semibold text-sm tracking-tight no-underline bg-surface border border-rule-strong text-ink hover:border-ink transition-colors"
+      >
+        📱 503-915-7245
+      </a>
     </div>
   </LandingSection>
 
@@ -704,6 +818,51 @@ const construction = [
     to { transform: translateY(-14rem) rotate(8deg); }
   }
 
+  /* ── Education: graduation caps tossed in a slow loop ─────────── */
+  #single-education {
+    position: relative;
+    overflow: hidden;
+  }
+  .grad-cap {
+    position: absolute;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    opacity: 0.14;
+    animation: cap-toss 7s ease-in-out infinite;
+  }
+  @keyframes cap-toss {
+    0%, 100% { transform: translateY(16px) rotate(-14deg); }
+    50%      { transform: translateY(-30px) rotate(12deg); }
+  }
+
+  /* ── Instagram band: gradient atmosphere + drifting glyphs ────── */
+  #single-gram {
+    position: relative;
+    overflow: hidden;
+    background-image:
+      radial-gradient(52rem 32rem at 12% 112%, rgb(245 133 41 / 0.30), transparent 65%),
+      radial-gradient(48rem 30rem at 88% -12%, rgb(129 52 175 / 0.38), transparent 65%),
+      radial-gradient(34rem 22rem at 55% 45%, rgb(221 42 123 / 0.20), transparent 70%);
+  }
+  .ig-floater {
+    position: absolute;
+    width: var(--sz, 3rem);
+    height: var(--sz, 3rem);
+    color: rgb(255 255 255 / 0.16);
+    animation: ig-drift 10s ease-in-out infinite;
+  }
+  @keyframes ig-drift {
+    0%, 100% { transform: translateY(12px) rotate(-8deg); }
+    50%      { transform: translateY(-18px) rotate(9deg); }
+  }
+
+  /* ── Final CTA: los colores de México ─────────────────────────── */
+  #single-cta {
+    background-image:
+      radial-gradient(48rem 34rem at 0% 55%, rgb(0 99 65 / 0.42), transparent 62%),
+      radial-gradient(48rem 34rem at 100% 55%, rgb(200 16 46 / 0.36), transparent 62%),
+      radial-gradient(30rem 20rem at 50% 0%, rgb(255 255 255 / 0.05), transparent 70%);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .romance-orb,
     .romance-photo,
@@ -712,7 +871,9 @@ const construction = [
     .romance-photo.click-spin,
     .romance-photo.click-squish,
     .romance-photo.click-jump,
-    #single-photo-wrap .burst-heart {
+    #single-photo-wrap .burst-heart,
+    .grad-cap,
+    .ig-floater {
       animation: none !important;
     }
   }
@@ -803,6 +964,19 @@ const construction = [
       })
       .catch(() => { /* fallback stays visible by design */ });
   }
+
+  // "Text me 😉" — swap the button for the real number (sms: link),
+  // delegated so it survives router swaps.
+  document.addEventListener('click', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    if (!t || !t.closest('#reveal-phone')) return;
+    const btn = document.getElementById('reveal-phone');
+    const phone = document.getElementById('phone-revealed');
+    if (!btn || !phone) return;
+    btn.hidden = true;
+    phone.hidden = false;
+    phone.focus?.();
+  });
 
   document.addEventListener('astro:page-load', initSinglePage);
   if (document.readyState !== 'loading') initSinglePage();
