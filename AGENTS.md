@@ -20,6 +20,7 @@ cleanly with zero out-of-band coordination.
 | Design tokens (colors)     | `src/styles/global.css` (`@theme` + `[data-theme="dark"]`) |
 | Tailwind utility names     | `src/styles/global.css` — Tailwind v4 generates utilities from `@theme`; there is **no** `tailwind.config.ts` |
 | Site identity (name, socials, absolute URLs) | `src/lib/site.ts` (origin derives from `site` in `astro.config.ts`) |
+| Brand mark / logo          | `src/assets/logo/epsilon-mark.svg` (currentColor, inherits theme) + `epsilon-tile.svg` (fixed-color app tile); keep `public/favicon.svg` in sync with the tile |
 | Site-wide HTML / `<head>`  | `src/layouts/BaseLayout.astro`                    |
 | Navbar links               | `src/components/Navbar.astro` (`links` array)     |
 | Footer copy / links        | `src/components/Footer.astro`                     |

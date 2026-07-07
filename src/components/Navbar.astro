@@ -1,6 +1,8 @@
 ---
 // src/components/Navbar.astro
 // Edit `links` to change top-level navigation.
+import epsilonMark from '@/assets/logo/epsilon-mark.svg?raw';
+
 const links = [
   { href: '/about',     label: 'About'     },
   { href: '/services',  label: 'Services'  },
@@ -16,7 +18,10 @@ const isActive = (href: string) =>
 ---
 <header class="sticky top-0 z-50 border-b border-rule bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
   <nav class="max-w-wrap mx-auto px-6 py-4 flex items-center justify-between gap-6">
-    <a href="/" class="font-bold text-ink text-base tracking-tight hover:no-underline">
+    <a href="/" class="group inline-flex items-center gap-2.5 font-bold text-ink text-base tracking-tight no-underline hover:no-underline">
+      <span class="brand-mark inline-flex text-ink transition-transform duration-300 group-hover:rotate-[-8deg]" aria-hidden="true">
+        <Fragment set:html={epsilonMark} />
+      </span>
       Epsilon&nbsp;Labs
     </a>
 
@@ -71,6 +76,15 @@ const isActive = (href: string) =>
     </button>
   </nav>
 </header>
+
+<style>
+  /* The inline mark ships at 1em intrinsic size; :global reaches the
+     set:html-injected svg that scoped attributes can't. */
+  .brand-mark :global(svg) {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+</style>
 
 <script>
   // Delegated: the button node is replaced on every ClientRouter swap,

@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Path-based (the old <text> glyph couldn't load Newsreader in a
-       browser tab). Keep in sync with src/assets/logo/epsilon-tile.svg. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Epsilon Labs">
+  <!-- App-icon style tile: deep ink, a whisper of accent glow from the
+       top-right (same atmosphere as the site's dark bands), cream
+       lunate epsilon, status-green data point. Fixed colors — this
+       variant is for contexts that can't inherit the site's tokens. -->
   <defs>
     <radialGradient id="el-glow" cx="78%" cy="12%" r="90%">
       <stop offset="0%" stop-color="#8bb0dc" stop-opacity="0.28"/>
