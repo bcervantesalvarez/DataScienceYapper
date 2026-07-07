@@ -2,6 +2,12 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
+import { SITE_HOST, AUTHOR, absoluteUrl } from '@lib/site';
+
+// Where the Apps Script backend redirects after a successful submit.
+// Derived from the canonical domain so a domain change can't strand
+// the form on a dead URL.
+const thankYouUrl = absoluteUrl('/forms/thank-you/');
 ---
 <BaseLayout title="Privacy" description="What this site collects, how it's used, and how to reach me.">
   <div class="ed">
@@ -41,12 +47,12 @@ import Button from '@components/Button.astro';
         <p class="mb-2">You can:</p>
         <ul class="pl-6 mb-6 list-disc">
           <li class="mb-2">Use the site without submitting anything — there's nothing to opt out of.</li>
-          <li class="mb-2">Email me directly at <a href="mailto:briancervantesalvarez@gmail.com">briancervantesalvarez@gmail.com</a> instead of using the form.</li>
+          <li class="mb-2">Email me directly at <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a> instead of using the form.</li>
           <li>Ask me to delete any message you've sent — I'll confirm in writing.</li>
         </ul>
 
         <h2 class="font-sans text-2xl text-ink mt-10 mb-4">Scope</h2>
-        <p class="mb-6">This policy covers <code>epsilon-labs.org</code> only. External links (Shiny app hosts, LinkedIn, GitHub, etc.) are governed by their own policies.</p>
+        <p class="mb-6">This policy covers <code>{SITE_HOST}</code> only. External links (Shiny app hosts, LinkedIn, GitHub, etc.) are governed by their own policies.</p>
       </article>
     </Section>
 
@@ -67,7 +73,7 @@ import Button from '@components/Button.astro';
         autocomplete="on"
         novalidate
       >
-        <input type="hidden" name="_next" value="https://epsilon-labs.org/forms/thank-you/" />
+        <input type="hidden" name="_next" value={thankYouUrl} />
         <input type="hidden" name="referrer" value="" />
         <input type="hidden" name="userAgent" value="" />
         <input type="hidden" name="formLoadedAt" value="" />
@@ -138,20 +144,27 @@ import Button from '@components/Button.astro';
         const SUBMIT_TIMEOUT_MS = 15000;
 
         document.addEventListener('DOMContentLoaded', () => {
-          const form = document.getElementById('policyForm');
+          const form = document.getElementById('policyForm') as HTMLFormElement | null;
           if (!form) return;
           const status = document.getElementById('policyFormStatus');
-          const submit = form.querySelector('button[type="submit"]');
+          const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
           const frame = document.getElementById('policyFormTarget');
+          if (!status || !submit || !frame) return;
 
-          form.querySelector('input[name="referrer"]').value = document.referrer || '';
-          form.querySelector('input[name="userAgent"]').value = navigator.userAgent || '';
-          form.querySelector('input[name="formLoadedAt"]').value = String(Date.now());
+          const field = (name: string) =>
+            form.querySelector<HTMLInputElement>(`input[name="${name}"]`);
 
-          const widget = form.querySelector('.cf-turnstile');
+          const referrer = field('referrer');
+          if (referrer) referrer.value = document.referrer || '';
+          const userAgent = field('userAgent');
+          if (userAgent) userAgent.value = navigator.userAgent || '';
+          const loadedAt = field('formLoadedAt');
+          if (loadedAt) loadedAt.value = String(Date.now());
+
+          const widget = form.querySelector<HTMLElement>('.cf-turnstile');
           const key = widget?.getAttribute('data-sitekey') ?? '';
           if (!key || key.startsWith('REPLACE_WITH_')) {
-            widget && (widget.style.display = 'none');
+            if (widget) widget.style.display = 'none';
           } else if (!document.querySelector('script[data-cf-turnstile]')) {
             const s = document.createElement('script');
             s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
@@ -160,20 +173,21 @@ import Button from '@components/Button.astro';
             document.head.appendChild(s);
           }
 
-          let pending = false, failsafe = null;
+          let pending = false;
+          let failsafe: ReturnType<typeof setTimeout> | undefined;
           frame.addEventListener('load', () => {
             if (!pending) return;
             pending = false;
             clearTimeout(failsafe);
-            location.href = form.querySelector('input[name="_next"]').value || '/';
+            location.href = field('_next')?.value || '/';
           });
 
           form.addEventListener('submit', (e) => {
             status.style.display = 'none';
 
             const hpHit = ['website', 'phone'].some(n => {
-              const el = form.querySelector(`input[name="${n}"]`);
-              return el && el.value && el.value.trim().length > 0;
+              const el = field(n);
+              return !!el && el.value.trim().length > 0;
             });
             if (hpHit) {
               e.preventDefault(); status.style.display = 'block';
@@ -181,7 +195,7 @@ import Button from '@components/Button.astro';
               return;
             }
 
-            const loaded = Number(form.querySelector('input[name="formLoadedAt"]').value || 0);
+            const loaded = Number(field('formLoadedAt')?.value || 0);
             if (!loaded || Date.now() - loaded < MIN_DWELL_MS) {
               e.preventDefault(); status.style.display = 'block';
               status.textContent = 'Please take a moment before sending.';

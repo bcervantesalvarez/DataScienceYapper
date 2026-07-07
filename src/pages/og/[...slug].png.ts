@@ -10,8 +10,11 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { SITE_NAME, SITE_HOST, AUTHOR } from '@lib/site';
 
 export const prerender = true;
+
+const BYLINE = `${SITE_NAME} · ${AUTHOR.name}`;
 
 const require = createRequire(import.meta.url);
 
@@ -38,9 +41,9 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
     {
       params: { slug: 'default' },
       props: {
-        title: 'Epsilon Labs',
+        title: SITE_NAME,
         kind: 'Statistical consulting',
-        byline: 'Brian Cervantes Alvarez',
+        byline: AUTHOR.name,
       } satisfies OGProps,
     },
   ];
@@ -52,7 +55,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
         title: e.data.title,
         tag: e.data.tag,
         kind: 'Project',
-        byline: 'Epsilon Labs · Brian Cervantes Alvarez',
+        byline: BYLINE,
       } satisfies OGProps,
     });
   }
@@ -63,7 +66,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
         title: e.data.title,
         tag: e.data.tag,
         kind: 'Insight',
-        byline: 'Epsilon Labs · Brian Cervantes Alvarez',
+        byline: BYLINE,
       } satisfies OGProps,
     });
   }
@@ -74,7 +77,7 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
         title: e.data.title,
         tag: e.data.tag,
         kind: 'Talk',
-        byline: 'Epsilon Labs · Brian Cervantes Alvarez',
+        byline: BYLINE,
       } satisfies OGProps,
     });
   }
@@ -122,7 +125,7 @@ function makeNode(p: OGProps) {
                 type: 'span',
                 props: {
                   style: { fontSize: 26, fontWeight: 600, letterSpacing: '-0.01em' },
-                  children: 'Epsilon Labs',
+                  children: SITE_NAME,
                 },
               },
             ],
@@ -181,7 +184,7 @@ function makeNode(p: OGProps) {
             },
             children: [
               { type: 'span', props: { children: p.kind ?? '' } },
-              { type: 'span', props: { children: p.byline ?? 'epsilon-labs.org' } },
+              { type: 'span', props: { children: p.byline ?? SITE_HOST } },
             ],
           },
         },
@@ -207,7 +210,11 @@ export async function GET({ props }: APIContext): Promise<Response> {
     .render()
     .asPng();
 
-  return new Response(png, {
+  // Copy into a fresh Uint8Array<ArrayBuffer> — newer @types/node Buffer
+  // generics (ArrayBufferLike) no longer satisfy BodyInit directly.
+  const body = new Uint8Array(png);
+
+  return new Response(body, {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',

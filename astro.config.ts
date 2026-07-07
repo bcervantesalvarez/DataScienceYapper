@@ -6,7 +6,18 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
+// @tailwindcss/vite types against its own copy of vite, which can skew
+// from the vite bundled inside astro. Deriving the plugin type from
+// Astro's own config signature keeps `astro check` green regardless.
+type AstroVitePlugins = NonNullable<
+  NonNullable<Parameters<typeof defineConfig>[0]['vite']>['plugins']
+>;
+
 export default defineConfig({
+  // Single source of truth for the canonical domain. Everything under
+  // src/ derives absolute URLs from this value (via Astro.site /
+  // import.meta.env.SITE — see src/lib/site.ts). Changing domains means
+  // editing this line and public/CNAME, nothing else.
   site: 'https://epsilon-labs.org',
   output: 'static',
   trailingSlash: 'ignore',
@@ -19,6 +30,6 @@ export default defineConfig({
     sitemap(),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss()] as AstroVitePlugins,
   },
 });
