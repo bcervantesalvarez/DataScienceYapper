@@ -13,7 +13,12 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  /* ---------- Colors (light defaults) ---------- */
+  /* ---------- Colors (light defaults) ----------
+     Convention: every token is a COMPLETE color value, not a bare
+     channel triplet. Consume with `var(--color-x)` for solid color and
+     `color-mix(in srgb, var(--color-x) N%, transparent)` for alpha.
+     Never wrap a token in rgb(...) — rgb(rgb(...)) is invalid CSS and
+     the browser silently drops the whole declaration. */
   --color-bg:            rgb(251 250 247);
   --color-surface:       rgb(255 255 255);
   --color-surface-soft:  rgb(243 240 234);
@@ -70,6 +75,41 @@
 }
 @keyframes el-glow-rotate {
   to { --el-glow-angle: 360deg; }
+}
+
+/* ---------- Scroll reveal ----------
+   Sections opt in via a `data-reveal` attribute (Section.astro sets it
+   by default). The hidden initial state only applies once the inline
+   script in BaseLayout confirms JS + IntersectionObserver + motion
+   preference by stamping `reveal-ready` on <html> — so users with no
+   JS, old browsers, or prefers-reduced-motion always see the content. */
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0, 0.2, 1);
+}
+html.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Reduced motion ----------
+   The entrance animations run `both`-filled from opacity 0, so they
+   must be disabled (not paused) under reduced motion — `animation:
+   none` drops the fill and the element renders at its natural state. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-el-rise,
+  .animate-el-fade,
+  .animate-el-ping {
+    animation: none !important;
+  }
+  html.reveal-ready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* ---------- Dark palette ---------- */
@@ -184,8 +224,8 @@
     background: conic-gradient(
       from var(--el-glow-angle),
       transparent 0deg,
-      rgb(var(--color-status) / 0.9) 25deg,
-      rgb(var(--color-status) / 0.4) 55deg,
+      color-mix(in srgb, var(--color-status) 90%, transparent) 25deg,
+      color-mix(in srgb, var(--color-status) 40%, transparent) 55deg,
       transparent 90deg,
       transparent 360deg
     );
@@ -207,7 +247,7 @@
     background: conic-gradient(
       from var(--el-glow-angle),
       transparent 0deg,
-      rgb(var(--color-status) / 0.25) 25deg,
+      color-mix(in srgb, var(--color-status) 25%, transparent) 25deg,
       transparent 90deg,
       transparent 360deg
     );
@@ -225,8 +265,8 @@
     .status-glow::before {
       background: conic-gradient(
         from 0deg,
-        rgb(var(--color-status) / 0.6),
-        rgb(var(--color-status) / 0.6)
+        color-mix(in srgb, var(--color-status) 60%, transparent),
+        color-mix(in srgb, var(--color-status) 60%, transparent)
       );
     }
   }
@@ -384,7 +424,7 @@
     margin: 1.5rem 0;
     background: var(--color-surface);
   }
-  /* KaTeX math (loaded via CDN in BaseLayout) */
+  /* KaTeX math (loaded on article routes via KatexAssets.astro) */
   .article-body .math.display {
     overflow-x: auto;
     margin: 1.25rem 0;
@@ -443,7 +483,7 @@ html.iframe-presenting body {
    ────────────────────────────────────────────────────────────────── */
 .article-body .katex,
 .article-body .katex-display {
-  color: rgb(var(--color-ink));
+  color: var(--color-ink);
 }
 .article-body .katex-display {
   margin: 1.25rem 0;

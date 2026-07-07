@@ -46,7 +46,6 @@
   // pagefind against `dist/`, so a build-time resolution would fail.
   (function () {
     let inited = false;
-    let pagefindUI = null;
 
     function ensureCss() {
       if (document.querySelector('link[data-pagefind-css]')) return;
@@ -72,7 +71,7 @@
           (mod && (mod.PagefindUI || (mod.default && mod.default.PagefindUI))) ||
           window.PagefindUI;
         if (!PagefindUI) throw new Error('PagefindUI not found in /pagefind/pagefind-ui.js');
-        pagefindUI = new PagefindUI({
+        new PagefindUI({
           element: '#search-target',
           resetStyles: false,
           showImages: false,
@@ -118,17 +117,17 @@
   /* Tune the Pagefind UI defaults to match the editorial palette. */
   .pagefind-ui {
     --pagefind-ui-scale: 0.95;
-    --pagefind-ui-primary: rgb(var(--color-ink));
-    --pagefind-ui-text: rgb(var(--color-body));
-    --pagefind-ui-background: rgb(var(--color-bg));
-    --pagefind-ui-border: rgb(var(--color-rule));
-    --pagefind-ui-tag: rgb(var(--color-surface-soft));
+    --pagefind-ui-primary: var(--color-ink);
+    --pagefind-ui-text: var(--color-body);
+    --pagefind-ui-background: var(--color-bg);
+    --pagefind-ui-border: var(--color-rule);
+    --pagefind-ui-tag: var(--color-surface-soft);
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-border-radius: 10px;
     --pagefind-ui-font: var(--font-sans);
   }
   .pagefind-ui__search-input {
-    background: rgb(var(--color-surface)) !important;
+    background: var(--color-surface) !important;
   }
   .pagefind-ui__result-title {
     font-family: var(--font-serif);

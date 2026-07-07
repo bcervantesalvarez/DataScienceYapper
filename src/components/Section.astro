@@ -9,15 +9,16 @@ interface Props {
   id?: string;
   first?: boolean;        // Skip top divider on the first section
   contentClass?: string;  // Extra class on the inner wrap
+  reveal?: boolean;       // Fade-in on first scroll into view (default on)
 }
 
-const { eyebrow, title, link, id, first, contentClass = '' } = Astro.props;
+const { eyebrow, title, link, id, first, contentClass = '', reveal = true } = Astro.props;
 const sectionClass = [
   'py-24 lg:py-28',
   first ? 'pt-8 lg:pt-10' : '',
 ].filter(Boolean).join(' ');
 ---
-<section id={id} class={sectionClass}>
+<section id={id} class={sectionClass} data-reveal={reveal ? '' : undefined}>
   <div class={`max-w-wrap mx-auto px-6 ${contentClass}`}>
     {eyebrow && (
       <p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted mb-5 mt-0">

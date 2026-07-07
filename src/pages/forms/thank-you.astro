@@ -1,24 +1,25 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
 ---
 <BaseLayout title="Thank you" description="Form submission received.">
-  <head slot="head">
-    <meta name="robots" content="noindex,nofollow" />
-  </head>
+  {/* Renders into BaseLayout's head slot — keep this a bare <meta>,
+      not a nested <head> element */}
+  <meta slot="head" name="robots" content="noindex,nofollow" />
 
   <div class="ed">
 
     <section class="pt-24 pb-12 lg:pt-28 lg:pb-16 text-center">
       <div class="max-w-wrap mx-auto px-6">
-        <svg width="72" height="72" viewBox="0 0 56 56" aria-hidden="true" class="mx-auto mb-5">
-          <circle cx="28" cy="28" r="25" fill="none" stroke="rgb(var(--color-status))" stroke-width="3" opacity="0.18" />
-          <circle cx="28" cy="28" r="25" fill="none" stroke="rgb(var(--color-status))" stroke-width="3"
+        {/* stroke="currentColor" + text-status: var() is unreliable inside
+            SVG presentation attributes, so the token flows in via `color` */}
+        <svg width="72" height="72" viewBox="0 0 56 56" aria-hidden="true" class="mx-auto mb-5 text-status">
+          <circle cx="28" cy="28" r="25" fill="none" stroke="currentColor" stroke-width="3" opacity="0.18" />
+          <circle cx="28" cy="28" r="25" fill="none" stroke="currentColor" stroke-width="3"
                   stroke-dasharray="157" stroke-dashoffset="157">
             <animate attributeName="stroke-dashoffset" from="157" to="0" dur="0.7s" fill="freeze" />
           </circle>
-          <polyline points="16,30 25,38 40,20" fill="none" stroke="rgb(var(--color-status))"
+          <polyline points="16,30 25,38 40,20" fill="none" stroke="currentColor"
                     stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
                     stroke-dasharray="40" stroke-dashoffset="40">
             <animate attributeName="stroke-dashoffset" from="40" to="0" dur="0.5s" begin="0.3s" fill="freeze" />
