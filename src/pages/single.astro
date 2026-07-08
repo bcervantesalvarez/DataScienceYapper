@@ -107,10 +107,13 @@ const sweets: Dish[] = [
 //         canonical 2:3 portrait posters, pinned by ID so lookups are
 //         deterministic — no fuzzy-search misses or spin-off pollution
 //   q/m/c — iTunes search: term, media kind, optional storefront
+//   itid — pinned iTunes track ID: skips search entirely for titles
+//          whose top search hits are bundle covers, not posters
 //   wiki — exact English Wikipedia article title
 type Title = {
   title: string; emoji: string; hue: number; note: string;
-  slug: string; tvz?: number; q: string; m: 'tvShow' | 'movie'; c?: string; wiki: string;
+  slug: string; tvz?: number; itid?: number;
+  q: string; m: 'tvShow' | 'movie'; c?: string; wiki: string;
 };
 const shows: Title[] = [
   { title: 'The Office', emoji: '📎', hue: 210, note: 'That’s what she said.',
@@ -140,7 +143,7 @@ const movies: Title[] = [
   { title: 'Star Wars I–VI', emoji: '🌌', hue: 250, note: 'The saga as intended — yes, prequels included.',
     slug: 'star-wars', q: 'Star Wars A New Hope', m: 'movie', wiki: 'Star Wars (film)' },
   { title: 'Harry Potter 1–8', emoji: '⚡', hue: 48, note: 'Siempre listo para el maratón completo.',
-    slug: 'harry-potter', q: 'Harry Potter and the Sorcerer\'s Stone', m: 'movie', wiki: 'Harry Potter and the Philosopher\'s Stone (film)' },
+    slug: 'harry-potter', itid: 271469503, q: 'Harry Potter and the Sorcerer\'s Stone', m: 'movie', wiki: 'Harry Potter and the Philosopher\'s Stone (film)' },
   { title: 'The Lord of the Rings', emoji: '💍', hue: 105, note: 'Extended editions. Obviamente.',
     slug: 'lotr', q: 'The Lord of the Rings The Fellowship of the Ring', m: 'movie', wiki: 'The Lord of the Rings: The Fellowship of the Ring' },
   { title: 'The Hobbit 1–3', emoji: '🐉', hue: 30, note: 'El cierre del viaje — palomitas obligatorias.',
@@ -506,7 +509,7 @@ const construction = [
       <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite TV shows">
         {shows.map((x) => (
           <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
-            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
+            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-itid={x.itid} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
               <span class="poster-emoji">{x.emoji}</span>
             </div>
             <div class="px-4 pt-3.5 pb-4">
@@ -529,7 +532,7 @@ const construction = [
       <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite movie sagas">
         {movies.map((x) => (
           <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
-            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
+            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-itid={x.itid} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
               <span class="poster-emoji">{x.emoji}</span>
             </div>
             <div class="px-4 pt-3.5 pb-4">
@@ -1554,23 +1557,29 @@ const construction = [
     } catch { return null; }
   }
 
-  async function itunesArt(q: string, m: string, c: string): Promise<string | null> {
-    if (!q) return null;
+  // Returns EVERY candidate artwork so the caller can walk past bundle
+  // covers and season squares until one passes the portrait check. A
+  // pinned track ID (itid) skips search and hits the exact store item.
+  async function itunesArt(itid: string, q: string, m: string, c: string): Promise<string[]> {
+    if (!itid && !q) return [];
     try {
-      const url =
-        'https://itunes.apple.com/search?limit=4' +
-        `&media=${m === 'movie' ? 'movie' : 'tvShow'}` +
-        `&entity=${m === 'movie' ? 'movie' : 'tvSeason'}` +
-        `&country=${c || 'us'}&term=${encodeURIComponent(q)}`;
+      const url = itid
+        ? `https://itunes.apple.com/lookup?id=${itid}&country=${c || 'us'}`
+        : 'https://itunes.apple.com/search?limit=6' +
+          `&media=${m === 'movie' ? 'movie' : 'tvShow'}` +
+          `&entity=${m === 'movie' ? 'movie' : 'tvSeason'}` +
+          `&country=${c || 'us'}&term=${encodeURIComponent(q)}`;
       const r = await fetch(url);
-      if (!r.ok) return null;
+      if (!r.ok) return [];
       const data = await r.json();
-      const hit = (data.results ?? []).find((x: { artworkUrl100?: string }) => x.artworkUrl100);
       // 100x100bb thumbnails rescale on demand; 600x900bb fits the
       // original-aspect artwork inside 600x900, so portrait posters
       // come back at full card resolution.
-      return hit ? (hit.artworkUrl100 as string).replace('100x100bb', '600x900bb') : null;
-    } catch { return null; }
+      return (data.results ?? [])
+        .map((x: { artworkUrl100?: string }) => x.artworkUrl100)
+        .filter(Boolean)
+        .map((u: string) => u.replace('100x100bb', '600x900bb'));
+    } catch { return []; }
   }
 
   async function wikiArt(title: string): Promise<string | null> {
@@ -1588,7 +1597,7 @@ const construction = [
   }
 
   async function resolvePoster(media: HTMLElement) {
-    const { slug = '', tvz = '', q = '', m = '', c = '', wiki = '' } = media.dataset;
+    const { slug = '', tvz = '', itid = '', q = '', m = '', c = '', wiki = '' } = media.dataset;
     // Local drop-zone first — checked before the cache so a freshly
     // dropped file wins immediately over a previously cached lookup.
     for (const ext of ['jpg', 'png', 'webp']) {
@@ -1598,11 +1607,17 @@ const construction = [
     const key = `poster2:${slug || wiki}`;
     const cached = sessionStorage.getItem(key);
     if (cached && await tryPoster(media, cached)) return;
-    for (const get of [() => tvmazeArt(tvz), () => itunesArt(q, m, c), () => wikiArt(wiki)]) {
-      const src = await get();
-      if (src && await tryPoster(media, src)) {
-        try { sessionStorage.setItem(key, src); } catch { /* full */ }
-        return;
+    const sources: Array<() => Promise<string[]>> = [
+      () => tvmazeArt(tvz).then((s) => (s ? [s] : [])),
+      () => itunesArt(itid, q, m, c),
+      () => wikiArt(wiki).then((s) => (s ? [s] : [])),
+    ];
+    for (const get of sources) {
+      for (const src of await get()) {
+        if (await tryPoster(media, src)) {
+          try { sessionStorage.setItem(key, src); } catch { /* full */ }
+          return;
+        }
       }
     }
   }
