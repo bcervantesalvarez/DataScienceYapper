@@ -103,35 +103,38 @@ const sweets: Dish[] = [
 // as a last networked resort. The hue+emoji card stays underneath as
 // the instant placeholder, so failures cost nothing.
 //   slug — filename in the /images/posters/ drop-zone (see README.txt)
+//   tvz — TVmaze show ID (series only): keyless CORS-open API with
+//         canonical 2:3 portrait posters, pinned by ID so lookups are
+//         deterministic — no fuzzy-search misses or spin-off pollution
 //   q/m/c — iTunes search: term, media kind, optional storefront
 //   wiki — exact English Wikipedia article title
 type Title = {
   title: string; emoji: string; hue: number; note: string;
-  slug: string; q: string; m: 'tvShow' | 'movie'; c?: string; wiki: string;
+  slug: string; tvz?: number; q: string; m: 'tvShow' | 'movie'; c?: string; wiki: string;
 };
 const shows: Title[] = [
   { title: 'The Office', emoji: '📎', hue: 210, note: 'That’s what she said.',
-    slug: 'the-office', q: 'The Office', m: 'tvShow', wiki: 'The Office (American TV series)' },
+    slug: 'the-office', tvz: 526, q: 'The Office', m: 'tvShow', wiki: 'The Office (American TV series)' },
   { title: 'Parks & Rec', emoji: '🌳', hue: 130, note: 'Treat yo self. I do.',
-    slug: 'parks-and-rec', q: 'Parks and Recreation', m: 'tvShow', wiki: 'Parks and Recreation' },
+    slug: 'parks-and-rec', tvz: 174, q: 'Parks and Recreation', m: 'tvShow', wiki: 'Parks and Recreation' },
   { title: 'El Chavo del Ocho', emoji: '🛢️', hue: 45, note: 'Fue sin querer queriendo.',
-    slug: 'el-chavo', q: 'El Chavo', m: 'tvShow', c: 'mx', wiki: 'El Chavo del Ocho' },
+    slug: 'el-chavo', tvz: 24307, q: 'El Chavo', m: 'tvShow', c: 'mx', wiki: 'El Chavo del Ocho' },
   { title: 'La Familia P. Luche', emoji: '🧸', hue: 300, note: 'En peluche, obviamente.',
-    slug: 'p-luche', q: 'La Familia P. Luche', m: 'tvShow', c: 'mx', wiki: 'La familia P. Luche' },
+    slug: 'p-luche', tvz: 29699, q: 'La Familia P. Luche', m: 'tvShow', c: 'mx', wiki: 'La familia P. Luche' },
   { title: 'The Walking Dead', emoji: '🧟', hue: 90, note: 'I’d survive. Statistically.',
-    slug: 'walking-dead', q: 'The Walking Dead', m: 'tvShow', wiki: 'The Walking Dead (TV series)' },
+    slug: 'walking-dead', tvz: 73, q: 'The Walking Dead', m: 'tvShow', wiki: 'The Walking Dead (TV series)' },
   { title: 'Breaking Bad', emoji: '⚗️', hue: 160, note: 'Say my name. (Es Brian.)',
-    slug: 'breaking-bad', q: 'Breaking Bad', m: 'tvShow', wiki: 'Breaking Bad' },
+    slug: 'breaking-bad', tvz: 169, q: 'Breaking Bad', m: 'tvShow', wiki: 'Breaking Bad' },
   { title: 'Dexter', emoji: '🩸', hue: 355, note: 'Tonight’s the night.',
-    slug: 'dexter', q: 'Dexter', m: 'tvShow', wiki: 'Dexter (TV series)' },
+    slug: 'dexter', tvz: 161, q: 'Dexter', m: 'tvShow', wiki: 'Dexter (TV series)' },
   { title: 'Vincenzo', emoji: '⚖️', hue: 230, note: 'K-drama + abogado de la mafia = cine.',
-    slug: 'vincenzo', q: 'Vincenzo', m: 'tvShow', wiki: 'Vincenzo (TV series)' },
+    slug: 'vincenzo', tvz: 52656, q: 'Vincenzo', m: 'tvShow', wiki: 'Vincenzo (TV series)' },
   { title: 'Attack on Titan', emoji: '🗡️', hue: 20, note: 'Shinzou wo sasageyo.',
-    slug: 'attack-on-titan', q: 'Attack on Titan', m: 'tvShow', wiki: 'Attack on Titan (TV series)' },
+    slug: 'attack-on-titan', tvz: 919, q: 'Attack on Titan', m: 'tvShow', wiki: 'Attack on Titan (TV series)' },
   { title: 'Black Clover', emoji: '🍀', hue: 140, note: 'La magia es no rendirse.',
-    slug: 'black-clover', q: 'Black Clover', m: 'tvShow', wiki: 'Black Clover' },
+    slug: 'black-clover', tvz: 31396, q: 'Black Clover', m: 'tvShow', wiki: 'Black Clover' },
   { title: 'Stranger Things', emoji: '👾', hue: 358, note: 'Friends don’t lie.',
-    slug: 'stranger-things', q: 'Stranger Things', m: 'tvShow', wiki: 'Stranger Things' },
+    slug: 'stranger-things', tvz: 2993, q: 'Stranger Things', m: 'tvShow', wiki: 'Stranger Things' },
 ];
 const movies: Title[] = [
   { title: 'Star Wars I–VI', emoji: '🌌', hue: 250, note: 'The saga as intended — yes, prequels included.',
@@ -503,7 +506,7 @@ const construction = [
       <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite TV shows">
         {shows.map((x) => (
           <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
-            <div class="poster-media" data-slug={x.slug} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
+            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
               <span class="poster-emoji">{x.emoji}</span>
             </div>
             <div class="px-4 pt-3.5 pb-4">
@@ -526,7 +529,7 @@ const construction = [
       <ul class="dish-rail list-none m-0 p-0" tabindex="0" aria-label="Favorite movie sagas">
         {movies.map((x) => (
           <li class="poster-card group m-0" style={`--hue: ${x.hue};`}>
-            <div class="poster-media" data-slug={x.slug} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
+            <div class="poster-media" data-slug={x.slug} data-tvz={x.tvz} data-q={x.q} data-m={x.m} data-c={x.c} data-wiki={x.wiki} aria-hidden="true">
               <span class="poster-emoji">{x.emoji}</span>
             </div>
             <div class="px-4 pt-3.5 pb-4">
@@ -1235,10 +1238,15 @@ const construction = [
   .poster-emoji {
     font-size: 4.2rem;
     filter: drop-shadow(0 10px 22px hsl(var(--hue) 70% 20% / 0.8));
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
   }
   .poster-card:hover .poster-emoji {
     transform: scale(1.18) rotate(5deg);
+  }
+  /* Real art on the card = the emoji placeholder bows out entirely,
+     so it can never peek through contained or transparent artwork. */
+  .poster-media.has-art .poster-emoji {
+    opacity: 0;
   }
   .poster-media { position: relative; }
   .poster-img {
@@ -1504,14 +1512,18 @@ const construction = [
   // Real poster art, resolved per card through a fallback chain:
   //   1. curated local file — /images/posters/<slug>.{jpg,png,webp}
   //      (the drop-zone; a file there ALWAYS wins)
-  //   2. iTunes Search API — keyless + CORS-open; store posters for
-  //      nearly every show/film (Mexican titles query the MX storefront)
-  //   3. Wikipedia pageimages with pilicense=any — free OR fair-use art
-  // Each poster fades in over its styled hue+emoji placeholder, and a
-  // failed step costs nothing — the placeholder simply stays. Wide
-  // images (logos, not posters) get object-fit: contain so they sit on
-  // the hue backdrop instead of crop-mangling.
-  function tryPoster(media: HTMLElement, src: string): Promise<boolean> {
+  //   2. TVmaze by pinned show ID (series only) — keyless + CORS-open,
+  //      canonical 2:3 portrait posters, incl. Mexican TV
+  //   3. iTunes Search API — keyless + CORS-open; strong for films
+  //   4. Wikipedia pageimages with pilicense=any — free OR fair-use art
+  // Automatic sources must deliver true PORTRAIT art (height ≥ 1.2×
+  // width, like a real 2:3 one-sheet): wide logos, landscape key art,
+  // and square bundle covers all crop to mush in the card, so they're
+  // rejected and the chain moves on. Only curated drop-zone files are
+  // exempt — they render as-is (wide ones contained on the hue
+  // backdrop). Once art lands, the emoji placeholder fades away; if
+  // every step misses it stays.
+  function tryPoster(media: HTMLElement, src: string, curated = false): Promise<boolean> {
     return new Promise((resolve) => {
       if (media.querySelector('.poster-img')) { resolve(true); return; }
       const img = document.createElement('img');
@@ -1519,14 +1531,27 @@ const construction = [
       img.alt = '';
       img.decoding = 'async';
       img.addEventListener('load', () => {
+        const portrait = img.naturalHeight > img.naturalWidth * 1.2;
+        if (!portrait && !curated) { img.remove(); resolve(false); return; }
         if (img.naturalWidth > img.naturalHeight * 1.05) img.classList.add('poster-wide');
         img.classList.add('is-loaded');
+        media.classList.add('has-art');
         resolve(true);
       });
       img.addEventListener('error', () => { img.remove(); resolve(false); });
       img.src = src;
       media.appendChild(img);
     });
+  }
+
+  async function tvmazeArt(id: string): Promise<string | null> {
+    if (!id) return null;
+    try {
+      const r = await fetch(`https://api.tvmaze.com/shows/${id}`);
+      if (!r.ok) return null;
+      const data = await r.json();
+      return data.image?.original ?? data.image?.medium ?? null;
+    } catch { return null; }
   }
 
   async function itunesArt(q: string, m: string, c: string): Promise<string | null> {
@@ -1541,9 +1566,10 @@ const construction = [
       if (!r.ok) return null;
       const data = await r.json();
       const hit = (data.results ?? []).find((x: { artworkUrl100?: string }) => x.artworkUrl100);
-      // 100x100bb thumbnails upscale on demand: swapping the size token
-      // yields the original-aspect artwork fit inside 600x600.
-      return hit ? (hit.artworkUrl100 as string).replace('100x100bb', '600x600bb') : null;
+      // 100x100bb thumbnails rescale on demand; 600x900bb fits the
+      // original-aspect artwork inside 600x900, so portrait posters
+      // come back at full card resolution.
+      return hit ? (hit.artworkUrl100 as string).replace('100x100bb', '600x900bb') : null;
     } catch { return null; }
   }
 
@@ -1562,16 +1588,18 @@ const construction = [
   }
 
   async function resolvePoster(media: HTMLElement) {
-    const { slug = '', q = '', m = '', c = '', wiki = '' } = media.dataset;
+    const { slug = '', tvz = '', q = '', m = '', c = '', wiki = '' } = media.dataset;
     // Local drop-zone first — checked before the cache so a freshly
     // dropped file wins immediately over a previously cached lookup.
     for (const ext of ['jpg', 'png', 'webp']) {
-      if (await tryPoster(media, `/images/posters/${slug}.${ext}`)) return;
+      if (await tryPoster(media, `/images/posters/${slug}.${ext}`, true)) return;
     }
-    const key = `poster:${slug || wiki}`;
+    // "poster2" key: v1 cached pre-portrait-check art — leave it behind.
+    const key = `poster2:${slug || wiki}`;
     const cached = sessionStorage.getItem(key);
     if (cached && await tryPoster(media, cached)) return;
-    for (const src of [await itunesArt(q, m, c), await wikiArt(wiki)]) {
+    for (const get of [() => tvmazeArt(tvz), () => itunesArt(q, m, c), () => wikiArt(wiki)]) {
+      const src = await get();
       if (src && await tryPoster(media, src)) {
         try { sessionStorage.setItem(key, src); } catch { /* full */ }
         return;
